@@ -2,6 +2,7 @@ import React, { useState, ChangeEvent } from "react";
 
 import styles from "./Signup.module.css";
 import { Link } from "react-router-dom";
+import { emailRegex, passwordRegex } from "../../Utils/RegEx";
 
 const Signup = () => {
   const [userDetails, setuserDetails] = useState({
@@ -16,6 +17,10 @@ const Signup = () => {
     console.log(userDetails);
   }
 
+  const handleSignUp = () => {
+    console.log(emailRegex.test(userDetails.email));
+    console.log(passwordRegex.test(userDetails.password), userDetails.password);
+  };
   return (
     // full page
     <div className={styles.container}>
@@ -45,7 +50,7 @@ const Signup = () => {
             name="password"
             onChange={handleInputChange}
           />
-          <button>Sign Up</button>
+          <button onClick={handleSignUp}>Sign Up</button>
         </div>
         <Link to="/">Already have an account ? Loin</Link>
       </div>
