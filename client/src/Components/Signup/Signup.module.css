@@ -45,6 +45,7 @@
 
 .inputContainer input {
   padding-inline-start: 1rem;
+  font-size: 16px;
 }
 
 .inputContainer > input,
@@ -54,6 +55,17 @@ button {
   outline: 0;
   border: 0;
   box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;
+}
+
+.inputContainer > button {
+  background-color: rgb(130, 130, 230);
+  color: white;
+  transition: 0.5s;
+  cursor: pointer;
+}
+
+.inputContainer > button:hover {
+  background-color: rgb(95, 95, 230);
 }
 
 .passwordContainer {
