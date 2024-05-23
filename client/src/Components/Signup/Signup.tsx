@@ -12,6 +12,8 @@ const Signup = () => {
     email: "",
   });
 
+  const [show, setshow] = useState(false);
+
   function handleInputChange(event: ChangeEvent<HTMLInputElement>): void {
     const { name, value } = event.target;
     setuserDetails((prev) => ({ ...prev, [name]: value }));
@@ -59,13 +61,22 @@ const Signup = () => {
             name="email"
             onChange={handleInputChange}
           />
-          <input
-            value={userDetails.password}
-            placeholder="Enter your password ..."
-            type="password"
-            name="password"
-            onChange={handleInputChange}
-          />
+          <div className={styles.passwordContainer}>
+            <input
+              value={userDetails.password}
+              placeholder="Enter your password ..."
+              type={show ? "text" : "password"}
+              name="password"
+              onChange={handleInputChange}
+            />
+            <button
+              onClick={() => {
+                setshow(!show);
+              }}
+            >
+              {show ? "HIDE" : "SHOW"}
+            </button>
+          </div>
           <button onClick={handleSignUp}>Sign Up</button>
         </div>
         <Link to="/">Already have an account ? Loin</Link>
