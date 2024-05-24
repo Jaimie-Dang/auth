@@ -65,9 +65,44 @@ const register = async (req, res) => {
 const login = async (req, res) => {
   try {
     console.log(req.body);
-    res.json("success");
+    // Check user: be existed or not!
+    const isUserExisting = await UserModel.findOne({ email: req.body.email });
+
+    console.log(isUserExisting);
+    if (!isUserExisting) {
+      return res
+        .status(400)
+        .json({ message: `User with ${req.body.email} don't exists` });
+    }
+
+    if (!isUserExisting.isVerified) {
+      return res.status(400).json({
+        message: `User is not verified. Please click the link in your email to verify`,
+      });
+    }
+
+    const isPasswordCorrect = await bcrypt.compare(
+      req.body.password,
+      isUserExisting.password
+    );
+
+    if (!isPasswordCorrect) {
+      return res.status(400).json({
+        message: `
+          password is not corrected. Please enter again`,
+      });
+    }
+
+    // create a jwt
+    res.json({
+      message: `
+        User Logged in successfully`,
+    });
   } catch (error) {
-    res.json(error);
+    res.json({
+      message: `
+        Something went wrong`,
+    });
   }
 };
 
@@ -112,7 +147,7 @@ const resend_Verification = async (req, res) => {
     const user = await UserModel.findOne({
       "verificationToken.token": token,
       //Sửa ở đây false -> true
-      isVerified: true,
+      isVerified: false,
     });
     console.log("Test--------------");
     console.log(user.isVerified);

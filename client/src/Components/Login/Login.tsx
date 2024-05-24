@@ -4,11 +4,12 @@ import styles from "./Login.module.css";
 import { Link } from "react-router-dom";
 import { emailRegex, passwordRegex } from "../../Utils/RegEx";
 import toast from "react-hot-toast";
+import axios from "axios";
 
 const Login = () => {
   const [userDetails, setuserDetails] = useState({
-    password: "",
     email: "",
+    password: "",
   });
 
   const [show, setshow] = useState(false);
@@ -19,7 +20,7 @@ const Login = () => {
     console.log(userDetails);
   }
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     if (!emailRegex.test(userDetails.email)) {
       toast.error("Please enter a valid email address");
       return;
@@ -30,7 +31,19 @@ const Login = () => {
       );
       return;
     }
-    toast.success("FORM SUBMITED");
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_BASE_URL}/user/login`,
+        userDetails
+      );
+      console.log(response);
+      // lấy dữ liệu từ json - message từ server
+      toast.success(response.data.message);
+    } catch (error: any) {
+      toast.error(error.response.data.message);
+      console.log(error);
+    }
+    // toast.success("FORM SUBMITED");
     // console.log(emailRegex.test(userDetails.email));
     // console.log(passwordRegex.test(userDetails.password), userDetails.password);
   };
@@ -72,7 +85,7 @@ const Login = () => {
           <button onClick={handleLogin}>Login</button>
         </div>
         <div className={styles.footer}>
-          <Link to="/signup">Already have an account ? Signup</Link>
+          <Link to="/signup">Don't have an account ? Signup</Link>
           <Link to="/forget-password">Forgot password</Link>
         </div>
       </div>

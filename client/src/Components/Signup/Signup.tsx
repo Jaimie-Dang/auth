@@ -1,12 +1,15 @@
 import React, { useState, ChangeEvent } from "react";
 
 import styles from "./Signup.module.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { emailRegex, passwordRegex } from "../../Utils/RegEx";
 import toast from "react-hot-toast";
 import axios from "axios";
 
 const Signup = () => {
+  //---------------------------
+  const navigate = useNavigate(); // to navigate user to specific link
+  //---------------------------
   const [userDetails, setuserDetails] = useState({
     username: "",
     password: "",
@@ -38,15 +41,18 @@ const Signup = () => {
       return;
     }
 
-    // call API + BE using axios
+    // call API + BE using axios - axios dùng để giao tiếp giữa FE và BE
     try {
       const response = await axios.post(
         "http://localhost:5000/user/register",
         userDetails
       );
       // toast.success("FORM SUBMITED");
+      toast.success(response.data.message);
+      navigate("/");
       console.log(response);
-    } catch (error) {
+    } catch (error: any) {
+      toast.error(error.response.data.message);
       console.log(error);
     }
 
