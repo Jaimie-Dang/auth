@@ -1,12 +1,15 @@
 import React, { useState, ChangeEvent } from "react";
 
 import styles from "./Login.module.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { emailRegex, passwordRegex } from "../../Utils/RegEx";
 import toast from "react-hot-toast";
 import axios from "axios";
 
 const Login = () => {
+  //---------------------------
+  const navigate = useNavigate(); // to navigate user to specific link
+  //---------------------------
   const [userDetails, setuserDetails] = useState({
     email: "",
     password: "",
@@ -39,6 +42,10 @@ const Login = () => {
       console.log(response);
       // lấy dữ liệu từ json - message từ server
       toast.success(response.data.message);
+
+      // local storage - save token
+      localStorage.setItem("token", response.data.token);
+      navigate("/home");
     } catch (error: any) {
       toast.error(error.response.data.message);
       console.log(error);
