@@ -4,6 +4,7 @@ import styles from "./Signup.module.css";
 import { Link } from "react-router-dom";
 import { emailRegex, passwordRegex } from "../../Utils/RegEx";
 import toast from "react-hot-toast";
+import axios from "axios";
 
 const Signup = () => {
   const [userDetails, setuserDetails] = useState({
@@ -20,7 +21,8 @@ const Signup = () => {
     console.log(userDetails);
   }
 
-  const handleSignUp = () => {
+  // insert async in order to call/add "API"
+  const handleSignUp = async () => {
     if (!userDetails.username) {
       toast.error("Please enter a valid username");
       return;
@@ -35,7 +37,20 @@ const Signup = () => {
       );
       return;
     }
-    toast.success("FORM SUBMITED");
+
+    // call API + BE using axios
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/user/register",
+        userDetails
+      );
+      // toast.success("FORM SUBMITED");
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+
+    // toast.success("FORM SUBMITED");
     // console.log(emailRegex.test(userDetails.email));
     // console.log(passwordRegex.test(userDetails.password), userDetails.password);
   };

@@ -20,7 +20,7 @@ const UserSchema = new mongoose.Schema({
     OTP: String,
     expires: Date,
   },
-  VerificationToken: {
+  verificationToken: {
     token: String,
     expires: Date,
   },
