@@ -3,7 +3,7 @@ const otp_generator = require("otp-generator");
 const bcrypt = require("bcrypt");
 
 // to send mail to user (dich vu gui mail)
-const sendMail = require("../EmailService/Email");
+const sendEmail = require("../EmailService/Email");
 
 //*********************************** */
 const register = async (req, res) => {
@@ -52,12 +52,12 @@ const register = async (req, res) => {
     // send mail to user with register
     const emailBody = `<p>Please click on the link to verify your account. <b>http://localhost:5000/user/verify/${verificationToken}</b></p>`;
     const subject = `Verification Email`;
-    await sendMail(req.body.email, subject, emailBody);
+    await sendEmail(req.body.email, subject, emailBody);
 
     // response
-    res.json({ message: "Save successfully" });
+    res.json({ message: "Verfication link sent to your email." });
   } catch (error) {
-    res.json(error);
+    res.json({ message: "Something went wrong" });
   }
 };
 
@@ -86,7 +86,13 @@ const verifyUser = async (req, res) => {
     console.log(isTokenValid);
 
     if (!isTokenValid) {
-      return res.status(400).json({ message: "Token invalid or expired" });
+      return res.send(
+        `<p>Token Invalid or Expired.</p> <a href="http://localhost:5000/user/resend_Verification/${token}">Resend Verification Mail</a>`
+      );
+    }
+
+    if (isTokenValid.isVerified) {
+      return res.send("Account already verified successfully. Please Login");
     }
 
     isTokenValid.isVerified = true;
@@ -99,4 +105,49 @@ const verifyUser = async (req, res) => {
   }
 };
 
-module.exports = { register, login, verifyUser };
+const resend_Verification = async (req, res) => {
+  try {
+    const { token } = req.params;
+    //
+    const user = await UserModel.findOne({
+      "verificationToken.token": token,
+      //Sửa ở đây false -> true
+      isVerified: true,
+    });
+    console.log("Test--------------");
+    console.log(user.isVerified);
+    //
+
+    const verificationToken = otp_generator.generate(6, {
+      upperCaseAlphabets: false,
+      specialChars: false,
+    });
+
+    // Date
+    const expires = new Date();
+    expires.setMinutes(expires.getMinutes() + 5); // After 5 minuts, it will be expired
+
+    //-------------------------------------------
+    user.verificationToken = {
+      token: verificationToken,
+      expires: expires,
+    };
+    // Save to DB: by newUser.save()
+    await user.save();
+    console.log("Test--------------");
+    console.log(verificationToken, expires);
+
+    // send mail to user with register
+    const emailBody = `<p>Please click on the link to verify your account. <b>http://localhost:5000/user/verify/${verificationToken}</b></p>`;
+    const subject = `Verification Email`;
+    await sendEmail(user.email, subject, emailBody);
+
+    res.send("Please check your email for a new verification link");
+  } catch (error) {
+    res.send("Something went wrong!");
+    console.log(error);
+  }
+};
+
+//******************************************************************* */
+module.exports = { register, login, verifyUser, resend_Verification };
