@@ -1,9 +1,19 @@
-const register = (req, res) => {
+const register = async (req, res) => {
   try {
+    console.log(req.body);
     res.json("success");
   } catch (error) {
     res.json(error);
   }
 };
 
-module.exports = register;
+const login = async (req, res) => {
+  try {
+    console.log(req.body);
+    res.json("success");
+  } catch (error) {
+    res.json(error);
+  }
+};
+
+module.exports = { register, login };
