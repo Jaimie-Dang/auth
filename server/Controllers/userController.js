@@ -1,7 +1,7 @@
 const UserModel = require("../Models/userModel");
 const otp_generator = require("otp-generator");
 const bcrypt = require("bcrypt");
-
+const jwt = require("jsonwebtoken");
 // to send mail to user (dich vu gui mail)
 const sendEmail = require("../EmailService/Email");
 
@@ -88,20 +88,27 @@ const login = async (req, res) => {
 
     if (!isPasswordCorrect) {
       return res.status(400).json({
-        message: `
-          password is not corrected. Please enter again`,
+        message: `password is not corrected. Please enter again`,
       });
     }
 
     // create a jwt
+    const jwtPayload = {
+      _id: isUserExisting._id,
+    };
+
+    const token = jwt.sign(jwtPayload, process.env.SECRET, {
+      expiresIn: "24h",
+    });
+    console.log(token);
+
     res.json({
-      message: `
-        User Logged in successfully`,
+      message: `User Logged in successfully`,
+      token,
     });
   } catch (error) {
     res.json({
-      message: `
-        Something went wrong`,
+      message: `Something went wrong`,
     });
   }
 };
