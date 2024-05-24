@@ -2,15 +2,19 @@ const UserModel = require("../Models/userModel");
 const otp_generator = require("otp-generator");
 const bcrypt = require("bcrypt");
 
+// to send mail to user (dich vu gui mail)
+const sendMail = require("../EmailService/Email");
+
 //*********************************** */
 const register = async (req, res) => {
   try {
-    // console.log(req.body);
+    console.log(req.body);
 
     // Check user: be existed or not!
     const isUserExisting = await UserModel.findOne({ email: req.body.email });
 
     if (isUserExisting) {
+      console.log("User already exists");
       return res
         .status(400)
         .json({ message: `User with ${req.body.email} already exists` });
@@ -44,6 +48,13 @@ const register = async (req, res) => {
 
     // Save to DB: by newUser.save()
     await newUser.save();
+
+    // send mail to user with register
+    const emailBody = `<p>Please click on the link to verify your account. <b>http://localhost:5000/user/verify/${verificationToken}</b></p>`;
+    const subject = `Verification Email`;
+    await sendMail(req.body.email, subject, emailBody);
+
+    // response
     res.json({ message: "Save successfully" });
   } catch (error) {
     res.json(error);
