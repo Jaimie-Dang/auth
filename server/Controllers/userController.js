@@ -71,4 +71,32 @@ const login = async (req, res) => {
   }
 };
 
-module.exports = { register, login };
+//*********************************** */
+const verifyUser = async (req, res) => {
+  try {
+    console.log(req.params);
+
+    const { token } = req.params;
+
+    const isTokenValid = await UserModel.findOne({
+      "verificationToken.token": token,
+      "verificationToken.expires": { $gt: new Date() },
+    });
+
+    console.log(isTokenValid);
+
+    if (!isTokenValid) {
+      return res.status(400).json({ message: "Token invalid or expired" });
+    }
+
+    isTokenValid.isVerified = true;
+
+    await isTokenValid.save();
+
+    res.send("Account verified successfully");
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+module.exports = { register, login, verifyUser };
