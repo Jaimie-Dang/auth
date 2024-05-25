@@ -98,7 +98,7 @@ const login = async (req, res) => {
     };
 
     const token = jwt.sign(jwtPayload, process.env.SECRET, {
-      expiresIn: "1m",
+      expiresIn: "3m",
     });
     console.log(token);
 
@@ -191,5 +191,21 @@ const resend_Verification = async (req, res) => {
   }
 };
 
+//*********************************** */
+const updateUser = async (req, res) => {
+  try {
+    console.log(req.decodedData);
+    res.json({ message: req.decodedData });
+  } catch (error) {
+    res.error({ message: `Something went wrong` });
+  }
+};
+
 //******************************************************************* */
-module.exports = { register, login, verifyUser, resend_Verification };
+module.exports = {
+  register,
+  login,
+  verifyUser,
+  resend_Verification,
+  updateUser,
+};
