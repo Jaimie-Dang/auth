@@ -5,6 +5,12 @@ import { Link, useNavigate } from "react-router-dom";
 import { emailRegex, passwordRegex } from "../../Utils/RegEx";
 import toast from "react-hot-toast";
 import axios from "axios";
+import {
+  FacebookLoginButton,
+  GoogleLoginButton,
+} from "react-social-login-buttons";
+
+import { useGoogleLogin } from "@react-oauth/google";
 
 const Login = () => {
   //---------------------------
@@ -54,6 +60,24 @@ const Login = () => {
     // console.log(emailRegex.test(userDetails.email));
     // console.log(passwordRegex.test(userDetails.password), userDetails.password);
   };
+
+  const handleContinueWithGoogle = useGoogleLogin({
+    onSuccess: async (response: any) => {
+      console.log(response);
+
+      const userData = await axios.get(
+        "https://www.googleapis.com/oauth2/v3/userinfo",
+        { headers: { Authorization: `Bearer ${response.access_token}` } }
+      );
+
+      console.log(userData);
+    },
+    onError: (error: any) => {
+      console.log(error);
+    },
+  });
+
+  //-----------------------------------------
   return (
     // full page
     <div className={styles.container}>
@@ -61,8 +85,12 @@ const Login = () => {
       <div className={styles.formContainer}>
         <h2>Login ...</h2>
         <div className={styles.social}>
-          <div>FB</div>
-          <div>GOOGLE</div>
+          <div>
+            <FacebookLoginButton></FacebookLoginButton>
+          </div>
+          <div onClick={handleContinueWithGoogle}>
+            <GoogleLoginButton></GoogleLoginButton>
+          </div>
         </div>
         {/* control input */}
         <div className={styles.inputContainer}>
