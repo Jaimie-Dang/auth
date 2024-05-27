@@ -1,0 +1,45 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.container nav {
+  display: flex;
+  background-color: #f5cdcd;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+}
+
+.logoutBtn {
+  background-color: red;
+  border-radius: 0;
+  color: white;
+  font-weight: 500;
+  font-size: 17px;
+  transition: 0.5s;
+  cursor: pointer;
+}
+
+.logoutBtn:hover {
+  scale: 1.1;
+}
+
+.mainContainer {
+  display: flex;
+  height: 50vh;
+}
+
+.mainContainer > div {
+  border: 1px solid red;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.mainContainer div p {
+  margin: 0;
+}
