@@ -95,7 +95,7 @@ const login = async (req, res) => {
         };
 
         const token = jwt.sign(jwtPayload, process.env.SECRET, {
-          expiresIn: "3m",
+          expiresIn: "10m",
         });
 
         // send mail to user with register
@@ -135,7 +135,7 @@ const login = async (req, res) => {
     };
 
     const token = jwt.sign(jwtPayload, process.env.SECRET, {
-      expiresIn: "3m",
+      expiresIn: "10m",
     });
     console.log(token);
 
