@@ -1,13 +1,13 @@
 .container {
   display: flex;
   flex-direction: column;
-  height: 100vh;
   row-gap: 5rem;
+  height: 100vh;
 }
 
 .container nav {
   display: flex;
-  background-color: #f5cdcd;
+  background-color: rgba(128, 128, 128, 0.451);
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
@@ -15,7 +15,7 @@
 
 .logoutBtn {
   background-color: red;
-  border-radius: 0;
+  border-radius: 0.5rem;
   color: white;
   font-weight: 500;
   font-size: 17px;
@@ -31,7 +31,7 @@
   display: flex;
   justify-content: center;
   column-gap: 2rem;
-  height: 50vh;
+  height: 70vh;
 }
 
 .mainContainer > div {
@@ -43,8 +43,8 @@
 
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 
 .mainContainer div p {
@@ -53,50 +53,52 @@
 
 .user {
   font-size: 18px;
+  height: 300px;
+  padding: 2rem;
 }
 
 .editContainer {
   row-gap: 2rem;
-  min-width: 380px;
+  min-width: 480px;
 }
 
-.editContainer input {
+.editContainer > div input {
   padding-inline-start: 1rem;
   font-size: 16px;
 }
 
-.editContainer > input,
-button {
+.editContainer > div > input {
   height: 48px;
-  border-radius: 2rem;
+  border-top-left-radius: 2rem;
+  border-bottom-left-radius: 2rem;
   outline: 0;
   border: 0;
   box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;
 }
 
 .editContainer > button {
-  background-color: #f5cdcd;
+  background-color: rgb(130, 130, 230);
   color: white;
   transition: 0.5s;
   cursor: pointer;
 }
-
 .editContainer > button:hover {
-  background-color: rgb(95, 95, 230);
+  background-color: rgb(106, 106, 232);
 }
 
 .passwordContainer {
   position: relative;
-  padding-inline-start: 1rem;
-  font-size: 16px;
 }
 
 .passwordContainer input {
   width: 100%;
   height: 48px;
-  border-radius: 2rem;
+  border-top-left-radius: 2rem;
+  border-bottom-left-radius: 2rem;
   outline: 0;
   border: 0;
+  padding-inline-start: 1rem;
+  font-size: 16px;
   box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;
 }
 
@@ -109,4 +111,14 @@ button {
   top: 13px;
   right: 8px;
   height: 20px;
+}
+
+.edit {
+  border-radius: 0;
+  border-top-right-radius: 2rem;
+  border-bottom-right-radius: 2rem;
+}
+
+.passwordEdit {
+  display: flex;
 }

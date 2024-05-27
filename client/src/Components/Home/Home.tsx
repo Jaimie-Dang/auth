@@ -63,20 +63,30 @@ const Home = () => {
           </div>
           <div className={styles.editContainer}>
             Update User
-            <input placeholder="update username" type="text" />
-            <input placeholder="update email" type="text" />
-            <div className={styles.passwordContainer}>
-              <input
-                placeholder="update password"
-                type={show ? "text" : "password"}
-              />
-              <button
-                onClick={() => {
-                  setShow(!show);
-                }}
-              >
-                {show ? "SHOW" : "HIDE"}
-              </button>
+            <div>
+              <input disabled placeholder="update username" type="text" />
+              <button className={styles.edit}>EDIT</button>
+            </div>
+            <div>
+              <input disabled placeholder="update email" type="text" />
+              <button className={styles.edit}>EDIT</button>
+            </div>
+            <div className={styles.passwordEdit}>
+              <div className={styles.passwordContainer}>
+                <input
+                  disabled
+                  placeholder="update password"
+                  type={show ? "text" : "password"}
+                />
+                <button
+                  onClick={() => {
+                    setShow(!show);
+                  }}
+                >
+                  {show ? "SHOW" : "HIDE"}
+                </button>
+              </div>
+              <button className={styles.edit}>EDIT</button>
             </div>
           </div>
         </div>
