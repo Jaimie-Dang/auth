@@ -4,6 +4,7 @@ const {
   verifyUser,
   resend_Verification,
   updateUser,
+  forgotPassword,
 } = require("../Controllers/userController");
 const JWT_AUTH = require("../middleware/JWT_AUTH");
 
@@ -17,6 +18,8 @@ router.put("/updateUser", JWT_AUTH, updateUser);
 //
 router.get("/verify/:token", verifyUser);
 router.get("/resend_Verification/:token", resend_Verification);
+
+router.post("/resetPassword", forgotPassword);
 
 //*************************** */
 module.exports = router;

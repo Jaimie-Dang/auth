@@ -237,6 +237,44 @@ const updateUser = async (req, res) => {
   }
 };
 
+//*********************************** */
+const forgotPassword = async (req, res) => {
+  console.log("test");
+  try {
+    console.log(req.body);
+    const isUserExisting = await UserModel.findOne({ email: req.body.email });
+
+    if (!isUserExisting) {
+      return res
+        .status(400)
+        .json({ message: `User with ${req.body.email} don't exists` });
+    }
+
+    // verificationToken
+    const OTP = otp_generator.generate(6, {
+      upperCaseAlphabets: false,
+      specialChars: false,
+    });
+
+    // Date
+    const expires = new Date();
+    expires.setMinutes(expires.getMinutes() + 5); // After 5 minuts, it will be expired
+
+    isUserExisting.OTP_VerificationToken = { OTP, expires };
+
+    await isUserExisting.save();
+
+    // send mail to user with register
+    const emailBody = `<p>Your OTP for password reset request is <b>${OTP}</b> <br> OTP expires in 5 minutes</p>`;
+    const subject = `Password Reset Email`;
+    await sendEmail(isUserExisting.email, subject, emailBody);
+
+    res.status(200).json({ message: "OTP Sent Successfully" });
+  } catch (error) {
+    res.status(500).json({ message: `Something went wrong` });
+  }
+};
+
 //******************************************************************* */
 module.exports = {
   register,
@@ -244,4 +282,5 @@ module.exports = {
   verifyUser,
   resend_Verification,
   updateUser,
+  forgotPassword,
 };

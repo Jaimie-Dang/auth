@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 
 import styles from "./ForgotPassword.module.css";
+import { emailRegex } from "../../Utils/RegEx";
+import toast from "react-hot-toast";
+import axios from "axios";
 
 const ForgorPassword = () => {
   const [step, setstep] = useState(0);
@@ -8,8 +11,8 @@ const ForgorPassword = () => {
     <div className={styles.container}>
       <div className={styles.formContainer}>
         <h2>Forgot Password ...</h2>
-        {step === 0 && <EmailComponent />}
-        {step === 1 && <OTPComponent />}
+        {step === 0 && <EmailComponent setstep={setstep} />}
+        {step === 1 && <OTPComponent setstep={setstep} />}
         {step === 2 && <PasswordComponent />}
       </div>
     </div>
@@ -18,8 +21,28 @@ const ForgorPassword = () => {
 
 export default ForgorPassword;
 
-const EmailComponent = () => {
+const EmailComponent = ({ setstep }) => {
   const [email, setemail] = useState("");
+
+  const getOTP = async () => {
+    if (!emailRegex.test(email)) {
+      toast.error("Please enter a valid email address");
+      return;
+    }
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_BASE_URL}/user/resetPassword`,
+        { email }
+      );
+      console.log(response);
+      // lấy dữ liệu từ json - message từ server
+      toast.success(response.data.message);
+      setstep(1);
+    } catch (error: any) {
+      toast.error(error.response.data.message);
+      console.log(error);
+    }
+  };
   return (
     <div className={styles.inputContainer}>
       <input
@@ -31,12 +54,12 @@ const EmailComponent = () => {
           setemail(e.target.value);
         }}
       />
-      <button>GET OTP</button>
+      <button onClick={getOTP}>GET OTP</button>
     </div>
   );
 };
 
-const OTPComponent = () => {
+const OTPComponent = ({ setstep }) => {
   const [OTP, setOTP] = useState("");
   return (
     <div className={styles.inputContainer}>
