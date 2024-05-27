@@ -61,6 +61,22 @@ const EmailComponent = ({ setstep }) => {
 
 const OTPComponent = ({ setstep }) => {
   const [OTP, setOTP] = useState("");
+  const verifyOTP = async () => {
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_BASE_URL}/user/verifyPasswordOTP`,
+        { OTP }
+      );
+      console.log(response);
+      // lấy dữ liệu từ json - message từ server
+      toast.success(response.data.message);
+      setstep(2);
+    } catch (error: any) {
+      toast.error(error.response.data.message);
+      console.log(error);
+    }
+  };
+
   return (
     <div className={styles.inputContainer}>
       <input
@@ -71,7 +87,7 @@ const OTPComponent = ({ setstep }) => {
           setOTP(e.target.value);
         }}
       />
-      <button>VERIFY OTP</button>
+      <button onClick={verifyOTP}>VERIFY OTP</button>
     </div>
   );
 };

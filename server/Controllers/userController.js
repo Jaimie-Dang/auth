@@ -275,6 +275,28 @@ const forgotPassword = async (req, res) => {
   }
 };
 
+//*********************************** */
+const verifyPasswordOTP = async (req, res) => {
+  try {
+    const { OTP } = req.body;
+
+    const isOtpValid = await UserModel.findOne({
+      "OTP_VerificationToken.OTP": OTP,
+      "OTP_VerificationToken.expires": { $gt: new Date() },
+    });
+
+    console.log(isOtpValid);
+
+    if (!isOtpValid) {
+      return res.status(400).json({ message: "OTP Expired" });
+    }
+
+    res.status(200).json({ message: "OTP Verified Successfully" });
+  } catch (error) {
+    return res.status(500).json({ message: "Something went wrong" });
+  }
+};
+
 //******************************************************************* */
 module.exports = {
   register,
@@ -283,4 +305,5 @@ module.exports = {
   resend_Verification,
   updateUser,
   forgotPassword,
+  verifyPasswordOTP,
 };
