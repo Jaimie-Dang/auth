@@ -1,8 +1,10 @@
 const jwt = require("jsonwebtoken");
 
-const JWT_AUTH = async (req, res, next) => {
+const JWT_AUTH = (req, res, next) => {
   try {
     let token = req.headers.authorization;
+
+    console.log(token.split(" ")[1]);
 
     if (!token) return res.status(403).json({ message: `JWT not provider` });
 
@@ -14,7 +16,7 @@ const JWT_AUTH = async (req, res, next) => {
 
     next();
   } catch (error) {
-    res.status(403).json({ message: "Khong co token / token da het han" });
+    res.status(403).json({ message: "Not have token / token expired" });
   }
 };
 

@@ -313,6 +313,31 @@ const verifyPasswordOTP = async (req, res) => {
   }
 };
 
+//*********************************** */
+const getUser = async (req, res) => {
+  try {
+    console.log(req.decodedData);
+
+    const { id } = req.decodedData;
+
+    // to take data based on ID
+    const data = await UserModel.findById(id);
+
+    console.log(data);
+
+    // User is object one
+    const user = {
+      email: data.email,
+      username: data.username,
+    };
+
+    // Get data to push Network / frontend => tra ve json
+    res.json({ user: user });
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong" });
+  }
+};
+
 //******************************************************************* */
 module.exports = {
   register,
@@ -322,4 +347,5 @@ module.exports = {
   updateUser,
   forgotPassword,
   verifyPasswordOTP,
+  getUser,
 };
