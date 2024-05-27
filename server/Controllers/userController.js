@@ -239,7 +239,6 @@ const updateUser = async (req, res) => {
 
 //*********************************** */
 const forgotPassword = async (req, res) => {
-  console.log("test");
   try {
     console.log(req.body);
     const isUserExisting = await UserModel.findOne({ email: req.body.email });
@@ -248,6 +247,20 @@ const forgotPassword = async (req, res) => {
       return res
         .status(400)
         .json({ message: `User with ${req.body.email} don't exists` });
+    }
+
+    if (req.body.isOTPVerified) {
+      const hashedPassword = await bcrypt.hash(req.body.password, 10);
+
+      isUserExisting.password = hashedPassword;
+      await isUserExisting.save();
+
+      // send mail to user with register
+      const emailBody = `<p>Your password reset was successfully</p>`;
+      const subject = `Password Reset Successfully`;
+      await sendEmail(isUserExisting.email, subject, emailBody);
+
+      return res.status(200).json({ message: "PAssword Reset Successfully" });
     }
 
     // verificationToken

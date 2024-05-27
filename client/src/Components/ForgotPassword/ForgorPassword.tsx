@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 
 import styles from "./ForgotPassword.module.css";
-import { emailRegex } from "../../Utils/RegEx";
+import { emailRegex, passwordRegex } from "../../Utils/RegEx";
 import toast from "react-hot-toast";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const ForgorPassword = () => {
   const [step, setstep] = useState(0);
@@ -37,6 +38,10 @@ const EmailComponent = ({ setstep }) => {
       console.log(response);
       // lấy dữ liệu từ json - message từ server
       toast.success(response.data.message);
+
+      // Lay email tu localstorage
+      localStorage.setItem("email", email);
+      // change step
       setstep(1);
     } catch (error: any) {
       toast.error(error.response.data.message);
@@ -96,6 +101,37 @@ const PasswordComponent = () => {
   const [password, setpassword] = useState("");
 
   const [show, setshow] = useState(false);
+
+  const navigate = useNavigate();
+
+  const resetPassword = async () => {
+    if (!passwordRegex.test(password)) {
+      toast.error(
+        "Password must be at least 8 characters and must include at lease one speacial character and one number"
+      );
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_BASE_URL}/user/resetPassword`,
+        { password, isOTPVerified: true, email: localStorage.getItem("email") }
+      );
+      console.log(response);
+      // lấy dữ liệu từ json - message từ server
+      toast.success(response.data.message);
+
+      // navigate route
+      navigate("/");
+
+      // localstorage
+      localStorage.removeItem("email");
+      //---------------------
+    } catch (error: any) {
+      toast.error(error.response.data.message);
+      console.log(error);
+    }
+  };
   return (
     <div className={styles.passwordComponent}>
       <div className={styles.passwordContainer}>
@@ -117,7 +153,7 @@ const PasswordComponent = () => {
         </button>
       </div>
       <div className={styles.inputContainer}>
-        <button>RESET PASSWORD</button>
+        <button onClick={resetPassword}>RESET PASSWORD</button>
       </div>
     </div>
   );
