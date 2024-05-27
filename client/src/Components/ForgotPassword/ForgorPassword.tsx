@@ -4,7 +4,7 @@ import styles from "./ForgotPassword.module.css";
 import { emailRegex, passwordRegex } from "../../Utils/RegEx";
 import toast from "react-hot-toast";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const ForgorPassword = () => {
   const [step, setstep] = useState(0);
@@ -60,6 +60,7 @@ const EmailComponent = ({ setstep }) => {
         }}
       />
       <button onClick={getOTP}>GET OTP</button>
+      <Link to="/">Wanna Login?</Link>
     </div>
   );
 };
@@ -77,7 +78,8 @@ const OTPComponent = ({ setstep }) => {
       toast.success(response.data.message);
       setstep(2);
     } catch (error: any) {
-      toast.error(error.response.data.message);
+      toast.error(error.response.data.message + " Please truy again");
+      setstep(0);
       console.log(error);
     }
   };

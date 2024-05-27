@@ -260,7 +260,7 @@ const forgotPassword = async (req, res) => {
       const subject = `Password Reset Successfully`;
       await sendEmail(isUserExisting.email, subject, emailBody);
 
-      return res.status(200).json({ message: "PAssword Reset Successfully" });
+      return res.status(200).json({ message: "Password Reset Successfully" });
     }
 
     // verificationToken
@@ -282,7 +282,9 @@ const forgotPassword = async (req, res) => {
     const subject = `Password Reset Email`;
     await sendEmail(isUserExisting.email, subject, emailBody);
 
-    res.status(200).json({ message: "OTP Sent Successfully" });
+    res
+      .status(200)
+      .json({ message: "OTP Sent Successfully. Please check your email" });
   } catch (error) {
     res.status(500).json({ message: `Something went wrong` });
   }
