@@ -122,3 +122,15 @@
 .passwordEdit {
   display: flex;
 }
+
+.buttons {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  column-gap: 1rem;
+}
+
+.buttons button {
+  min-width: 50px;
+  border-radius: 0;
+}
