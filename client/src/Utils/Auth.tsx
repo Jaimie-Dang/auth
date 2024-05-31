@@ -2,7 +2,7 @@ import { Navigate, Outlet } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 
 const Auth = () => {
-  return isLoggedIn() ? <Outlet /> : <Navigate to="/" />;
+  return isLoggedIn() ? <Outlet /> : <Navigate to="/login" />;
 };
 
 export default Auth;

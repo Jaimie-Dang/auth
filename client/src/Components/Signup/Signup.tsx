@@ -107,7 +107,7 @@ const Signup = () => {
             {isLoading ? <Loader /> : "SIGN UP"}
           </button>
         </div>
-        <Link to="/">Already have an account ? Login</Link>
+        <Link to="/login">Already have an account ? Login</Link>
       </div>
     </div>
   );

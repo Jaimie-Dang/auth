@@ -65,7 +65,7 @@ const EmailComponent = ({ setstep }) => {
         }}
       />
       <button onClick={getOTP}>{isLoading ? <Loader /> : "GET OTP"}</button>
-      <Link to="/">Wanna Login?</Link>
+      <Link to="/login">Wanna Login?</Link>
     </div>
   );
 };
@@ -140,7 +140,7 @@ const PasswordComponent = () => {
       setisLoading(false);
 
       // navigate route
-      navigate("/");
+      navigate("/login");
 
       // localstorage
       localStorage.removeItem("email");
