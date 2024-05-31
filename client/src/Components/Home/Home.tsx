@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { emailRegex, passwordRegex } from "../../Utils/RegEx";
+import Loader from "../Loader/Loader";
 
 interface User {
   username: string;
@@ -12,7 +13,7 @@ interface User {
 const Home = () => {
   const navigate = useNavigate();
 
-  const [show, setShow] = useState(false);
+  const [show, setShow] = useState(true);
 
   const [user, setuser] = useState<User | null>(null); // user or null
 
@@ -21,6 +22,8 @@ const Home = () => {
     email: "",
     password: "",
   });
+
+  const [isLoading, setisLoading] = useState(false);
 
   const [isEdit, setisEdit] = useState({
     username: false,
@@ -76,6 +79,7 @@ const Home = () => {
     }
 
     try {
+      setisLoading(true);
       const response = await axios.put(
         `${import.meta.env.VITE_BASE_URL}/user/updateUser`,
         {
@@ -92,8 +96,10 @@ const Home = () => {
       setisEdit({ email: false, password: false, username: false });
       setnewUserData({ username: "", password: "", email: "" });
       getUser();
+      setisLoading(false);
     } catch (error) {
       console.log(error);
+      setisLoading(false);
     }
   };
 
@@ -146,27 +152,33 @@ const Home = () => {
               </button>
               {isEdit.username && (
                 <div className={styles.buttons}>
-                  <button
-                    onClick={() => {
-                      updateUserData("username");
-                    }}
-                  >
-                    Save
-                  </button>
-                  <button
-                    onClick={() => {
-                      setisEdit((prev) => ({
-                        ...prev,
-                        username: false,
-                      }));
-                      setnewUserData((prev) => ({
-                        ...prev,
-                        username: "",
-                      }));
-                    }}
-                  >
-                    Cancel
-                  </button>
+                  {isLoading ? (
+                    <Loader />
+                  ) : (
+                    <>
+                      <button
+                        onClick={() => {
+                          updateUserData("username");
+                        }}
+                      >
+                        Save
+                      </button>
+                      <button
+                        onClick={() => {
+                          setisEdit((prev) => ({
+                            ...prev,
+                            username: false,
+                          }));
+                          setnewUserData((prev) => ({
+                            ...prev,
+                            username: "",
+                          }));
+                        }}
+                      >
+                        Cancel
+                      </button>
+                    </>
+                  )}
                 </div>
               )}
             </div>
@@ -192,27 +204,34 @@ const Home = () => {
               </button>
               {isEdit.email && (
                 <div className={styles.buttons}>
-                  <button
-                    onClick={() => {
-                      updateUserData("email");
-                    }}
-                  >
-                    Save
-                  </button>
-                  <button
-                    onClick={() => {
-                      setisEdit((prev) => ({
-                        ...prev,
-                        email: false,
-                      }));
-                      setnewUserData((prev) => ({
-                        ...prev,
-                        email: "",
-                      }));
-                    }}
-                  >
-                    Cancel
-                  </button>
+                  {isLoading ? (
+                    <Loader />
+                  ) : (
+                    <>
+                      {" "}
+                      <button
+                        onClick={() => {
+                          updateUserData("email");
+                        }}
+                      >
+                        Save
+                      </button>
+                      <button
+                        onClick={() => {
+                          setisEdit((prev) => ({
+                            ...prev,
+                            email: false,
+                          }));
+                          setnewUserData((prev) => ({
+                            ...prev,
+                            email: "",
+                          }));
+                        }}
+                      >
+                        Cancel
+                      </button>
+                    </>
+                  )}
                 </div>
               )}
             </div>
@@ -224,7 +243,7 @@ const Home = () => {
                   onChange={handleChange}
                   disabled={!isEdit.password}
                   placeholder="update password"
-                  type={show ? "text" : "password"}
+                  type={show ? "password" : "text"}
                 />
                 <button
                   onClick={() => {
@@ -248,27 +267,33 @@ const Home = () => {
             </div>
             {isEdit.password && (
               <div className={styles.buttons}>
-                <button
-                  onClick={() => {
-                    updateUserData("password");
-                  }}
-                >
-                  Save
-                </button>
-                <button
-                  onClick={() => {
-                    setisEdit((prev) => ({
-                      ...prev,
-                      password: false,
-                    }));
-                    setnewUserData((prev) => ({
-                      ...prev,
-                      password: "",
-                    }));
-                  }}
-                >
-                  Cancel
-                </button>
+                {isLoading ? (
+                  <Loader />
+                ) : (
+                  <>
+                    <button
+                      onClick={() => {
+                        updateUserData("password");
+                      }}
+                    >
+                      Save
+                    </button>
+                    <button
+                      onClick={() => {
+                        setisEdit((prev) => ({
+                          ...prev,
+                          password: false,
+                        }));
+                        setnewUserData((prev) => ({
+                          ...prev,
+                          password: "",
+                        }));
+                      }}
+                    >
+                      Cancel
+                    </button>
+                  </>
+                )}
               </div>
             )}
           </div>

@@ -5,6 +5,7 @@ import { emailRegex, passwordRegex } from "../../Utils/RegEx";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import Loader from "../Loader/Loader";
 
 const ForgorPassword = () => {
   const [step, setstep] = useState(0);
@@ -23,6 +24,7 @@ const ForgorPassword = () => {
 export default ForgorPassword;
 
 const EmailComponent = ({ setstep }) => {
+  const [isLoading, setisLoading] = useState(false);
   const [email, setemail] = useState("");
 
   const getOTP = async () => {
@@ -31,6 +33,7 @@ const EmailComponent = ({ setstep }) => {
       return;
     }
     try {
+      setisLoading(true);
       const response = await axios.post(
         `${import.meta.env.VITE_BASE_URL}/user/resetPassword`,
         { email }
@@ -43,9 +46,11 @@ const EmailComponent = ({ setstep }) => {
       localStorage.setItem("email", email);
       // change step
       setstep(1);
+      setisLoading(false);
     } catch (error: any) {
       toast.error(error.response.data.message);
       console.log(error);
+      setisLoading(false);
     }
   };
   return (
@@ -59,16 +64,19 @@ const EmailComponent = ({ setstep }) => {
           setemail(e.target.value);
         }}
       />
-      <button onClick={getOTP}>GET OTP</button>
+      <button onClick={getOTP}>{isLoading ? <Loader /> : "GET OTP"}</button>
       <Link to="/">Wanna Login?</Link>
     </div>
   );
 };
 
 const OTPComponent = ({ setstep }) => {
+  const [isLoading, setisLoading] = useState(false);
+
   const [OTP, setOTP] = useState("");
   const verifyOTP = async () => {
     try {
+      setisLoading(true);
       const response = await axios.post(
         `${import.meta.env.VITE_BASE_URL}/user/verifyPasswordOTP`,
         { OTP }
@@ -76,11 +84,13 @@ const OTPComponent = ({ setstep }) => {
       console.log(response);
       // lấy dữ liệu từ json - message từ server
       toast.success(response.data.message);
+      setisLoading(false);
       setstep(2);
     } catch (error: any) {
       toast.error(error.response.data.message + " Please truy again");
       setstep(0);
       console.log(error);
+      setisLoading(false);
     }
   };
 
@@ -94,12 +104,16 @@ const OTPComponent = ({ setstep }) => {
           setOTP(e.target.value);
         }}
       />
-      <button onClick={verifyOTP}>VERIFY OTP</button>
+      <button onClick={verifyOTP}>
+        {isLoading ? <Loader /> : "VERIFY OTP"}
+      </button>
     </div>
   );
 };
 
 const PasswordComponent = () => {
+  const [isLoading, setisLoading] = useState(false);
+
   const [password, setpassword] = useState("");
 
   const [show, setshow] = useState(false);
@@ -115,6 +129,7 @@ const PasswordComponent = () => {
     }
 
     try {
+      setisLoading(true);
       const response = await axios.post(
         `${import.meta.env.VITE_BASE_URL}/user/resetPassword`,
         { password, isOTPVerified: true, email: localStorage.getItem("email") }
@@ -122,6 +137,7 @@ const PasswordComponent = () => {
       console.log(response);
       // lấy dữ liệu từ json - message từ server
       toast.success(response.data.message);
+      setisLoading(false);
 
       // navigate route
       navigate("/");
@@ -132,6 +148,7 @@ const PasswordComponent = () => {
     } catch (error: any) {
       toast.error(error.response.data.message);
       console.log(error);
+      setisLoading(false);
     }
   };
   return (
@@ -155,7 +172,9 @@ const PasswordComponent = () => {
         </button>
       </div>
       <div className={styles.inputContainer}>
-        <button onClick={resetPassword}>RESET PASSWORD</button>
+        <button onClick={resetPassword}>
+          {isLoading ? <Loader /> : "RESET PASSWORD"}
+        </button>
       </div>
     </div>
   );

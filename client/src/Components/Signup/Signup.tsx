@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { emailRegex, passwordRegex } from "../../Utils/RegEx";
 import toast from "react-hot-toast";
 import axios from "axios";
+import Loader from "../Loader/Loader";
 
 const Signup = () => {
   //---------------------------
@@ -16,6 +17,7 @@ const Signup = () => {
     email: "",
   });
 
+  const [isLoading, setisLoading] = useState(false);
   const [show, setshow] = useState(false);
 
   function handleInputChange(event: ChangeEvent<HTMLInputElement>): void {
@@ -43,6 +45,7 @@ const Signup = () => {
 
     // call API + BE using axios - axios dùng để giao tiếp giữa FE và BE
     try {
+      setisLoading(true);
       const response = await axios.post(
         "http://localhost:5000/user/register",
         userDetails
@@ -51,9 +54,11 @@ const Signup = () => {
       toast.success(response.data.message);
       navigate("/");
       console.log(response);
+      setisLoading(false);
     } catch (error: any) {
       toast.error(error.response.data.message);
       console.log(error);
+      setisLoading(false);
     }
 
     // toast.success("FORM SUBMITED");
@@ -98,7 +103,9 @@ const Signup = () => {
               {show ? "HIDE" : "SHOW"}
             </button>
           </div>
-          <button onClick={handleSignUp}>Sign Up</button>
+          <button onClick={handleSignUp}>
+            {isLoading ? <Loader /> : "SIGN UP"}
+          </button>
         </div>
         <Link to="/">Already have an account ? Login</Link>
       </div>

@@ -13,6 +13,7 @@ import {
 import { LoginSocialFacebook } from "reactjs-social-login";
 
 import { useGoogleLogin } from "@react-oauth/google";
+import Loader from "../Loader/Loader";
 
 const Login = () => {
   //---------------------------
@@ -23,6 +24,7 @@ const Login = () => {
     password: "",
   });
 
+  const [isLoading, setisLoading] = useState(false);
   const [show, setshow] = useState(false);
 
   function handleInputChange(event: ChangeEvent<HTMLInputElement>): void {
@@ -43,6 +45,7 @@ const Login = () => {
       return;
     }
     try {
+      setisLoading(true);
       const response = await axios.post(
         `${import.meta.env.VITE_BASE_URL}/user/login`,
         userDetails
@@ -54,9 +57,11 @@ const Login = () => {
       // local storage - save token
       localStorage.setItem("token", response.data.token);
       navigate("/home");
+      setisLoading(false);
     } catch (error: any) {
       toast.error(error.response.data.message);
       console.log(error);
+      setisLoading(false);
     }
     // toast.success("FORM SUBMITED");
     // console.log(emailRegex.test(userDetails.email));
@@ -95,9 +100,11 @@ const Login = () => {
         // local storage - save token
         localStorage.setItem("token", response.data.token);
         navigate("/home");
+        setisLoading(false);
       } catch (error: any) {
         toast.error(error.response.data.message);
         console.log(error);
+        setisLoading(false);
       }
     },
     onError: (error: any) => {
@@ -125,9 +132,11 @@ const Login = () => {
 
       localStorage.setItem("token", response.data.token);
       navigate("/home");
+      setisLoading(false);
     } catch (error: any) {
       toast.error(error.response.data.message);
       console.log(error);
+      setisLoading(false);
     }
   };
 
@@ -138,12 +147,13 @@ const Login = () => {
       {/* container - Form */}
       <div className={styles.formContainer}>
         <h2>Login ...</h2>
+
         <div className={styles.social}>
           <div>
             <LoginSocialFacebook
               appId={import.meta.env.VITE_FACEBOOK_CLIENT_ID}
               onResolve={(res) => {
-                // setisloading(true);
+                setisLoading(true);
                 handleContinueWithFacebook(res);
               }}
               onReject={(err) => {
@@ -155,7 +165,7 @@ const Login = () => {
           </div>
           <div
             onClick={() => {
-              // setisloading(true)
+              setisLoading(true);
               handleContinueWithGoogle();
             }}
           >
@@ -187,7 +197,9 @@ const Login = () => {
               {show ? "HIDE" : "SHOW"}
             </button>
           </div>
-          <button onClick={handleLogin}>Login</button>
+          <button disabled={isLoading} onClick={handleLogin}>
+            {isLoading ? <Loader /> : "LOGIN"}
+          </button>
         </div>
         <div className={styles.footer}>
           <Link to="/signup">Don't have an account ? Signup</Link>
