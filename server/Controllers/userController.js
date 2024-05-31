@@ -232,6 +232,9 @@ const resend_Verification = async (req, res) => {
 const updateUser = async (req, res) => {
   try {
     console.log(req.decodedData);
+
+    console.log(req.body);
+
     res.json({ message: req.decodedData });
   } catch (error) {
     res.error({ message: `Something went wrong` });

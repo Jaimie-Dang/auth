@@ -3,6 +3,7 @@ import styles from "./Home.module.css";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import axios from "axios";
+import { emailRegex, passwordRegex } from "../../Utils/RegEx";
 
 interface User {
   username: string;
@@ -57,6 +58,40 @@ const Home = () => {
     console.log(newUserData);
   }
 
+  const updateUserData = async (type: string) => {
+    if (!emailRegex.test(newUserData.email) && type === "email") {
+      toast.error("Please enter a valid email address");
+      return;
+    }
+    if (!passwordRegex.test(newUserData.password) && type === "password") {
+      toast.error(
+        "Password must be at least 8 characters and must include at lease one speacial character and one number"
+      );
+      return;
+    }
+
+    if (!newUserData.username && type === "username") {
+      toast.error("Please enter a valid username");
+      return;
+    }
+
+    try {
+      const response = await axios.put(
+        `${import.meta.env.VITE_BASE_URL}/user/updateUser`,
+        {
+          type,
+          newUserData,
+        },
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
+      );
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className={styles.container}>
       {user && (
@@ -106,7 +141,13 @@ const Home = () => {
               </button>
               {isEdit.username && (
                 <div className={styles.buttons}>
-                  <button>Save</button>
+                  <button
+                    onClick={() => {
+                      updateUserData("username");
+                    }}
+                  >
+                    Save
+                  </button>
                   <button
                     onClick={() => {
                       setisEdit((prev) => ({
@@ -146,7 +187,13 @@ const Home = () => {
               </button>
               {isEdit.email && (
                 <div className={styles.buttons}>
-                  <button>Save</button>
+                  <button
+                    onClick={() => {
+                      updateUserData("email");
+                    }}
+                  >
+                    Save
+                  </button>
                   <button
                     onClick={() => {
                       setisEdit((prev) => ({
@@ -196,7 +243,13 @@ const Home = () => {
             </div>
             {isEdit.password && (
               <div className={styles.buttons}>
-                <button>Save</button>
+                <button
+                  onClick={() => {
+                    updateUserData("password");
+                  }}
+                >
+                  Save
+                </button>
                 <button
                   onClick={() => {
                     setisEdit((prev) => ({
