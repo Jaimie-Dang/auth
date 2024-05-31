@@ -86,7 +86,12 @@ const Home = () => {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
       );
-      console.log(response);
+
+      toast.success(response.data.message);
+
+      setisEdit({ email: false, password: false, username: false });
+      setnewUserData({ username: "", password: "", email: "" });
+      getUser();
     } catch (error) {
       console.log(error);
     }

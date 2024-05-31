@@ -231,11 +231,60 @@ const resend_Verification = async (req, res) => {
 //*********************************** */
 const updateUser = async (req, res) => {
   try {
-    console.log(req.decodedData);
+    const { id } = req.decodedData;
+    const { type } = req.body;
 
+    console.log(id);
     console.log(req.body);
 
-    res.json({ message: req.decodedData });
+    const user = await UserModel.findById(id);
+
+    console.log(user);
+
+    switch (type) {
+      case "username": {
+        user.username = req.body.newUserData.username;
+        await user.save();
+
+        // send mail to user with register
+        const emailBody = `<p>Username updated.</p>`;
+        const subject = `User Updated Successfully`;
+        await sendEmail(user.email, subject, emailBody);
+
+        break;
+      }
+
+      case "email": {
+        user.email = req.body.newUserData.email;
+        await user.save();
+
+        // send mail to user with register
+        const emailBody = `<p>Email updated.</p>`;
+        const subject = `Email Updated Successfully`;
+        await sendEmail(user.email, subject, emailBody);
+
+        break;
+      }
+
+      case "password": {
+        const hashPassword = await bcrypt.hash(
+          req.body.newUserData.password,
+          10
+        );
+        user.password = hashPassword;
+        await user.save();
+
+        // send mail to user with register
+        const emailBody = `<p>Password updated.</p>`;
+        const subject = `Password Updated Successfully`;
+        await sendEmail(user.email, subject, emailBody);
+
+        break;
+      }
+    }
+    console.log(user);
+
+    res.json({ message: "User Updated Successfully" });
   } catch (error) {
     res.error({ message: `Something went wrong` });
   }
