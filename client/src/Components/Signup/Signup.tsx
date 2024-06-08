@@ -52,7 +52,7 @@ const Signup = () => {
       );
       // toast.success("FORM SUBMITED");
       toast.success(response.data.message);
-      navigate("/");
+      navigate("/login");
       console.log(response);
       setisLoading(false);
     } catch (error: any) {

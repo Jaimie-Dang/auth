@@ -112,6 +112,7 @@ const Home = () => {
       {/* <!--Start section--> */}
       <section className={styles.home} id="home">
         <div className={styles.home_text}>
+          {/* <h1 className="text-danger">Welcome</h1> */}
           <h6>Best learning English for IT platform</h6>
           <h1>Accessible Online Courses For All</h1>
           <p>Own your future learning new skills online</p>

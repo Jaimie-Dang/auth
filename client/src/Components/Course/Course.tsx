@@ -3,7 +3,7 @@ import Navbar from "../Home/navbar/navbar";
 import Footer from "../Home/footer/Footer";
 import styles from "./Course.module.css";
 
-const Course = ({ productData }) => {
+const Course = () => {
   return (
     <div>
       <Navbar user={""} />

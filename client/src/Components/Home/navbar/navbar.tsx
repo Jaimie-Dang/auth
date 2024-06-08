@@ -21,7 +21,7 @@ const navbar = ({ user }) => {
     //   </button>
     // </nav>
     <header>
-      <a href="/home" className={styles.logo}>
+      <a href="/" className={styles.logo}>
         <img src="/public/logo.png" alt="logo" />
       </a>
       <div className={styles.header_searchBar}>
@@ -32,7 +32,7 @@ const navbar = ({ user }) => {
       </div>
       <ul className={styles.navbar}>
         <li>
-          <a href="/home">Home</a>
+          <a href="/">Home</a>
         </li>
         <li>
           <a href="/courses">Courses</a>

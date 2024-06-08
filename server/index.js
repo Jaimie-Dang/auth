@@ -17,8 +17,10 @@ app.get("/test", (req, res) => {
   res.json("working");
 });
 
+// ! Routes
 // /user/register
 app.use("/user", require("./UserRoutes/userRoute"));
+app.use("/course", require("./UserRoutes/courseRoute"));
 
 app.listen(process.env.PORT, async () => {
   await connectDB();

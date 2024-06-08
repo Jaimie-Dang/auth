@@ -4,19 +4,35 @@ const JWT_AUTH = (req, res, next) => {
   try {
     let token = req.headers.authorization;
 
-    console.log(token.split(" ")[1]);
+    // Check if the Authorization header exists
+    if (!token) {
+      console.log("Authorization header missing");
+      return res.status(403).json({ message: "JWT not provided" });
+    }
 
-    if (!token) return res.status(403).json({ message: `JWT not provider` });
+    // Log the Authorization header value
+    console.log("Authorization header:", token);
 
-    const decodedData = jwt.verify(token.split(" ")[1], process.env.SECRET);
+    // Extract the token part from the header
+    token = token.split(" ")[1];
 
-    console.log(decodedData);
+    // Log the extracted token
+    console.log("Extracted token:", token);
+
+    // Verify the token
+    const decodedData = jwt.verify(token, process.env.SECRET);
+
+    // Log the decoded data
+    console.log("Decoded data:", decodedData);
 
     req.decodedData = decodedData;
 
     next();
   } catch (error) {
-    res.status(403).json({ message: "Not have token / token expired" });
+    // Log the error for debugging
+    console.error("Error verifying token:", error);
+
+    res.status(403).json({ message: "Invalid token or token expired" });
   }
 };
 

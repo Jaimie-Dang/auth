@@ -33,6 +33,7 @@ const Login = () => {
     console.log(userDetails);
   }
 
+  // ! Login with typing
   const handleLogin = async () => {
     if (!emailRegex.test(userDetails.email)) {
       toast.error("Please enter a valid email address");
@@ -56,7 +57,7 @@ const Login = () => {
 
       // local storage - save token
       localStorage.setItem("token", response.data.token);
-      navigate("/home");
+      navigate("/");
       setisLoading(false);
     } catch (error: any) {
       toast.error(error.response.data.message);
@@ -68,6 +69,7 @@ const Login = () => {
     // console.log(passwordRegex.test(userDetails.password), userDetails.password);
   };
 
+  // ! Login with Google
   const handleContinueWithGoogle = useGoogleLogin({
     onSuccess: async (response: any) => {
       console.log(response);
@@ -99,7 +101,7 @@ const Login = () => {
 
         // local storage - save token
         localStorage.setItem("token", response.data.token);
-        navigate("/home");
+        navigate("/");
         setisLoading(false);
       } catch (error: any) {
         toast.error(error.response.data.message);
@@ -112,6 +114,7 @@ const Login = () => {
     },
   });
 
+  // ! Login with Facebook
   const handleContinueWithFacebook = async (res) => {
     const newUser = {
       username: res.data.name,
@@ -131,7 +134,7 @@ const Login = () => {
       toast.success(response.data.message);
 
       localStorage.setItem("token", response.data.token);
-      navigate("/home");
+      navigate("/courses");
       setisLoading(false);
     } catch (error: any) {
       toast.error(error.response.data.message);
