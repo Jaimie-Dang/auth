@@ -4,6 +4,7 @@ const cors = require("cors");
 
 const morgan = require("morgan");
 const connectDB = require("./Configs/db");
+const progressRouter = require("./UserRoutes/progressRoute");
 
 const dotenv = require("dotenv").config();
 
@@ -22,6 +23,7 @@ app.get("/test", (req, res) => {
 app.use("/user", require("./UserRoutes/userRoute"));
 app.use("/course", require("./UserRoutes/courseRoute"));
 app.use("/course-sections", require("./UserRoutes/courseSectionRoute"));
+app.use("/progress", progressRouter);
 
 app.listen(process.env.PORT, async () => {
   await connectDB();

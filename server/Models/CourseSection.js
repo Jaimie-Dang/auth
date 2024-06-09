@@ -8,6 +8,8 @@ const courseSectionSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+
+    // !Catious
     sectionsCompleted: [],
 
     estimatedTime: Number,
