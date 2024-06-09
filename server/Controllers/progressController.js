@@ -72,6 +72,39 @@ const progressController = {
     // ! Send the res
     res.status(200).json({ message: "Section already started" });
   }),
+  // ! Update progress
+  update: asyncHandler(async (req, res) => {
+    const { courseId, sectionId, newStatus } = req.body;
+    // ! Find the user and the specific course progress
+    const userId = req.decodedData.id;
+    console.log("Test6");
+    console.log(courseId);
+    const user = await UserModel.findOne({
+      _id: userId,
+      "progress.courseId": courseId,
+    });
+    if (!user) {
+      return res.status(404).json({ message: "User or course not found" });
+    }
+    // ! Find and update the specific section status
+    const courseProgress = user.progress.find(
+      (p) => p.courseId.toString() === courseId
+    );
+    const sectionProgress = courseProgress.sections.find(
+      (s) => s.sectionId.toString() === sectionId
+    );
+    if (sectionProgress) {
+      sectionProgress.status = newStatus;
+      await sectionProgress.save();
+    } else {
+      return res
+        .status(404)
+        .json({ message: "Section not found in user's progress" });
+    }
+    await user.save();
+    // ! Send the response
+    res.status(200).json({ message: "Section progress updated successfully" });
+  }),
 };
 
 module.exports = progressController;
