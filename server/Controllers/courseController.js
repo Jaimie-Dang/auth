@@ -45,6 +45,71 @@ const courseController = {
 
     res.status(201).json(coursesCreated);
   }),
+
+  // ! Getting all courses
+  lists: asyncHandler(async (req, res) => {
+    const courses = await CourseModel.find().populate("sections").populate({
+      path: "user",
+      model: "Users",
+      select: "username email",
+    });
+    res.json(courses);
+  }),
+
+  // ! Get a course
+  getCourseById: asyncHandler(async (req, res) => {
+    const course = await CourseModel.findById(req.params.courseId)
+      .populate("sections")
+      .populate({
+        path: "user",
+        model: "Users",
+        select: "username email",
+      });
+    res.json(course);
+  }),
+
+  // ! Update course
+  update: asyncHandler(async (req, res) => {
+    const course = await CourseModel.findByIdAndUpdate(
+      req.params.courseId,
+      req.body,
+      { new: true }
+    );
+    if (course) {
+      res.json(course);
+    } else {
+      res.status(404);
+      throw new Error("Course not found");
+    }
+  }),
+  // ! Delete course
+  delete: asyncHandler(async (req, res) => {
+    console.log("Test");
+    // ! Find the course
+    const courseFound = await CourseModel.findById(req.params.courseId);
+    console.log(courseFound);
+    // ! Prevent deletion if a course a student
+    if (courseFound && courseFound.students.length > 0) {
+      res.status(400);
+      res.json({ message: "Course has students, cannot delete" });
+      return; //stop execution
+    }
+    // ! Proceed to delete
+    const course = await CourseModel.findByIdAndDelete(req.params.courseId);
+    if (course) {
+      // * Remove from the user's course created
+      await UserModel.updateMany(
+        { coursesCreated: req.params.courseId },
+        {
+          $pull: { coursesCreated: req.params.courseId },
+        }
+      );
+      // ! Send the response
+      res.json(course);
+    } else {
+      res.json({ message: "Course not found" });
+    }
+  }),
 };
 
 module.exports = courseController;
