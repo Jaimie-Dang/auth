@@ -21,6 +21,7 @@ app.get("/test", (req, res) => {
 // /user/register
 app.use("/user", require("./UserRoutes/userRoute"));
 app.use("/course", require("./UserRoutes/courseRoute"));
+app.use("/course-sections", require("./UserRoutes/courseSectionRoute"));
 
 app.listen(process.env.PORT, async () => {
   await connectDB();

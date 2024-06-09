@@ -36,7 +36,7 @@ const courseController = {
       description,
       difficulty,
       duration,
-      user: req.decodedData.id,
+      user: req.user,
     });
 
     userFound.coursesCreated.push(coursesCreated._id);
