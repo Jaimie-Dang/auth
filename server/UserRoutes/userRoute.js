@@ -7,6 +7,7 @@ const {
   forgotPassword,
   verifyPasswordOTP,
   getUser,
+  lists,
 } = require("../Controllers/userController");
 const JWT_AUTH = require("../middleware/JWT_AUTH");
 
@@ -25,6 +26,8 @@ router.post("/resetPassword", forgotPassword);
 router.post("/verifyPasswordOTP", verifyPasswordOTP);
 
 router.get("/", JWT_AUTH, getUser);
+// ! Related to Course
+router.get("/position/:courseId", lists);
 
 //*************************** */
 module.exports = router;

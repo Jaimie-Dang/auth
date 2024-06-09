@@ -10,7 +10,12 @@ const courseSectionSchema = new mongoose.Schema(
     },
 
     // !Catious
-    sectionsCompleted: [],
+    sectionsCompleted: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "CourseSection",
+      },
+    ],
 
     estimatedTime: Number,
     isCompleted: { type: Boolean, default: false },

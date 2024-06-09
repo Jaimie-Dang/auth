@@ -4,6 +4,9 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 // to send mail to user (dich vu gui mail)
 const sendEmail = require("../EmailService/Email");
+const asyncHandler = require("express-async-handler");
+const mongoose = require("mongoose");
+const { populate } = require("../Models/course");
 
 //*********************************** */
 const register = async (req, res) => {
@@ -390,6 +393,85 @@ const getUser = async (req, res) => {
   }
 };
 
+//*********************************** */
+// ! Lists
+const lists = asyncHandler(async (req, res) => {
+  const { courseId } = req.params;
+
+  // ! Validate the courseId
+  if (!mongoose.Types.ObjectId.isValid(courseId)) {
+    return res.status(400).json({ message: "Invalid Course Id" });
+  }
+
+  // ! Find all users and populate their progress with course details
+  const users = await UserModel.find({}).populate({
+    path: "progress",
+    populate: {
+      path: "courseId",
+      model: "Course",
+      populate: {
+        path: "sections",
+      },
+    },
+  });
+
+  // ! Filter and map users' progress data
+  const userProgressData = users
+    .map((user) => {
+      const courseProgress = user.progress.find(
+        (cp) => cp.courseId && cp.courseId._id.toString() === courseId
+      );
+
+      console.log(courseProgress);
+      if (!courseProgress) {
+        return null;
+      }
+
+      // ! Get total sections
+      const totalSections = courseProgress.courseId.sections.length;
+      // ! Call the sections completed
+      const sectionsCompleted = courseProgress.sections.filter(
+        (section) => section.status === "Completed"
+      ).length;
+      console.log(sectionsCompleted);
+      // ! Calc percentage progress
+      const progressPercentage =
+        totalSections > 0
+          ? parseFloat((sectionsCompleted / totalSections) * 100).toFixed(1)
+          : 0;
+      return {
+        id: user._id,
+        email: user._email,
+        role: user._role,
+        totalSections,
+        sectionsCompleted,
+        position: null,
+        username: user.username,
+        dateJoined: user.createdAt,
+      };
+    })
+    .filter((item) => item !== null);
+  // ! Sort users based on sectionsCompleted and assign positions
+  // ! Sort users based on sectionCompleted
+  userProgressData.sort((a, b) => b.sectionsCompleted - a.sectionsCompleted);
+  // ! Assign positions with dense ranking
+  let lastRank = 0;
+  let lastSectionsCompleted = -1;
+  userProgressData.forEach((user) => {
+    if (user.sectionsCompleted !== lastSectionsCompleted) {
+      lastRank++;
+      lastSectionsCompleted = user.sectionsCompleted;
+      user.position = `${lastRank}${
+        ["st", "nd", "rd"][(((lastRank + 90) % 100) % 10) - 1] || "th"
+      }`;
+    }
+  });
+
+  res.json({
+    userProgressData,
+  });
+});
+
 //******************************************************************* */
 module.exports = {
   register,
@@ -400,4 +482,5 @@ module.exports = {
   forgotPassword,
   verifyPasswordOTP,
   getUser,
+  lists,
 };
