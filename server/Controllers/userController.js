@@ -373,6 +373,7 @@ const getUser = async (req, res) => {
   try {
     console.log(req.decodedData);
 
+    // ! Find the user
     const { id } = req.decodedData;
 
     // to take data based on ID
@@ -392,6 +393,141 @@ const getUser = async (req, res) => {
     res.status(500).json({ message: "Something went wrong" });
   }
 };
+
+//*********************************** */
+// ! Public Profile
+const profilePublic = asyncHandler(async (req, res) => {
+  // Ensure req.decodedData exists
+  if (!req.decodedData || !req.decodedData.id) {
+    return res.status(400).json({ message: "Invalid request data" });
+  }
+
+  // Find the user
+  console.log("test 7");
+  // console.log(req.query); // Changed from req.params to req.query
+  const courseIdParam = req.query.courseId; // Changed from req.params to req.query
+  const user = await UserModel.findById(req.decodedData.id).populate({
+    path: "progress",
+    populate: [
+      {
+        path: "courseId",
+        model: "Course",
+        populate: {
+          path: "sections",
+          model: "CourseSection",
+        },
+      },
+      {
+        path: "sections.sectionId",
+        model: "CourseSection",
+      },
+    ],
+  });
+
+  console.log(user);
+  if (!user) {
+    return res.status(404).json({ message: "User not found" });
+  }
+
+  // Filter progress for a specific course if courseIdParam is provided
+  const courseProgress = courseIdParam
+    ? user.progress.find((p) => p.courseId._id.toString() === courseIdParam)
+    : null;
+
+  console.log("Test 8");
+  console.log(courseProgress);
+
+  // ! If a specific course progress is found, calculate its summary
+  let progressSummary = null;
+  if (courseProgress) {
+    const totalSections = courseProgress.courseId.sections.length;
+    let completed = 0,
+      ongoing = 0,
+      notStarted = 0;
+    courseProgress.sections.forEach((section) => {
+      if (section.status === "Completed") completed++;
+      else if (section.status === "In Progress") ongoing++;
+      else notStarted++;
+      // Prepare the data
+      console.log(courseProgress.courseId.title);
+      progressSummary = {
+        courseId: courseProgress.courseId._id,
+        courseTitle: courseProgress.courseId.title,
+        totalSections,
+        completed,
+        ongoing,
+        notStarted,
+      };
+      res.json({
+        message: "Welcome to your profile",
+        progressSummary,
+      });
+    });
+  }
+});
+
+//*********************************** */
+// ! Private Profile
+const privateProfile = asyncHandler(async (req, res) => {
+  // Ensure req.decodedData exists
+  // if (!req.decodedData || !req.decodedData.id) {
+  //   return res.status(400).json({ message: "Invalid request data" });
+  // }
+
+  // Find the user
+  const user = await UserModel.findById(req.user).populate({
+    path: "progress",
+    populate: [
+      {
+        path: "courseId",
+        model: "Course",
+        populate: {
+          path: "sections",
+          model: "CourseSection",
+        },
+      },
+      {
+        path: "sections.sectionId",
+        model: "CourseSection",
+      },
+    ],
+  });
+
+  console.log(user);
+  if (!user) {
+    return res.status(404).json({ message: "User not found" });
+  }
+
+  // Calculating the progress statistics for each course
+  const courseProgress = user.progress.map((courseProgress) => {
+    const totalSections = courseProgress.courseId.sections.length;
+    let completed = 0,
+      ongoing = 0,
+      notStarted = 0;
+    courseProgress.sections.forEach((section) => {
+      if (section.status === "Completed") completed++;
+      else if (section.status === "In Progress") ongoing++;
+      else notStarted++;
+      return {
+        courseId: courseProgress.courseId._id,
+        courseTitle: courseProgress.courseId.title,
+        totalSections,
+        completed,
+        ongoing,
+        notStarted,
+      };
+    });
+    // Prepare the response
+    const response = {
+      totalCourses: user.progress.length,
+      courseProgress,
+    };
+    res.json(response);
+  });
+
+  console.log("Test 8");
+  console.log(courseProgress);
+});
 
 //*********************************** */
 // ! Lists
@@ -482,5 +618,7 @@ module.exports = {
   forgotPassword,
   verifyPasswordOTP,
   getUser,
+  profilePublic,
+  privateProfile,
   lists,
 };

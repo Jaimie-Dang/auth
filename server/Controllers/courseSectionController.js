@@ -34,12 +34,12 @@ const courseSectionController = {
       return res.status(404).json({ message: "Course not found" });
     }
 
-    // ! Validate the section name
+    // Validate the section name
     if (!sectionName) {
       return res.status(400).json({ message: "Section name is required" });
     }
 
-    // ! Create the section
+    // Create the section
     const sectionCreated = await CourseSectionModel.create({
       sectionName,
       user: req.decodedData.id,
