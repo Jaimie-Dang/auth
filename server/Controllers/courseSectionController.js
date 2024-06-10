@@ -1,6 +1,6 @@
 const { default: mongoose } = require("mongoose");
 const CourseModel = require("../Models/course");
-const UserModel = require("../Models/userModel");
+const UserModel = require("userModel");
 const asyncHandler = require("express-async-handler");
 const CourseSectionModel = require("../Models/CourseSection");
 

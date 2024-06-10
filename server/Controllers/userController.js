@@ -1,4 +1,4 @@
-const UserModel = require("../Models/userModel");
+const UserModel = require("userModel");
 const otp_generator = require("otp-generator");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -475,7 +475,7 @@ const privateProfile = asyncHandler(async (req, res) => {
   // }
 
   // Find the user
-  const user = await UserModel.findById(req.user).populate({
+  const user = await UserModel.findById(req.decodedData.id).populate({
     path: "progress",
     populate: [
       {

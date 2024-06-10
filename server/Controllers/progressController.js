@@ -1,5 +1,5 @@
 const asyncHandler = require("express-async-handler");
-const UserModel = require("../Models/userModel");
+const UserModel = require("userModel");
 const CourseModel = require("../Models/course");
 
 const progressController = {

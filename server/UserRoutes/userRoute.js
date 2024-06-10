@@ -12,6 +12,7 @@ const {
   privateProfile,
 } = require("../Controllers/userController");
 const JWT_AUTH = require("../middleware/JWT_AUTH");
+const { isAdmin } = require("../middleware/roleAccessMiddleware");
 
 const router = require("express").Router();
 
@@ -31,7 +32,7 @@ router.post("/verifyPasswordOTP", verifyPasswordOTP);
 // ! Public Profile
 router.get("/public-profile", JWT_AUTH, profilePublic); // ! Cautious
 // ! Private Profile
-router.get("/private-profile", JWT_AUTH, privateProfile);
+router.get("/private-profile", JWT_AUTH, isAdmin, privateProfile);
 // ! Related to Course
 router.get("/position/:courseId", lists);
 
