@@ -21,6 +21,7 @@ import { useMutation } from "@tanstack/react-query";
 import { loginAPI } from "../../services/users/userServices";
 import { useDispatch } from "react-redux";
 import { loginAction } from "../../redux/slices/authSlice";
+import AlertMessage from "../Alert/AlertMessage";
 
 // ! Validation schema
 const validationSchema = Yup.object({
@@ -165,7 +166,7 @@ const Login = () => {
   // ! dispatch
   const dispatch = useDispatch();
   // ! Mutation logic
-  const muation = useMutation({
+  const mutation = useMutation({
     mutationFn: loginAPI,
     mutationKey: ["login"],
   });
@@ -178,7 +179,7 @@ const Login = () => {
     validationSchema,
     onSubmit: (values) => {
       // Make http request
-      muation
+      mutation
         .mutateAsync(values)
         .then((data) => {
           console.log(data);
@@ -190,7 +191,7 @@ const Login = () => {
         .catch((e) => console.log(e));
     },
   });
-  console.log(muation);
+  console.log(mutation);
   //-----------------------------------------
   return (
     // full page
@@ -253,16 +254,24 @@ const Login = () => {
           </button> */}
           <div className={styles.container_styles}>
             <form onSubmit={formik.handleSubmit}>
-              {muation.isPending && <p>Login please wait...</p>}
-              {muation.isSuccess && <p>Login success...</p>}
-              {muation.isError && (
-                <p>{muation?.error?.response?.data?.message}</p>
+              {mutation.isSuccess && (
+                <AlertMessage type="success" message="Login sucess..." />
+              )}
+
+              {mutation.isPending && (
+                <AlertMessage type="loading" message="Loading..." />
+              )}
+              {mutation.isError && (
+                <AlertMessage
+                  type="error"
+                  message={mutation.error.response?.data?.message}
+                />
               )}
               <input
                 type="email"
                 placeholder="Enter Email"
                 {...formik.getFieldProps("email")}
-                className="mb-3 h-10"
+                className="mb-3 h-10 mt-3"
               />
               {/* Error */}
               {formik.touched.email && formik.errors.email && (
