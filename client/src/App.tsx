@@ -10,16 +10,24 @@ import Course from "./Components/Course/Course";
 import CourseDetail from "./Components/CourseDetail/CourseDetail";
 import "bootstrap/dist/css/bootstrap.min.css";
 import navbar from "./Components/navbar/navbar";
+import { useDispatch } from "react-redux";
+import { useDebugValue, useEffect } from "react";
+import { loginAction } from "./redux/slices/authSlice";
 
 // ! Test
 // import Login from "./Components/Users/Login";
 
 // nav bar
 const App = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(loginAction(JSON.parse(localStorage.getItem("token"))));
+  }, [dispatch]);
   return (
     <Router>
       {/* Navbar here */}
-      <navbar />
+      {/* <navbar /> */}
       <Routes>
         <Route path="/login" element={<Login />}></Route>
         <Route path="/signup" element={<Signup />}></Route>

@@ -19,6 +19,8 @@ import * as Yup from "yup";
 import { FiMail, FiLock } from "react-icons/fi";
 import { useMutation } from "@tanstack/react-query";
 import { loginAPI } from "../../services/users/userServices";
+import { useDispatch } from "react-redux";
+import { loginAction } from "../../redux/slices/authSlice";
 
 // ! Validation schema
 const validationSchema = Yup.object({
@@ -160,6 +162,8 @@ const Login = () => {
   };
 
   // ! ---------------------------
+  // ! dispatch
+  const dispatch = useDispatch();
   // ! Mutation logic
   const muation = useMutation({
     mutationFn: loginAPI,
@@ -174,7 +178,16 @@ const Login = () => {
     validationSchema,
     onSubmit: (values) => {
       // Make http request
-      muation.mutate(values);
+      muation
+        .mutateAsync(values)
+        .then((data) => {
+          console.log(data);
+          // ! Save the user into localstorage
+          localStorage.setItem("token", JSON.stringify(data.token));
+          // ! Dispatch login action
+          dispatch(loginAction(data.token));
+        })
+        .catch((e) => console.log(e));
     },
   });
   console.log(muation);
