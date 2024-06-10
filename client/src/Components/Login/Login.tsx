@@ -184,9 +184,9 @@ const Login = () => {
         .then((data) => {
           console.log(data);
           // ! Save the user into localstorage
-          localStorage.setItem("token", JSON.stringify(data.token));
+          localStorage.setItem("userInfo", JSON.stringify(data));
           // ! Dispatch login action
-          dispatch(loginAction(data.token));
+          dispatch(loginAction(data));
         })
         .catch((e) => console.log(e));
     },

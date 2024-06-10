@@ -9,8 +9,10 @@ import User from "./Components/User/User";
 import Course from "./Components/Course/Course";
 import CourseDetail from "./Components/CourseDetail/CourseDetail";
 import "bootstrap/dist/css/bootstrap.min.css";
-import navbar from "./Components/navbar/navbar";
-import { useDispatch } from "react-redux";
+import PublicNavbar from "./Components/navbar/PublicNavbar";
+import InstructorNavbar from "./Components/navbar/InstructorNavbar";
+import StudentsNavbar from "./Components/navbar/StudentsNavbar";
+import { useDispatch, useSelector } from "react-redux";
 import { useDebugValue, useEffect } from "react";
 import { loginAction } from "./redux/slices/authSlice";
 
@@ -20,14 +22,22 @@ import { loginAction } from "./redux/slices/authSlice";
 // nav bar
 const App = () => {
   const dispatch = useDispatch();
-
+  // ! useSelector
+  const userData = useSelector((state) => state?.auth?.user);
+  console.log(userData);
   useEffect(() => {
-    dispatch(loginAction(JSON.parse(localStorage.getItem("token"))));
+    dispatch(loginAction(JSON.parse(localStorage.getItem("userInfo"))));
   }, [dispatch]);
   return (
     <Router>
       {/* Navbar here */}
-      {/* <navbar /> */}
+      {userData?.role === "student" ? (
+        <StudentsNavbar />
+      ) : userData?.role === "instructor" ? (
+        <InstructorNavbar />
+      ) : (
+        <PublicNavbar />
+      )}
       <Routes>
         <Route path="/login" element={<Login />}></Route>
         <Route path="/signup" element={<Signup />}></Route>

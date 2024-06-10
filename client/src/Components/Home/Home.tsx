@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { emailRegex, passwordRegex } from "../../Utils/RegEx";
 import Loader from "../Loader/Loader";
-import Navbar from "../navbar/navbar";
+import Navbar from "../navbar/PublicNavbar";
 import Footer from "../footer/Footer";
 
 interface User {
