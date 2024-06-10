@@ -1,4 +1,4 @@
-const UserModel = require("userModel");
+const UserModel = require("../Models/userModel");
 const otp_generator = require("otp-generator");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");

@@ -1,4 +1,4 @@
-const UserModel = require("userModel");
+const UserModel = require("../Models/userModel");
 // ! Role checking function
 
 // ! Admin Role
