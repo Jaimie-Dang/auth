@@ -14,8 +14,23 @@ import { LoginSocialFacebook } from "reactjs-social-login";
 
 import { useGoogleLogin } from "@react-oauth/google";
 import Loader from "../Loader/Loader";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { FiMail, FiLock } from "react-icons/fi";
+import { useMutation } from "@tanstack/react-query";
+import { loginAPI } from "../../services/users/userServices";
+
+// ! Validation schema
+const validationSchema = Yup.object({
+  email: Yup.string()
+    .email("Enter a valid email")
+    .required("Email is required"),
+  password: Yup.string().required("Password is required"),
+});
 
 const Login = () => {
+  //---------------------------
+
   //---------------------------
   const navigate = useNavigate(); // to navigate user to specific link
   //---------------------------
@@ -33,41 +48,42 @@ const Login = () => {
     console.log(userDetails);
   }
 
-  // ! Login with typing
-  const handleLogin = async () => {
-    if (!emailRegex.test(userDetails.email)) {
-      toast.error("Please enter a valid email address");
-      return;
-    }
-    if (!passwordRegex.test(userDetails.password)) {
-      toast.error(
-        "Password must be at least 8 characters and must include at lease one speacial character and one number"
-      );
-      return;
-    }
-    try {
-      setisLoading(true);
-      const response = await axios.post(
-        `${import.meta.env.VITE_BASE_URL}/user/login`,
-        userDetails
-      );
-      console.log(response);
-      // lấy dữ liệu từ json - message từ server
-      toast.success(response.data.message);
+  // // ! Login with typing
+  // const handleLogin = async () => {
+  //   if (!emailRegex.test(userDetails.email)) {
+  //     toast.error("Please enter a valid email address");
+  //     return;
+  //   }
+  //   if (!passwordRegex.test(userDetails.password)) {
+  //     toast.error(
+  //       "Password must be at least 8 characters and must include at lease one speacial character and one number"
+  //     );
+  //     return;
+  //   }
+  //   try {
+  //     setisLoading(true);
+  //     const response = await axios.post(
+  //       `${import.meta.env.VITE_BASE_URL}/user/login`,
+  //       userDetails
+  //     );
+  //     console.log(response);
+  //     // lấy dữ liệu từ json - message từ server
+  //     toast.success(response.data.message);
 
-      // local storage - save token
-      localStorage.setItem("token", response.data.token);
-      navigate("/");
-      setisLoading(false);
-    } catch (error: any) {
-      toast.error(error.response.data.message);
-      console.log(error);
-      setisLoading(false);
-    }
-    // toast.success("FORM SUBMITED");
-    // console.log(emailRegex.test(userDetails.email));
-    // console.log(passwordRegex.test(userDetails.password), userDetails.password);
-  };
+  //     // local storage - save token
+  //     localStorage.setItem("userInfo", JSON.stringify(response.data));
+  //     dispatch(loginAction);
+  //     // navigate("/");
+  //     setisLoading(false);
+  //   } catch (error: any) {
+  //     toast.error(error.response.data.message);
+  //     console.log(error);
+  //     setisLoading(false);
+  //   }
+  //   // toast.success("FORM SUBMITED");
+  //   // console.log(emailRegex.test(userDetails.email));
+  //   // console.log(passwordRegex.test(userDetails.password), userDetails.password);
+  // };
 
   // ! Login with Google
   const handleContinueWithGoogle = useGoogleLogin({
@@ -143,6 +159,25 @@ const Login = () => {
     }
   };
 
+  // ! ---------------------------
+  // ! Mutation logic
+  const muation = useMutation({
+    mutationFn: loginAPI,
+    mutationKey: ["login"],
+  });
+  // ! Handle form using formik
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    validationSchema,
+    onSubmit: (values) => {
+      // Make http request
+      muation.mutate(values);
+    },
+  });
+  console.log(muation);
   //-----------------------------------------
   return (
     // full page
@@ -177,7 +212,7 @@ const Login = () => {
         </div>
         {/* control input */}
         <div className={styles.inputContainer}>
-          <input
+          {/* <input
             value={userDetails.email}
             placeholder="Enter your email ..."
             type="email"
@@ -202,7 +237,38 @@ const Login = () => {
           </div>
           <button disabled={isLoading} onClick={handleLogin}>
             {isLoading ? <Loader /> : "LOGIN"}
-          </button>
+          </button> */}
+          <div className={styles.container_styles}>
+            <form onSubmit={formik.handleSubmit}>
+              {muation.isPending && <p>Login please wait...</p>}
+              {muation.isSuccess && <p>Login success...</p>}
+              {muation.isError && (
+                <p>{muation?.error?.response?.data?.message}</p>
+              )}
+              <input
+                type="email"
+                placeholder="Enter Email"
+                {...formik.getFieldProps("email")}
+                className="mb-3 h-10"
+              />
+              {/* Error */}
+              {formik.touched.email && formik.errors.email && (
+                <div className={styles.error}>{formik.errors.email}</div>
+              )}
+
+              <input
+                type="password"
+                placeholder="Enter Password"
+                {...formik.getFieldProps("password")}
+                className="mb-3 h-10 "
+              />
+              {/* Error */}
+              {formik.touched.password && formik.errors.password && (
+                <div className={styles.error}>{formik.errors.password}</div>
+              )}
+              <button type="submit">Login</button>
+            </form>
+          </div>
         </div>
         <div className={styles.footer}>
           <Link to="/signup">Don't have an account ? Signup</Link>

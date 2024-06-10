@@ -28,7 +28,7 @@ router.get("/resend_Verification/:token", resend_Verification);
 router.post("/resetPassword", forgotPassword);
 router.post("/verifyPasswordOTP", verifyPasswordOTP);
 
-// * router.get("/", JWT_AUTH, getUser);
+router.get("/", JWT_AUTH, getUser);
 // ! Public Profile
 router.get("/public-profile", JWT_AUTH, profilePublic); // ! Cautious
 // ! Private Profile

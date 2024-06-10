@@ -9,10 +9,17 @@ import User from "./Components/User/User";
 import Course from "./Components/Course/Course";
 import CourseDetail from "./Components/CourseDetail/CourseDetail";
 import "bootstrap/dist/css/bootstrap.min.css";
+import navbar from "./Components/navbar/navbar";
+
+// ! Test
+// import Login from "./Components/Users/Login";
+
 // nav bar
 const App = () => {
   return (
     <Router>
+      {/* Navbar here */}
+      <navbar />
       <Routes>
         <Route path="/login" element={<Login />}></Route>
         <Route path="/signup" element={<Signup />}></Route>

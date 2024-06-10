@@ -5,8 +5,8 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { emailRegex, passwordRegex } from "../../Utils/RegEx";
 import Loader from "../Loader/Loader";
-import Navbar from "../Home/navbar/navbar";
-import Footer from "./footer/Footer";
+import Navbar from "../navbar/navbar";
+import Footer from "../footer/Footer";
 
 interface User {
   username: string;
@@ -108,7 +108,7 @@ const Home = () => {
   return (
     // className={styles.container}
     <div>
-      {user && <Navbar user={user} />}
+      {/* {user && <Navbar user={user} />} */}
       {/* <!--Start section--> */}
       <section className={styles.home} id="home">
         <div className={styles.home_text}>

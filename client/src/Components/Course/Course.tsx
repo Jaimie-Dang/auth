@@ -1,6 +1,6 @@
 import React from "react";
-import Navbar from "../Home/navbar/navbar";
-import Footer from "../Home/footer/Footer";
+import Navbar from "../navbar/navbar";
+import Footer from "../footer/Footer";
 import styles from "./Course.module.css";
 
 const Course = () => {

@@ -141,10 +141,17 @@ const login = async (req, res) => {
       expiresIn: "10m",
     });
     console.log(token);
+    console.log("Test10");
+    // console.log(isUserExisting);
 
+    // !Send the response
     res.json({
       message: `User Logged in successfully`,
       token,
+      id: isUserExisting._id,
+      email: isUserExisting.email,
+      role: isUserExisting?.role,
+      username: isUserExisting?.username,
     });
   } catch (error) {
     res.status(500).json({
@@ -385,6 +392,7 @@ const getUser = async (req, res) => {
     const user = {
       email: data.email,
       username: data.username,
+      role: data.role,
     };
 
     // Get data to push Network / frontend => tra ve json

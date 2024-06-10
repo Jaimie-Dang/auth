@@ -10,8 +10,11 @@ const dotenv = require("dotenv").config();
 
 const app = express();
 app.use(express.json());
-
-app.use(cors());
+// cors
+const corsOptions = {
+  origin: ["http://localhost:5173"],
+};
+app.use(cors(corsOptions));
 app.use(morgan("dev"));
 
 app.get("/test", (req, res) => {

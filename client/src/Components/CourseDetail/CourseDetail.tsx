@@ -1,8 +1,8 @@
 import React from "react";
 
 import styles from "./CourseDetail.module.css";
-import Footer from "../Home/footer/Footer";
-import Navbar from "../Home/navbar/navbar";
+import Footer from "../footer/Footer";
+import Navbar from "../navbar/navbar";
 
 const CourseDetail = () => {
   return (
