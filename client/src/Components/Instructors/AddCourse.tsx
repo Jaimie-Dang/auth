@@ -114,7 +114,12 @@ const AddCourse = () => {
               {formik.touched.duration && formik.errors.duration && (
                 <div className={styles.error}>{formik.errors.duration}</div>
               )}
-              <button type="submit">Add Course</button>
+              <button
+                type="submit"
+                className="hover:!bg-white hover:!text-customRed hover:!border hover:!border-customRed bg-customRed text-white"
+              >
+                Add Course
+              </button>
             </form>
           </div>
         </div>

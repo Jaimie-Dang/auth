@@ -74,7 +74,7 @@ const App = () => {
         ></Route>
         {/* View Sections */}
         <Route
-          path="/instructor-course-sections/:courseId"
+          path="/instructor-course-sections"
           element={<InstructorAllCourseSection />}
         ></Route>
 

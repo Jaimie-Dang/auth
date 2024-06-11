@@ -19,6 +19,7 @@ courseSectionRoute.put(
   courseSectionCtrl.update
 );
 courseSectionRoute.get("/:sectionId", courseSectionCtrl.getSection);
+courseSectionRoute.get("/", JWT_AUTH, courseSectionCtrl.getSection);
 courseSectionRoute.delete(
   "/:sectionId",
   JWT_AUTH,
