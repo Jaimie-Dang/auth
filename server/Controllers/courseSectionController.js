@@ -75,17 +75,45 @@ const courseSectionController = {
     }
   }),
   // ! Update
-  update: asyncHandler(async (req, res) => {
-    const section = await CourseSectionModel.findByIdAndUpdate(
-      req.params.sectionId,
-      req.body,
-      { new: true }
-    );
-    if (section) {
-      res.json(section);
-    } else {
-      res.status(404);
-      throw new Error("Section not found");
+  update: asyncHandler(async (req, res, next) => {
+    try {
+      console.log("Test section");
+      console.log("Section ID:", req.params.sectionId);
+      console.log("Request Body:", req.body);
+
+      // Kiểm tra định dạng của sectionId
+      if (!mongoose.Types.ObjectId.isValid(req.params.sectionId)) {
+        res.status(400);
+        throw new Error("Invalid section ID format");
+      }
+
+      // Kiểm tra sự tồn tại của section
+      const existingSection = await CourseSectionModel.findById(
+        req.params.sectionId
+      );
+      if (!existingSection) {
+        res.status(404);
+        throw new Error("Section not found");
+      }
+
+      // Cập nhật section
+      const section = await CourseSectionModel.findByIdAndUpdate(
+        req.params.sectionId,
+        req.body,
+        { new: true }
+      );
+
+      console.log("Updated Section:", section);
+
+      if (section) {
+        res.json(section);
+      } else {
+        res.status(404);
+        throw new Error("Section not found after update");
+      }
+    } catch (error) {
+      console.error(error); // Thêm log chi tiết về lỗi
+      next(error); // Chuyển lỗi tới middleware xử lý lỗi
     }
   }),
   // ! Delete

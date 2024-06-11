@@ -3,12 +3,15 @@ import React from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { getSigleCoursesAPI } from "../../services/courses/courseServices";
 import {
+  FaEdit,
   FaLayerGroup,
+  FaList,
   FaListUl,
   FaPlusCircle,
   FaTrash,
   FaTrophy,
   FaUser,
+  FaWrench,
 } from "react-icons/fa";
 import AlertMessage from "../Alert/AlertMessage";
 import { FiEdit2, FiTrash2 } from "react-icons/fi";
@@ -126,19 +129,26 @@ const InstructorCourseDetail = () => {
             to={`/students-position/${courseId}`}
             className="bg-red-500 hover:!bg-white hover:!text-red-500 hover:!border hover:!border-red-500 text-white font-bold py-2 px-4 rounded flex items-center justify-center shadow"
           >
-            <FaTrophy />
+            <FaTrophy className="mr-2" />
             Students Ranking
           </Link>
           <Link
             to={`/instructor-add-course-sections/${courseId}`}
             className="bg-purple-500 hover:!bg-white hover:!text-purple-500 hover:!border hover:!border-purple-500 text-white font-bold py-2 px-4 rounded flex items-center justify-center shadow"
           >
-            <FaPlusCircle />
+            <FaPlusCircle className="mr-2" />
             Add Course Section
+          </Link>
+          <Link
+            to={`/instructor-update-course/${courseId}`}
+            className="bg-green-500  hover:!bg-white hover:!text-green-500 hover:!border hover:!border-green-500 text-white font-bold py-2 px-4 rounded flex items-center justify-center "
+          >
+            <FaEdit className="mr-2" />
+            Update Course
           </Link>
           <button
             onClick={handleDelete}
-            className="bg-green-500  hover:!bg-white hover:!text-green-500 hover:!border hover:!border-green-500 text-white font-bold py-2 px-4 rounded flex items-center justify-center "
+            className="bg-red-500  hover:!bg-white hover:!text-red-500 hover:!border hover:!border-red-500 text-white font-bold py-2 px-4 rounded flex items-center justify-center "
           >
             <FaTrash className="mr-2" />
             Delete
@@ -168,10 +178,7 @@ const InstructorCourseDetail = () => {
                 <div className="space-x-3">
                   <div className="flex items-center">
                     <Link to={`/update-course-section/${section._id}`}>
-                      <button
-                        onClick={() => handleDelete(section._id)}
-                        className="p-2 bg-blue-500 text-white rounded-full hover:bg-blue-700 transition duration-200 mr-4 w-12"
-                      >
+                      <button className="p-2 bg-blue-500 text-white rounded-full hover:bg-blue-700 transition duration-200 mr-4 w-12">
                         <FiEdit2 className="m-2" />
                       </button>
                     </Link>

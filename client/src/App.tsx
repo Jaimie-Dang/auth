@@ -21,6 +21,8 @@ import InstructorPrivateProfile from "./Components/Instructors/InstructorPrivate
 import InstructorCourseDetail from "./Components/Instructors/InstructorCourseDetail";
 import AddCourseSection from "./Components/Instructors/AddCourseSection";
 import InstructorAllCourseSection from "./Components/Instructors/InstructorAllCourseSection";
+import UpdateCourseSection from "./Components/Instructors/UpdateCourseSection";
+import UpdateCourse from "./Components/Courses/UpdateCourse";
 
 // ! Test
 // import Login from "./Components/Users/Login";
@@ -53,8 +55,13 @@ const App = () => {
         <Route path="/login" element={<Login />}></Route>
         <Route path="/signup" element={<Signup />}></Route>
         <Route path="/forget-password" element={<ForgorPassword />}></Route>
-        {/* Public Courses */}
+        {/*  Courses */}
         <Route path="/courses" element={<Courses />}></Route>
+        {/* Update Courses */}
+        <Route
+          path="/instructor-update-course/:courseId"
+          element={<UpdateCourse />}
+        ></Route>
         {/* Private Courses */}
         <Route
           path="/instructor-courses"
@@ -76,6 +83,11 @@ const App = () => {
         <Route
           path="/instructor-course-sections"
           element={<InstructorAllCourseSection />}
+        ></Route>
+        {/* Update Section Course */}
+        <Route
+          path="/update-course-section/:sectionId"
+          element={<UpdateCourseSection />}
         ></Route>
 
         {/* ------------- */}

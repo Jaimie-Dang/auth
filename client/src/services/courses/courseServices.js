@@ -44,3 +44,18 @@ export const getSigleCoursesAPI = async (id) => {
   // Return a promist
   return response.data;
 };
+
+// ! update course
+export const updateCoursesAPI = async (courseData) => {
+  const response = await axios.put(
+    `${VITE_BASE_URL}/course/${courseData?.courseId}`,
+    courseData,
+    {
+      headers: {
+        Authorization: `Bearer ${courseData.token}`,
+      },
+    }
+  );
+  // Return a promist
+  return response.data;
+};

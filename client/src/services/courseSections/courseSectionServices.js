@@ -29,16 +29,33 @@ export const getAllCourseSectionAPI = async (token) => {
   return response.data;
 };
 
-// ! Delete course Section
-export const deleteSectionAPI = async (section) => {
-  const response = await axios.delete(
+// ! Update course Section
+export const updateCourseSectionAPI = async (section) => {
+  console.log("Test 2");
+  console.log(section);
+  const response = await axios.put(
     `${VITE_BASE_URL}/course-sections/${section?.sectionId}`,
+    { sectionName: section?.sectionName },
     {
       headers: {
         Authorization: `Bearer ${section?.token}`,
       },
     }
   );
+  console.log("Test 3");
+  console.log(response);
+  return response.data;
+};
 
+// ! Delete course Section
+export const deleteSectionAPI = async (section) => {
+  const response = await axios.delete(
+    `${VITE_BASE_URL}/course-sections/${section.sectionId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${section.token}`,
+      },
+    }
+  );
   return response.data;
 };
