@@ -1,10 +1,11 @@
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { VITE_BASE_URL } from "../../Utils/utils";
+
 // ! Login User
 
 export const loginAPI = async (userData) => {
   // const navigate = useNavigate();
-  const response = await axios.post("http://localhost:5000/user/login", {
+  const response = await axios.post(`${VITE_BASE_URL}/user/login`, {
     email: userData?.email,
     password: userData?.password,
   });

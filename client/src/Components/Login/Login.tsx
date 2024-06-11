@@ -288,7 +288,12 @@ const Login = () => {
               {formik.touched.password && formik.errors.password && (
                 <div className={styles.error}>{formik.errors.password}</div>
               )}
-              <button type="submit">Login</button>
+              <button
+                type="submit"
+                className="hover:!bg-white hover:!text-customRed hover:!border hover:!border-customRed bg-customRed text-white"
+              >
+                Login
+              </button>
             </form>
           </div>
         </div>

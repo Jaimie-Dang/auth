@@ -15,6 +15,12 @@ import StudentsNavbar from "./Components/navbar/StudentsNavbar";
 import { useDispatch, useSelector } from "react-redux";
 import { useDebugValue, useEffect } from "react";
 import { loginAction } from "./redux/slices/authSlice";
+import AddCourse from "./Components/Instructors/AddCourse";
+import Courses from "./Components/Courses/Courses";
+import InstructorPrivateProfile from "./Components/Instructors/InstructorPrivateProfile";
+import InstructorCourseDetail from "./Components/Instructors/InstructorCourseDetail";
+import AddCourseSection from "./Components/Instructors/AddCourseSection";
+import InstructorAllCourseSection from "./Components/Instructors/InstructorAllCourseSection";
 
 // ! Test
 // import Login from "./Components/Users/Login";
@@ -24,7 +30,7 @@ const App = () => {
   const dispatch = useDispatch();
   // ! useSelector
   const userData = useSelector((state) => state?.auth?.user);
-  console.log(userData);
+  // console.log(userData);
   useEffect(() => {
     dispatch(loginAction(JSON.parse(localStorage.getItem("userInfo"))));
   }, [dispatch]);
@@ -39,12 +45,42 @@ const App = () => {
         <PublicNavbar />
       )}
       <Routes>
+        {/* Homepage */}
+        <Route path="/" element={<Home />}></Route>
+        {/* Instructors Links */}
+        <Route path="/instructor-add-course" element={<AddCourse />}></Route>
+        {/* Login - Signup - Forgot Password */}
         <Route path="/login" element={<Login />}></Route>
         <Route path="/signup" element={<Signup />}></Route>
         <Route path="/forget-password" element={<ForgorPassword />}></Route>
-        <Route path="/" element={<Home />}></Route>
+        {/* Public Courses */}
+        <Route path="/courses" element={<Courses />}></Route>
+        {/* Private Courses */}
+        <Route
+          path="/instructor-courses"
+          element={<InstructorPrivateProfile />}
+        ></Route>
+        {/* Detail Courses */}
+        <Route path="/course/:courseId" element={<InstructorCourseDetail />}>
+          {/* <Route
+            path="instructor-add-course-sections/:courseId"
+            element={<AddCourseSection />}
+          ></Route> */}
+        </Route>
+        {/* Add Section  */}
+        <Route
+          path="/instructor-add-course-sections/:courseId"
+          element={<AddCourseSection />}
+        ></Route>
+        {/* View Sections */}
+        <Route
+          path="/instructor-course-sections/:courseId"
+          element={<InstructorAllCourseSection />}
+        ></Route>
+
+        {/* ------------- */}
         <Route path="/user" element={<User />}></Route>
-        <Route path="/courses" element={<Course />}></Route>
+        <Route path="/courses-course" element={<Course />}></Route>
         <Route element={<Auth />}>
           <Route path="/courses/detail" element={<CourseDetail />}></Route>
         </Route>

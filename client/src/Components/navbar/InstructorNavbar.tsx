@@ -11,38 +11,11 @@ import { PlusIcon } from "@heroicons/react/20/solid";
 import { Link } from "react-router-dom";
 import { faBlog } from "react-icons/fa";
 
-export default function StudentsNavbar() {
-  // return (
-  //   <header>
-  //     <a href="/" className={styles.logo}>
-  //       <img src="/public/logo.png" alt="logo" />
-  //     </a>
-  //     <div className={styles.header_searchBar}>
-  //       <input className={styles.search_bar} type="text" placeholder="Search" />
-  //       <button className={styles.search_button}>
-  //         <FontAwesomeIcon icon={faSearch} />
-  //       </button>
-  //     </div>
-  //     <ul className={styles.navbar}>
-  //       <li>
-  //         <a href="/">Home</a>
-  //       </li>
-  //       <li>
-  //         <a href="/courses">Courses</a>
-  //       </li>
-  //       <li>
-  //         <a href="/my-learning">My learning</a>
-  //       </li>
-  //       {/* <li>
-  //         <a href="/user">{user.username}</a>
-  //       </li> */}
-  //       <li>
-  //         <a href="/login">Login/Register</a>
-  //       </li>
-  //     </ul>
-  //   </header>
-  // );
+function classNames(...classes) {
+  return classes.filter(Boolean).join(" ");
+}
 
+export default function StudentsNavbar() {
   return (
     <Disclosure as="nav" className="bg-white shadow fixed z-10 w-full">
       {({ open }) => (
@@ -68,19 +41,19 @@ export default function StudentsNavbar() {
                 </div>
                 <div className="hidden md:ml-6 md:flex md:space-x-8">
                   <Link
-                    to="/"
+                    to="/instructor-add-course"
                     className="inline-flex items-center border-b-2 hover:border-customRed px-1 pt-1 text-sm font-medium text-gray-500 hover:text-customRed"
                   >
                     Add Course
                   </Link>
                   <Link
-                    to="/"
+                    to="/instructor-courses"
                     className="inline-flex items-center border-b-2 hover:border-customRed px-1 pt-1 text-sm font-medium text-gray-500 hover:text-customRed"
                   >
                     Instructor Courses
                   </Link>
                   <Link
-                    to="/"
+                    to="/instructor-course-sections"
                     className="inline-flex items-center border-b-2 hover:border-customRed px-1 pt-1 text-sm font-medium text-gray-500 hover:text-customRed"
                   >
                     Instructor Course Sections
@@ -102,7 +75,7 @@ export default function StudentsNavbar() {
           </div>
           <Disclosure.Panel className="md:hidden">
             <div className="space-y-1 pb-3 pt-2">
-              <Link to="/courses">
+              <Link to="/instructor-add-course">
                 <Disclosure.Button
                   as="button"
                   className="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700 sm:pl-5 sm:pr-6"
@@ -110,7 +83,7 @@ export default function StudentsNavbar() {
                   Add Course
                 </Disclosure.Button>
               </Link>
-              <Link to="/">
+              <Link to="/instructor-courses">
                 <Disclosure.Button
                   as="button"
                   className="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700 sm:pl-5 sm:pr-6"
@@ -118,7 +91,7 @@ export default function StudentsNavbar() {
                   Instructor Courses
                 </Disclosure.Button>
               </Link>
-              <Link to="/">
+              <Link to="/instructor-course-sections">
                 <Disclosure.Button
                   as="button"
                   className="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700 sm:pl-5 sm:pr-6"

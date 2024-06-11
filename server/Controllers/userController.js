@@ -483,23 +483,29 @@ const privateProfile = asyncHandler(async (req, res) => {
   // }
 
   // Find the user
-  const user = await UserModel.findById(req.decodedData.id).populate({
-    path: "progress",
-    populate: [
-      {
-        path: "courseId",
-        model: "Course",
-        populate: {
-          path: "sections",
-          model: "CourseSection",
+  const user = await UserModel.findById(req.decodedData.id)
+    .populate({
+      path: "progress",
+      populate: [
+        {
+          path: "courseId",
+          model: "Course",
+          populate: {
+            path: "sections",
+            model: "CourseSection",
+          },
         },
+        {
+          path: "sections.sectionId",
+        },
+      ],
+    })
+    .populate({
+      path: "coursesCreated",
+      populate: {
+        path: "user",
       },
-      {
-        path: "sections.sectionId",
-        model: "CourseSection",
-      },
-    ],
-  });
+    });
 
   console.log(user);
   if (!user) {

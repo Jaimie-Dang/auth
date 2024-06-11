@@ -8,6 +8,13 @@ const courseRouter = require("express").Router();
 //courseRouter
 courseRouter.post("/create", JWT_AUTH, isInstructor, courseController.create);
 courseRouter.get("/lists", courseController.lists);
+// Add more
+courseRouter.get(
+  "/private-lists",
+  JWT_AUTH,
+  isInstructor,
+  courseController.lists
+);
 courseRouter.get("/:courseId", courseController.getCourseById);
 courseRouter.put("/:courseId", JWT_AUTH, isInstructor, courseController.update);
 courseRouter.delete(
