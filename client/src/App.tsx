@@ -26,6 +26,7 @@ import UpdateCourse from "./Components/Courses/UpdateCourse";
 import Ranking from "./Components/Login/Ranking";
 import StartSection from "./Components/Login/StartSection";
 import ProgressUpdate from "./Components/Login/ProgressUpdate";
+import StudentDashboard from "./Components/Login/StudentDashboard";
 
 // ! Test
 // import Login from "./Components/Users/Login";
@@ -116,6 +117,8 @@ const App = () => {
           path="/progress-update/:courseId"
           element={<ProgressUpdate />}
         ></Route>
+        {/*  Users/student-dashboard */}
+        <Route path="/student-dashboard" element={<StudentDashboard />}></Route>
         {/* </Route> */}
 
         {/* ------------------------------------------------------------ */}

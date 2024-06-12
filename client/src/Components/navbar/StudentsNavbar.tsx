@@ -45,7 +45,7 @@ export default function StudentsNavbar() {
                     courses
                   </Link>
                   <Link
-                    to="/"
+                    to="/student-dashboard"
                     className="inline-flex items-center border-b-2 hover:border-customRed px-1 pt-1 text-sm font-medium text-gray-500 hover:text-customRed"
                   >
                     Student Dashboard

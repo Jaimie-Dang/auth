@@ -25,6 +25,16 @@ export const getAllUsersAPI = async (courseId) => {
   return response.data;
 };
 
+// ! Student Dashboard
+export const studentDashboardAPI = async (token) => {
+  const response = await axios.get(`${VITE_BASE_URL}/user/student-dashboard`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.data;
+};
+
 // ! Private Profile
 export const getUserProfileAPI = async (data) => {
   console.log("Test 3");
