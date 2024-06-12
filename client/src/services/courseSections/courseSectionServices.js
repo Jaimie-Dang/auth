@@ -29,6 +29,24 @@ export const getAllCourseSectionAPI = async (token) => {
   return response.data;
 };
 
+// ! start course Section
+export const startSectionAPI = async (section) => {
+  console.log("Test 2");
+  console.log(section);
+  const response = await axios.put(
+    `${VITE_BASE_URL}/progress/start-section`,
+    { sectionId: section?.sectionId, courseId: section?.courseId },
+    {
+      headers: {
+        Authorization: `Bearer ${section?.token}`,
+      },
+    }
+  );
+  console.log("Test 3");
+  console.log(response);
+  return response.data;
+};
+
 // ! Update course Section
 export const updateCourseSectionAPI = async (section) => {
   console.log("Test 2");

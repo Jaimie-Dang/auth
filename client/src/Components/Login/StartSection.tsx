@@ -1,10 +1,12 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import React from "react";
 import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import { getSingleCoursesAPI } from "../../services/courses/courseServices";
+import { startSectionAPI } from "../../services/courseSections/courseSectionServices";
 import AddCourseSection from "../Instructors/AddCourseSection";
 import { FaBookReader, FaPencilAlt, FaPlayCircle } from "react-icons/fa";
+import AlertMessage from "../Alert/AlertMessage";
 
 const StartSection = () => {
   // Use Selector
@@ -22,6 +24,22 @@ const StartSection = () => {
     queryFn: () => getSingleCoursesAPI(courseId),
   });
   console.log(courseData);
+
+  // ! Start section mutation
+  const startMutation = useMutation({
+    mutationFn: startSectionAPI,
+    mutationKey: ["start-section"],
+  });
+
+  // ! Handler
+  const handleStartSectionHandler = (sectionId) => {
+    const courseData = {
+      sectionId,
+      courseId,
+      token,
+    };
+    startMutation.mutate(courseData);
+  };
   // ! Get course sections
   const sections = courseData?.sections;
   console.log(sections);
@@ -30,6 +48,20 @@ const StartSection = () => {
       <h2 className="text-3xl font-bold text-gray-800 mb-6">
         Start Course Section
       </h2>
+      {/* Mutation alert */}
+      {startMutation.isPending && (
+        <AlertMessage type="loading" message="Enrolling..." />
+      )}
+      {startMutation.isError && (
+        <AlertMessage
+          type="error"
+          message={startMutation.error?.response?.data?.message}
+        />
+      )}
+      {startMutation.isSuccess && (
+        <AlertMessage type="success" message="Enroll sucess..." />
+      )}
+
       {sections?.map((section) => {
         return (
           <div
@@ -41,8 +73,11 @@ const StartSection = () => {
               {section?.sectionName}
             </span>
             <div className="flex items-center space-x-3">
-              <button className="flex items-center justify-center bg-indigo-500 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded transition duration-200">
-                <FaPlayCircle className="mr-2" /> Start
+              <button
+                onClick={() => handleStartSectionHandler(section._id)}
+                className="flex items-center justify-center bg-indigo-500 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded transition duration-200"
+              >
+                <FaPlayCircle className="mr-2" /> Done
               </button>
               <Link
                 to={`/progress-update/${courseId}`}

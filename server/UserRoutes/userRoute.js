@@ -12,7 +12,7 @@ const {
   privateProfile,
 } = require("../Controllers/userController");
 const JWT_AUTH = require("../middleware/JWT_AUTH");
-const { isAdmin } = require("../middleware/roleAccessMiddleware");
+const { isAdmin, isInstructor } = require("../middleware/roleAccessMiddleware");
 
 const router = require("express").Router();
 
@@ -32,7 +32,7 @@ router.get("/", JWT_AUTH, getUser);
 // ! Public Profile
 router.get("/public-profile", JWT_AUTH, profilePublic); // ! Cautious
 // ! Private Profile
-router.get("/private-profile", JWT_AUTH, isAdmin, privateProfile);
+router.get("/private-profile", JWT_AUTH, isInstructor, privateProfile);
 // ! Related to Course
 router.get("/position/:courseId", lists);
 

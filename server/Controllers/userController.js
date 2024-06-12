@@ -483,64 +483,45 @@ const privateProfile = asyncHandler(async (req, res) => {
   // }
 
   // Find the user
-  const user = await UserModel.findById(req.decodedData.id)
-    .populate({
-      path: "progress",
-      populate: [
-        {
-          path: "courseId",
-          model: "Course",
-          populate: {
-            path: "sections",
-            model: "CourseSection",
-          },
-        },
-        {
-          path: "sections.sectionId",
-        },
-      ],
-    })
-    .populate({
-      path: "coursesCreated",
-      populate: {
-        path: "user",
-      },
-    });
-
-  console.log(user);
+  const userId = req.decodedData.id;
+  console.log(userId);
+  const user = await UserModel.findById(userId);
   if (!user) {
     return res.status(404).json({ message: "User not found" });
   }
 
-  // Calculating the progress statistics for each course
-  const courseProgress = user.progress.map((courseProgress) => {
-    const totalSections = courseProgress.courseId.sections.length;
-    let completed = 0,
-      ongoing = 0,
-      notStarted = 0;
+  // ! Get the courseId from the query
+  const { courseId } = req.query;
+  console.log(courseId);
+
+  // ! Filter progress for a specific course
+  const courseProgress = courseId
+    ? user?.progress?.find((p) => p.courseId._id.toString() === courseId)
+    : null;
+
+  // ! if a specific course progress is found, calculate its summary
+  let processSummary = null;
+  if (courseProgress) {
+    const totalSections = courseProgress.sections.length;
+    let completed = 0;
+    let ongoing = 0;
+    let notStarted = 0;
     courseProgress.sections.forEach((section) => {
       if (section.status === "Completed") completed++;
       else if (section.status === "In Progress") ongoing++;
       else notStarted++;
-      return {
-        courseId: courseProgress.courseId._id,
-        courseTitle: courseProgress.courseId.title,
-        totalSections,
-        completed,
-        ongoing,
-        notStarted,
-      };
     });
-    // Prepare the response
-    const response = {
-      totalCourses: user.progress.length,
-      courseProgress,
-    };
-    res.json(response);
-  });
+    processSummary = {
+      courseId: courseProgress.courseId._id,
+      title: courseProgress.courseId.title,
 
-  console.log("Test 8");
-  console.log(courseProgress);
+      totalSections,
+      ongoing,
+      notStarted,
+      completed,
+    };
+    res.json({ user, courseProgress, processSummary });
+  }
 });
 
 //*********************************** */
