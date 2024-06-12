@@ -60,12 +60,10 @@ export const updateCourseSectionAPI = async (section) => {
       },
     }
   );
-  console.log("Test 3");
-  console.log(response);
   return response.data;
 };
 
-// ! Delete course Section
+// ! Delete Section
 export const deleteSectionAPI = async (section) => {
   const response = await axios.delete(
     `${VITE_BASE_URL}/course-sections/${section.sectionId}`,
@@ -75,5 +73,27 @@ export const deleteSectionAPI = async (section) => {
       },
     }
   );
+  return response.data;
+};
+
+// ! update progress
+export const updateSectionProgressAPI = async (section) => {
+  console.log("Test section");
+  console.log(section.token);
+  const response = await axios.put(
+    `${VITE_BASE_URL}/progress/update`,
+    {
+      sectionId: section?.sectionId,
+      courseId: section?.courseId,
+      newStatus: section?.newStatus,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${section?.token}`,
+      },
+    }
+  );
+  console.log("Test 3");
+  console.log(response);
   return response.data;
 };

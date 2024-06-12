@@ -27,7 +27,7 @@ export const getAllUsersAPI = async (courseId) => {
 
 // ! Private Profile
 export const getUserProfileAPI = async (data) => {
-  console.log("Test 2");
+  console.log("Test 3");
   console.log(data);
   const response = await axios.get(
     `${VITE_BASE_URL}/user/private-profile/?courseId=${data?.courseId}`,
@@ -37,6 +37,5 @@ export const getUserProfileAPI = async (data) => {
       },
     }
   );
-  console.log(response);
   return response.data;
 };

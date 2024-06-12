@@ -187,6 +187,7 @@ const Login = () => {
           localStorage.setItem("userInfo", JSON.stringify(data));
           // ! Dispatch login action
           dispatch(loginAction(data));
+          navigate("/"); // Redirect to homepage
         })
         .catch((e) => console.log(e));
     },

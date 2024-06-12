@@ -61,6 +61,8 @@ const App = () => {
         {/*  */}
         {/*  Courses */}
         <Route path="/courses" element={<Courses />}></Route>
+        {/* ------------------------------------------------------------ */}
+        {/* <Route element={<Auth />}> */}
         {/*  Detail Courses */}
         <Route path="/course/:courseId" element={<CourseDetail />}></Route>
         {/*  */}
@@ -114,6 +116,7 @@ const App = () => {
           path="/progress-update/:courseId"
           element={<ProgressUpdate />}
         ></Route>
+        {/* </Route> */}
 
         {/* ------------------------------------------------------------ */}
         <Route path="/user" element={<User />}></Route>

@@ -8,7 +8,7 @@ const {
   verifyPasswordOTP,
   getUser,
   lists,
-  profilePublic,
+  studentDashboard,
   privateProfile,
 } = require("../Controllers/userController");
 const JWT_AUTH = require("../middleware/JWT_AUTH");
@@ -30,7 +30,7 @@ router.post("/verifyPasswordOTP", verifyPasswordOTP);
 
 router.get("/", JWT_AUTH, getUser);
 // ! Public Profile
-router.get("/public-profile", JWT_AUTH, profilePublic); // ! Cautious
+router.get("/student-dashboard", JWT_AUTH, studentDashboard);
 // ! Private Profile
 router.get("/private-profile", JWT_AUTH, privateProfile);
 // ! Related to Course
