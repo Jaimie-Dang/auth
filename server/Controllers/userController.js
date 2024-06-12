@@ -485,7 +485,20 @@ const privateProfile = asyncHandler(async (req, res) => {
   // Find the user
   const userId = req.decodedData.id;
   console.log(userId);
-  const user = await UserModel.findById(userId);
+  const user = await UserModel.findById(userId).populate({
+    path: "progress",
+    populate: [
+      {
+        path: "courseId",
+        model: "Course",
+        populate: { path: "sections", model: "CourseSection" },
+      },
+      {
+        path: "sections.sectionId",
+        model: "CourseSection",
+      },
+    ],
+  });
   if (!user) {
     return res.status(404).json({ message: "User not found" });
   }

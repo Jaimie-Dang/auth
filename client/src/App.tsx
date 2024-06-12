@@ -25,6 +25,7 @@ import UpdateCourseSection from "./Components/Instructors/UpdateCourseSection";
 import UpdateCourse from "./Components/Courses/UpdateCourse";
 import Ranking from "./Components/Login/Ranking";
 import StartSection from "./Components/Login/StartSection";
+import ProgressUpdate from "./Components/Login/ProgressUpdate";
 
 // ! Test
 // import Login from "./Components/Users/Login";
@@ -108,8 +109,13 @@ const App = () => {
           path="/start-section/:courseId"
           element={<StartSection />}
         ></Route>
+        {/*  Users/students/Update progress */}
+        <Route
+          path="/progress-update/:courseId"
+          element={<ProgressUpdate />}
+        ></Route>
 
-        {/* ------------- */}
+        {/* ------------------------------------------------------------ */}
         <Route path="/user" element={<User />}></Route>
         <Route path="/courses-course" element={<Course />}></Route>
         <Route element={<Auth />}>

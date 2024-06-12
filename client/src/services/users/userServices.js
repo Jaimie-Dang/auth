@@ -14,7 +14,7 @@ export const loginAPI = async (userData) => {
   return response.data;
 };
 
-// !
+// ! Ranking
 export const getAllUsersAPI = async (courseId) => {
   // const navigate = useNavigate();
   const response = await axios.get(
@@ -22,5 +22,21 @@ export const getAllUsersAPI = async (courseId) => {
   );
   // navigate("/");
   // Return a promist
+  return response.data;
+};
+
+// ! Private Profile
+export const getUserProfileAPI = async (data) => {
+  console.log("Test 2");
+  console.log(data);
+  const response = await axios.get(
+    `${VITE_BASE_URL}/user/private-profile/?courseId=${data?.courseId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${data?.token}`,
+      },
+    }
+  );
+  console.log(response);
   return response.data;
 };

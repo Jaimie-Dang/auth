@@ -32,7 +32,7 @@ router.get("/", JWT_AUTH, getUser);
 // ! Public Profile
 router.get("/public-profile", JWT_AUTH, profilePublic); // ! Cautious
 // ! Private Profile
-router.get("/private-profile", JWT_AUTH, isInstructor, privateProfile);
+router.get("/private-profile", JWT_AUTH, privateProfile);
 // ! Related to Course
 router.get("/position/:courseId", lists);
 
