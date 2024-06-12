@@ -5,15 +5,26 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
 import { Fragment } from "react";
-import { Disclosure, Menu, Transition } from "@headlessui/react";
+import { Button, Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { PlusIcon } from "@heroicons/react/20/solid";
+import { IoLogOutOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import { faBlog } from "react-icons/fa";
+import { useDispatch } from "react-redux";
+import { logoutAction } from "../../redux/slices/authSlice";
 
 export default function StudentsNavbar() {
   // return (
   // const { courseId } = useParams();
+  const dispatch = useDispatch();
+  // Hangle Logout
+  const logoutHandler = () => {
+    // ! Remove from localStorage
+    localStorage.removeItem("userInfo");
+    // ? Dispatch action
+    dispatch(logoutAction());
+  };
   return (
     <Disclosure as="nav" className="bg-white shadow fixed z-10 w-full">
       {({ open }) => (
@@ -54,13 +65,16 @@ export default function StudentsNavbar() {
               </div>
               <div className="flex items-center">
                 <div className="flex-shrink-0">
-                  <Link
-                    to="/logout"
+                  <Button
+                    onClick={logoutHandler}
                     className="relative inline-flex items-center gap-x-1.5 rounded-md bg-customRed px-3 py-2 text-sm font-semibold text-white shadow-sm hover:!bg-white hover:!text-customRed hover:!border hover:!border-customRed focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-customRed animate-none"
                   >
-                    <PlusIcon className="-ml-0.5 h-5 w-5" aria-hidden="true" />
-                    Logout
-                  </Link>
+                    <IoLogOutOutline
+                      className="-ml-0.5 h-5 w-5"
+                      aria-hidden="true"
+                    />
+                    <span>Logout</span>
+                  </Button>
                 </div>
               </div>
             </div>
