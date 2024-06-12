@@ -24,6 +24,7 @@ import InstructorAllCourseSection from "./Components/Instructors/InstructorAllCo
 import UpdateCourseSection from "./Components/Instructors/UpdateCourseSection";
 import UpdateCourse from "./Components/Courses/UpdateCourse";
 import Ranking from "./Components/Login/Ranking";
+import StartSection from "./Components/Login/StartSection";
 
 // ! Test
 // import Login from "./Components/Users/Login";
@@ -101,6 +102,11 @@ const App = () => {
         <Route
           path="/students-position/:courseId"
           element={<Ranking />}
+        ></Route>
+        {/*  Users/students/start */}
+        <Route
+          path="/start-section/:courseId"
+          element={<StartSection />}
         ></Route>
 
         {/* ------------- */}
