@@ -68,7 +68,7 @@ export default function StudentsNavbar() {
                 </div>
                 <div className="hidden md:ml-6 md:flex md:space-x-8">
                   <Link
-                    to="/"
+                    to="/courses"
                     className="inline-flex items-center border-b-2 hover:border-customRed px-1 pt-1 text-sm font-medium text-gray-500 hover:text-customRed"
                   >
                     courses

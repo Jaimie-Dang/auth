@@ -6,7 +6,12 @@ const { isStudent } = require("../middleware/roleAccessMiddleware");
 const progressRouter = require("express").Router();
 
 //courseRouter
-progressRouter.post("/", JWT_AUTH, isStudent, progressController.appToCourse);
+progressRouter.post(
+  "/apply",
+  JWT_AUTH,
+  isStudent,
+  progressController.appToCourse
+);
 progressRouter.put(
   "/start-section",
   JWT_AUTH,

@@ -84,7 +84,7 @@ const InstructorAllCourseSection = () => {
             <div className="flex items-center">
               <Link to={`/update-course-section/${section._id}`}>
                 <button
-                  onClick={() => handleDelete(section._id)}
+                  // onClick={() => handleDelete(section._id)}
                   className="p-2 bg-blue-500 text-white rounded-full hover:bg-blue-700 transition duration-200 mr-4 w-12"
                 >
                   <FiEdit2 className="m-2" />

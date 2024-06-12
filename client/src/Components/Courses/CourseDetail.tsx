@@ -1,66 +1,56 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import React from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { getSingleCoursesAPI } from "../../services/courses/courseServices";
+import { Link, useParams } from "react-router-dom";
 import {
-  FaEdit,
+  getSingleCoursesAPI,
+  startCoursesAPI,
+} from "../../services/courses/courseServices";
+import {
+  FaBookOpen,
+  FaChartLine,
   FaLayerGroup,
-  FaList,
   FaListUl,
+  FaPlay,
   FaPlusCircle,
-  FaTrash,
   FaTrophy,
   FaUser,
-  FaWrench,
 } from "react-icons/fa";
-import AlertMessage from "../Alert/AlertMessage";
 import { FiEdit2, FiTrash2 } from "react-icons/fi";
+import { Button } from "@headlessui/react";
 import { useSelector } from "react-redux";
-import { deleteSectionAPI } from "../../services/courseSections/courseSectionServices";
+import AlertMessage from "../Alert/AlertMessage";
 
-const InstructorCourseDetail = () => {
+const CourseDetail = () => {
   // Use Selector
   const userData = useSelector((state) => state?.auth?.user);
   const token = userData?.token;
-  // ! Get the course ID
+  // ! Get the course id
   const { courseId } = useParams();
-  //
-  const navigate = useNavigate();
-  // ! UseQuery
+  // ! react query
   const {
     data: courseData,
     error,
     isLoading,
-    refetch,
   } = useQuery({
     queryKey: ["course-details"],
     queryFn: () => getSingleCoursesAPI(courseId),
   });
-  console.log(courseData);
+
   // Mutation logic
-  const mutation = useMutation({
-    mutationFn: deleteSectionAPI,
-    mutationKey: ["delete-section"],
+  const startCourseMutation = useMutation({
+    mutationFn: startCoursesAPI,
+    mutationKey: ["start-course"],
   });
-  // handle delete
-  const handleDelete = (sectionId) => {
-    const data = {
-      sectionId,
+  const handleStartCourse = () => {
+    const courseData = {
+      courseId,
       token,
     };
-    mutation
-      .mutateAsync(data)
-      .then((data) => {
-        console.log("data", data);
-        refetch();
-      })
-      .catch((error) => {
-        console.log("error", error);
-      });
+    startCourseMutation.mutate(courseData);
   };
 
-  console.log("Test");
-  console.log(courseData);
+  //   console.log(courseData);
+  console.log(handleStartCourse);
   return (
     <>
       <div className="container mx-auto p-20 bg-red-100 rounded-xl shadow-lg">
@@ -68,7 +58,7 @@ const InstructorCourseDetail = () => {
           {courseData?.title}
         </h1>
         <p className="text-gray-800 text-lg mb-8">{courseData?.description}</p>
-        <div className="mb-8">
+        <div className="mb-10">
           <h2 className="text-2xl font-semibold text-gray-900 mb-5">
             Course Information
           </h2>
@@ -92,12 +82,12 @@ const InstructorCourseDetail = () => {
                 {/* Total students */}
                 <p className="flex items-center">
                   <FaUser className="text-blue-500 mr-2" />
-                  <span>{courseData?.students?.length}</span>
+                  <span>{courseData?.students?.length} student</span>
                 </p>
                 {/* Total sections */}
                 <p className="flex items-center">
                   <FaLayerGroup className="text-blue-500 mr-2" />
-                  <span>{courseData?.sections?.length}</span>
+                  <span>{courseData?.sections?.length} section</span>
                 </p>
                 {/* Difficulty Level */}
                 <p className="flex items-center">
@@ -110,55 +100,48 @@ const InstructorCourseDetail = () => {
           </div>
         </div>
         <div className="container mx-auto p-4">
-          {mutation.isPending && (
+          {startCourseMutation.isPending && (
             <AlertMessage type="loading" message="Loading..." />
           )}
-          {mutation.isError && (
+          {startCourseMutation.isError && (
             <AlertMessage
               type="error"
-              message={mutation.error.response?.data?.message}
+              message={startCourseMutation.error.response?.data?.message}
             />
           )}
-          {mutation.isSuccess && (
-            <AlertMessage type="success" message="Sucess" />
+          {startCourseMutation.isSuccess && (
+            <AlertMessage type="success" message="Success" />
           )}
         </div>
         {/* Action button */}
         <div className="flex flex-wrap gap-4 mb-8">
+          <Button
+            onClick={handleStartCourse}
+            className="bg-green-500 hover:!bg-white hover:!text-green-500 hover:!border hover:!border-green-500 text-white font-bold py-2 px-4 rounded flex items-center justify-center shadow"
+          >
+            <FaPlay className="mr-2" />
+            Apply Now
+          </Button>
+          <Link
+            to={`/start-section/${courseId}`}
+            className="bg-blue-500 hover:!bg-white hover:!text-blue-500 hover:!border hover:!border-blue-500 text-white font-bold py-2 px-4 rounded flex items-center justify-center shadow"
+          >
+            <FaBookOpen className="mr-2" />
+            Start Course Section
+          </Link>
+          <Link
+            to={`/progress-update/${courseId}`}
+            className="bg-yellow-500 hover:!bg-white hover:!text-yellow-500 hover:!border hover:!border-yellow-500 text-white font-bold py-2 px-4 rounded flex items-center justify-center shadow"
+          >
+            <FaChartLine className="mr-2" />
+            Update Progress
+          </Link>
           <Link
             to={`/students-position/${courseId}`}
             className="bg-red-500 hover:!bg-white hover:!text-red-500 hover:!border hover:!border-red-500 text-white font-bold py-2 px-4 rounded flex items-center justify-center shadow"
           >
             <FaTrophy className="mr-2" />
             Students Ranking
-          </Link>
-          <Link
-            to={`/instructor-add-course-sections/${courseId}`}
-            className="bg-purple-500 hover:!bg-white hover:!text-purple-500 hover:!border hover:!border-purple-500 text-white font-bold py-2 px-4 rounded flex items-center justify-center shadow"
-          >
-            <FaPlusCircle className="mr-2" />
-            Add Course Section
-          </Link>
-          <Link
-            to={`/instructor-update-course/${courseId}`}
-            className="bg-green-500  hover:!bg-white hover:!text-green-500 hover:!border hover:!border-green-500 text-white font-bold py-2 px-4 rounded flex items-center justify-center "
-          >
-            <FaEdit className="mr-2" />
-            Update Course
-          </Link>
-          <button
-            onClick={handleDelete}
-            className="bg-red-500  hover:!bg-white hover:!text-red-500 hover:!border hover:!border-red-500 text-white font-bold py-2 px-4 rounded flex items-center justify-center "
-          >
-            <FaTrash className="mr-2" />
-            Delete
-          </button>
-          <Link
-            to={`/instructor-course-sections`}
-            className="bg-blue-500 hover:!bg-white hover:!text-blue-500 hover:!border hover:!border-blue-500 text-white font-bold py-2 px-4 rounded flex items-center justify-center shadow"
-          >
-            <FaListUl className="mr-2" />
-            View Course Sections
           </Link>
         </div>
       </div>
@@ -183,7 +166,7 @@ const InstructorCourseDetail = () => {
                       </button>
                     </Link>
                     <button
-                      onClick={() => handleDelete(section._id)}
+                      // onClick={() => handleDelete(section._id)}
                       className="p-2 bg-red-500 text-white rounded-full hover:bg-red-700 transition duration-200  w-12"
                     >
                       <FiTrash2 className="m-2" />
@@ -203,4 +186,4 @@ const InstructorCourseDetail = () => {
   );
 };
 
-export default InstructorCourseDetail;
+export default CourseDetail;

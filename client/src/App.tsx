@@ -7,7 +7,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Auth from "./Utils/Auth";
 import User from "./Components/User/User";
 import Course from "./Components/Course/Course";
-import CourseDetail from "./Components/CourseDetail/CourseDetail";
+import CourseDetail from "./Components/Courses/CourseDetail";
 import "bootstrap/dist/css/bootstrap.min.css";
 import PublicNavbar from "./Components/navbar/PublicNavbar";
 import InstructorNavbar from "./Components/navbar/InstructorNavbar";
@@ -56,20 +56,27 @@ const App = () => {
         <Route path="/login" element={<Login />}></Route>
         <Route path="/signup" element={<Signup />}></Route>
         <Route path="/forget-password" element={<ForgorPassword />}></Route>
+        {/*  */}
         {/*  Courses */}
         <Route path="/courses" element={<Courses />}></Route>
+        {/*  Detail Courses */}
+        <Route path="/course/:courseId" element={<CourseDetail />}></Route>
+        {/*  */}
         {/* Update Courses */}
         <Route
           path="/instructor-update-course/:courseId"
           element={<UpdateCourse />}
         ></Route>
-        {/* Private Courses */}
+        {/* Private instructor Courses */}
         <Route
           path="/instructor-courses"
           element={<InstructorPrivateProfile />}
         ></Route>
-        {/* Detail Courses */}
-        <Route path="/course/:courseId" element={<InstructorCourseDetail />}>
+        {/* Detail instructor Courses */}
+        <Route
+          path="/instructor-courses/:courseId"
+          element={<InstructorCourseDetail />}
+        >
           {/* <Route
             path="instructor-add-course-sections/:courseId"
             element={<AddCourseSection />}

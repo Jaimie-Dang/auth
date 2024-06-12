@@ -15,7 +15,17 @@ courseRouter.get(
   isInstructor,
   courseController.lists
 );
+
+// Add more
+// courseRouter.get(
+//   "/:courseId",
+//   JWT_AUTH,
+//   isInstructor,
+//   courseController.getCourseById
+// );
+// Add more
 courseRouter.get("/:courseId", courseController.getCourseById);
+//
 courseRouter.put("/:courseId", JWT_AUTH, isInstructor, courseController.update);
 courseRouter.delete(
   "/:courseId",

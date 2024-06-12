@@ -6,7 +6,7 @@ import AlertMessage from "../Alert/AlertMessage";
 import { updateCoursesAPI } from "../../services/courses/courseServices";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { getSigleCoursesAPI } from "../../services/courses/courseServices";
+import { getSingleCoursesAPI } from "../../services/courses/courseServices";
 
 // Validation schema
 const validationSchema = Yup.object({
@@ -26,7 +26,7 @@ const UpdateCourse = () => {
   // Fetch the course details
   const { data: courseData } = useQuery({
     queryKey: ["Course-details"],
-    queryFn: () => getSigleCoursesAPI(courseId),
+    queryFn: () => getSingleCoursesAPI(courseId),
   });
   console.log(courseData);
 

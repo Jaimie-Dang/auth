@@ -39,7 +39,7 @@ export const privateProfileAPI = async (token) => {
 };
 
 // ! Fetch Single course
-export const getSigleCoursesAPI = async (id) => {
+export const getSingleCoursesAPI = async (id) => {
   const response = await axios.get(`${VITE_BASE_URL}/course/${id}`);
   // Return a promist
   return response.data;
@@ -50,6 +50,21 @@ export const updateCoursesAPI = async (courseData) => {
   const response = await axios.put(
     `${VITE_BASE_URL}/course/${courseData?.courseId}`,
     courseData,
+    {
+      headers: {
+        Authorization: `Bearer ${courseData.token}`,
+      },
+    }
+  );
+  // Return a promist
+  return response.data;
+};
+
+// ! Apply to a course
+export const startCoursesAPI = async (courseData) => {
+  const response = await axios.post(
+    `${VITE_BASE_URL}/progress/apply/`,
+    { courseId: courseData?.courseId },
     {
       headers: {
         Authorization: `Bearer ${courseData.token}`,

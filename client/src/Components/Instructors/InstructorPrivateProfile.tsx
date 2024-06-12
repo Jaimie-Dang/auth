@@ -44,7 +44,7 @@ const InstructorPrivateProfile = () => {
         {data?.map((course) => (
           <Link
             key={course._id}
-            to={`/course/${course._id}`}
+            to={`/instructor-courses/${course._id}`}
             className="no-underline transform hover:scale-105 transition duration-300"
           >
             <div className="bg-white shadow-xl rounded-xl overflow-hidden hover:shadow-2xl">

@@ -74,13 +74,13 @@ export default function PublicNavbar() {
                     Home
                   </Link>
                   <Link
-                    to="/"
+                    to="/courses"
                     className="inline-flex items-center border-b-2 hover:border-customRed px-1 pt-1 text-sm font-medium text-gray-500 hover:text-customRed"
                   >
-                    More.....
+                    Courses
                   </Link>
                   <Link
-                    to="/courses"
+                    to="/"
                     className="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-500 hover:border-customRed hover:text-customRed"
                   >
                     Track Your Progress
