@@ -13,3 +13,14 @@ export const loginAPI = async (userData) => {
   // Return a promist
   return response.data;
 };
+
+// !
+export const getAllUsersAPI = async (courseId) => {
+  // const navigate = useNavigate();
+  const response = await axios.get(
+    `${VITE_BASE_URL}/user/position/${courseId}`
+  );
+  // navigate("/");
+  // Return a promist
+  return response.data;
+};

@@ -595,9 +595,10 @@ const lists = asyncHandler(async (req, res) => {
         role: user._role,
         totalSections,
         sectionsCompleted,
+        progressPercentage,
+        dateJoined: user.createdAt, //Not showing
         position: null,
         username: user.username,
-        dateJoined: user.createdAt,
       };
     })
     .filter((item) => item !== null);

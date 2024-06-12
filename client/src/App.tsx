@@ -23,6 +23,7 @@ import AddCourseSection from "./Components/Instructors/AddCourseSection";
 import InstructorAllCourseSection from "./Components/Instructors/InstructorAllCourseSection";
 import UpdateCourseSection from "./Components/Instructors/UpdateCourseSection";
 import UpdateCourse from "./Components/Courses/UpdateCourse";
+import Ranking from "./Components/Login/Ranking";
 
 // ! Test
 // import Login from "./Components/Users/Login";
@@ -88,6 +89,11 @@ const App = () => {
         <Route
           path="/update-course-section/:sectionId"
           element={<UpdateCourseSection />}
+        ></Route>
+        {/*  Users/students */}
+        <Route
+          path="/students-position/:courseId"
+          element={<Ranking />}
         ></Route>
 
         {/* ------------- */}
