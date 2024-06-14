@@ -5,68 +5,94 @@ import styles from "./Course.module.css";
 
 const Course = () => {
   return (
-    <div>
-      <Navbar user={""} />
-      <div className={styles.main_container}>
-        {/*  */}
-        <div className={styles.text_container}>
-          <h1>PROGRAMMING LANGUAGE</h1>
-          <div>
-            A programming language is a system of notation for writing computer
-            programs. Programming languages are described in terms of their
-            syntax (form) and semantics (meaning), usually defined by a formal
-            language.
+    <div className="container mx-auto">
+      <div className="p-20 bg-red-100">
+        <div className="text-center mb-1">
+          <h2 className="text-3xl font-extrabold mb-4 text-gray-800">
+            Please watch the video below to learn several languages!
+          </h2>
+          <div className="relative w-full aspect-w-16 aspect-h-9">
+            <iframe
+              className="absolute top-0 left-0 w-full h-full"
+              src="https://www.youtube.com/embed/aYjGXzktatA"
+              frameBorder="0"
+              allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              title="Learning Languages"
+            ></iframe>
           </div>
-          <h5>(120 minutes)</h5>
         </div>
-        {/*  */}
-        <div className={styles.course_container}>
-          <div className={styles.section_container}>
-            <div className={styles.img_container}>
-              <a href="courses/detail">
-                <img
-                  src="/public/logo.png"
-                  alt="img"
-                  height={130}
-                  width={200}
+        <div>
+          <div>Answer these questions to go to the next section!</div>
+          <form>
+            <div className={styles.question}>
+              <label htmlFor="question1">What is the capital of France?</label>
+              <div className={styles.answer_options}>
+                <input type="radio" id="paris" name="question1" value="paris" />
+                <label htmlFor="paris">Paris</label>
+                <br />
+                <input
+                  type="radio"
+                  id="london"
+                  name="question1"
+                  value="london"
                 />
-              </a>
-            </div>
-            <div className={styles.content}>
-              <a href="courses/detail">
-                <div>Reading: Programming Language</div>
-              </a>
-              <div>
-                This unit discusses which programming languages are the most
-                popular, what they are used for, and why.
+                <label htmlFor="london">London</label>
+                <br />
+                <input
+                  type="radio"
+                  id="berlin"
+                  name="question1"
+                  value="berlin"
+                />
+                <label htmlFor="berlin">Berlin</label>
+                <br />
+                <input type="radio" id="rome" name="question1" value="rome" />
+                <label htmlFor="rome">Rome</label>
               </div>
             </div>
-          </div>
-          <div className={styles.section_container}>
-            <div className={styles.img_container}>
-              <a href="courses/detail">
-                <img
-                  src="/public/logo.png"
-                  alt="img"
-                  height={130}
-                  width={200}
+            <div>
+              <label htmlFor="question2">Who wrote "Romeo and Juliet"?</label>
+              <div className={styles.answer_options}>
+                <input
+                  type="radio"
+                  id="shakespeare"
+                  name="question2"
+                  value="shakespeare"
                 />
-              </a>
-            </div>
-            <div className={styles.content}>
-              <a href="courses/detail">
-                <div>Why do we use it?</div>
-              </a>
-              <div>
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry
+                <label htmlFor="shakespeare">William Shakespeare</label>
+                <br />
+                <input
+                  type="radio"
+                  id="dickens"
+                  name="question2"
+                  value="dickens"
+                />
+                <label htmlFor="dickens">Charles Dickens</label>
+                <br />
+                <input
+                  type="radio"
+                  id="austen"
+                  name="question2"
+                  value="austen"
+                />
+                <label htmlFor="austen">Jane Austen</label>
+                <br />
+                <input type="radio" id="twain" name="question2" value="twain" />
+                <label htmlFor="twain">Mark Twain</label>
               </div>
             </div>
-          </div>
+            <div>
+              <button
+                type="submit"
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              >
+                Submit Answers
+              </button>
+            </div>
+          </form>
         </div>
       </div>
-
-      <Footer />
     </div>
   );
 };

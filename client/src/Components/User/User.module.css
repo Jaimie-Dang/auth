@@ -3,6 +3,7 @@
   flex-direction: column;
   row-gap: 5rem;
   height: 100vh;
+  padding-top: 150px;
 }
 
 .container nav {

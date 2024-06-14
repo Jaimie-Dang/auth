@@ -27,7 +27,7 @@ const Courses = () => {
     );
   }
   console.log("Test");
-  //   console.log(data.courses);
+  console.log(data);
   return (
     <div className="container mx-auto p-20 bg-red-100">
       <div className="text-center mb-10">
@@ -46,7 +46,9 @@ const Courses = () => {
             <div className="bg-white shadow-xl rounded-xl overflow-hidden hover:shadow-2xl">
               <div className="p-6">
                 <div className="text-center">
-                  <FaBookOpen className="mx-auto text-blue-600 text-7xl mb-6" />
+                  {/* image */}
+                  <img src={course.image} alt="image" />
+                  {/* <FaBookOpen className="mx-auto text-blue-600 text-7xl mb-6" /> */}
                   <h3 className="text-3xl font-bold mb-3 text-gray-800">
                     {course?.title}
                   </h3>
@@ -57,7 +59,7 @@ const Courses = () => {
                   <div className="flex items-center justify-between">
                     <span className="flex item  s-center space-x-2">
                       <FaUser className="text-blue-600" />
-                      <span>{course?.user?.username}</span>
+                      <span>{course?.user[0]?.username}</span>
                     </span>
                     <span className="text-blue-500 font-medium">
                       {course?.difficulty}

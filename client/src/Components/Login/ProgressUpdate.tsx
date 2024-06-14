@@ -72,7 +72,7 @@ const ProgressUpdate = () => {
 
   // ----------------------------------------
   return (
-    <div className="p-20 container mx-auto bg-white rounded-lg shadow">
+    <div className="p-20 container mx-auto bg-red-100 rounded-lg shadow">
       <h2 className="text-3xl font-semibold text-gray-800 mb-6">
         Update Your Section Progress
       </h2>
@@ -97,7 +97,7 @@ const ProgressUpdate = () => {
       {ongoingSections?.map((section) => (
         <div
           key={section.sectionId?._id}
-          className="flex flex-col md:flex-row items-center justify-between bg-gray-100 p-4 rounded-lg mb-4"
+          className="flex flex-col md:flex-row items-center justify-between bg-gray-50 p-4 rounded-lg mb-4 shadow"
         >
           <span className="flex items-center text-lg font-medium text-gray-800 mb-3 md:mb-0">
             <FaBookOpen className="text-indigo-500 mr-3" />

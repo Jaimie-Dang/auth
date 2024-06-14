@@ -19,7 +19,7 @@ import * as Yup from "yup";
 import { FiMail, FiLock } from "react-icons/fi";
 import { useMutation } from "@tanstack/react-query";
 import { loginAPI } from "../../services/users/userServices";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { loginAction } from "../../redux/slices/authSlice";
 import AlertMessage from "../Alert/AlertMessage";
 
@@ -170,6 +170,8 @@ const Login = () => {
     mutationFn: loginAPI,
     mutationKey: ["login"],
   });
+  const user = useSelector((state) => state.auth.user);
+
   // ! Handle form using formik
   const formik = useFormik({
     initialValues: {
@@ -187,7 +189,16 @@ const Login = () => {
           localStorage.setItem("userInfo", JSON.stringify(data));
           // ! Dispatch login action
           dispatch(loginAction(data));
-          navigate("/"); // Redirect to homepage
+          // Redirect
+          setTimeout(() => {
+            if (user?.role === "student") {
+              navigate("/student-dashboard");
+            } else if (user?.role === "instructor") {
+              navigate("/instructor-courses");
+            } else {
+              navigate("/");
+            }
+          }, 2000);
         })
         .catch((e) => console.log(e));
     },

@@ -17,6 +17,12 @@ const courseSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    image: {
+      type: String,
+      default: "image-course.png",
+      required: true,
+    },
+
     duration: { type: String, required: true },
 
     sections: [{ type: Schema.Types.ObjectId, ref: "CourseSection" }],

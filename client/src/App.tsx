@@ -27,6 +27,7 @@ import Ranking from "./Components/Login/Ranking";
 import StartSection from "./Components/Login/StartSection";
 import ProgressUpdate from "./Components/Login/ProgressUpdate";
 import StudentDashboard from "./Components/Login/StudentDashboard";
+import AuthRoute from "./Components/AuthRoute/AuthRoute";
 
 // ! Test
 // import Login from "./Components/Users/Login";
@@ -50,11 +51,11 @@ const App = () => {
       ) : (
         <PublicNavbar />
       )}
+      {/* ------------------------------------------ */}
       <Routes>
         {/* Homepage */}
         <Route path="/" element={<Home />}></Route>
-        {/* Instructors Links */}
-        <Route path="/instructor-add-course" element={<AddCourse />}></Route>
+
         {/* Login - Signup - Forgot Password */}
         <Route path="/login" element={<Login />}></Route>
         <Route path="/signup" element={<Signup />}></Route>
@@ -62,45 +63,75 @@ const App = () => {
         {/*  */}
         {/*  Courses */}
         <Route path="/courses" element={<Courses />}></Route>
-        {/* ------------------------------------------------------------ */}
-        {/* <Route element={<Auth />}> */}
         {/*  Detail Courses */}
         <Route path="/course/:courseId" element={<CourseDetail />}></Route>
         {/*  */}
+
+        {/* ------------------------------------------------------------ */}
+        {/* Instructors Links */}
+        <Route
+          path="/instructor-add-course"
+          element={
+            <AuthRoute>
+              <AddCourse />
+            </AuthRoute>
+          }
+        ></Route>
+        {/* <Route element={<Auth />}> */}
+
         {/* Update Courses */}
         <Route
           path="/instructor-update-course/:courseId"
-          element={<UpdateCourse />}
+          element={
+            <AuthRoute>
+              <UpdateCourse />
+            </AuthRoute>
+          }
         ></Route>
         {/* Private instructor Courses */}
         <Route
           path="/instructor-courses"
-          element={<InstructorPrivateProfile />}
+          element={
+            <AuthRoute>
+              <InstructorPrivateProfile />
+            </AuthRoute>
+          }
         ></Route>
         {/* Detail instructor Courses */}
         <Route
           path="/instructor-courses/:courseId"
-          element={<InstructorCourseDetail />}
-        >
-          {/* <Route
-            path="instructor-add-course-sections/:courseId"
-            element={<AddCourseSection />}
-          ></Route> */}
-        </Route>
+          element={
+            <AuthRoute>
+              <InstructorCourseDetail />
+            </AuthRoute>
+          }
+        ></Route>
         {/* Add Section  */}
         <Route
           path="/instructor-add-course-sections/:courseId"
-          element={<AddCourseSection />}
+          element={
+            <AuthRoute>
+              <AddCourseSection />
+            </AuthRoute>
+          }
         ></Route>
         {/* View Sections */}
         <Route
           path="/instructor-course-sections"
-          element={<InstructorAllCourseSection />}
+          element={
+            <AuthRoute>
+              <InstructorAllCourseSection />
+            </AuthRoute>
+          }
         ></Route>
         {/* Update Section Course */}
         <Route
           path="/update-course-section/:sectionId"
-          element={<UpdateCourseSection />}
+          element={
+            <AuthRoute>
+              <UpdateCourseSection />
+            </AuthRoute>
+          }
         ></Route>
         {/*  Users/students */}
         <Route
@@ -110,25 +141,40 @@ const App = () => {
         {/*  Users/students/start */}
         <Route
           path="/start-section/:courseId"
-          element={<StartSection />}
+          element={
+            <AuthRoute>
+              <StartSection />
+            </AuthRoute>
+          }
         ></Route>
         {/*  Users/students/Update progress */}
         <Route
           path="/progress-update/:courseId"
-          element={<ProgressUpdate />}
+          element={
+            <AuthRoute>
+              <ProgressUpdate />
+            </AuthRoute>
+          }
         ></Route>
         {/*  Users/student-dashboard */}
-        <Route path="/student-dashboard" element={<StudentDashboard />}></Route>
+        <Route
+          path="/student-dashboard"
+          element={
+            <AuthRoute>
+              <StudentDashboard />
+            </AuthRoute>
+          }
+        ></Route>
         {/* </Route> */}
 
         {/* ------------------------------------------------------------ */}
         <Route path="/user" element={<User />}></Route>
-        <Route path="/courses-course" element={<Course />}></Route>
+        <Route path="/courses-course-detail" element={<Course />}></Route>
         <Route element={<Auth />}>
           <Route path="/courses/detail" element={<CourseDetail />}></Route>
         </Route>
 
-        {/* Tất cả route không hợp lệ */}
+        {/* All route not found */}
         <Route path="*" element="404 PAGE NOT FOUND"></Route>
       </Routes>
     </Router>

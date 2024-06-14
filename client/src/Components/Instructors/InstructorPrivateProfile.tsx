@@ -50,7 +50,8 @@ const InstructorPrivateProfile = () => {
             <div className="bg-white shadow-xl rounded-xl overflow-hidden hover:shadow-2xl">
               <div className="p-6">
                 <div className="text-center">
-                  <FaBookOpen className="mx-auto text-blue-600 text-7xl mb-6" />
+                  <img src={course.image} alt="image" />
+                  {/* <FaBookOpen className="mx-auto text-blue-600 text-7xl mb-6" /> */}
                   <h3 className="text-3xl font-bold mb-3 text-gray-800">
                     {course?.title}
                   </h3>
@@ -74,7 +75,7 @@ const InstructorPrivateProfile = () => {
                       <span>{course?.students?.length} Students</span>
                     </span>
                     <span className="text-blue-500 font-medium">
-                      {new Date(course?.createAt).toLocaleDateString()}
+                      {new Date(course?.createdAt).toLocaleDateString()}
                     </span>
                   </div>
                   {/* Total sections */}

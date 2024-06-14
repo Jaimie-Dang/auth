@@ -5,17 +5,32 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
 import { Fragment } from "react";
-import { Disclosure, Menu, Transition } from "@headlessui/react";
+import { Button, Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { PlusIcon } from "@heroicons/react/20/solid";
 import { Link } from "react-router-dom";
 import { faBlog } from "react-icons/fa";
+import { useDispatch } from "react-redux";
+import { logoutAction } from "../../redux/slices/authSlice";
+import { IoLogOutOutline } from "react-icons/io5";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
 export default function StudentsNavbar() {
+  const dispatch = useDispatch();
+  // Hangle Logout
+  const logoutHandler = () => {
+    console.log(localStorage);
+    // ! Remove from localStorage
+    localStorage.removeItem("userInfo");
+
+    // ? Dispatch action
+    dispatch(logoutAction());
+    // Reload the page
+    window.location.reload();
+  };
   return (
     <Disclosure as="nav" className="bg-white shadow fixed z-10 w-full">
       {({ open }) => (
@@ -100,14 +115,16 @@ export default function StudentsNavbar() {
                 </Disclosure.Button>
               </Link>
 
-              <Link to="/logout">
-                <Disclosure.Button
-                  as="button"
-                  className="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700 sm:pl-5 sm:pr-6"
-                >
-                  Logout
-                </Disclosure.Button>
-              </Link>
+              <Button
+                onClick={logoutHandler}
+                className="relative inline-flex items-center gap-x-1.5 rounded-md bg-customRed px-3 py-2 text-sm font-semibold text-white shadow-sm hover:!bg-white hover:!text-customRed hover:!border hover:!border-customRed focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-customRed animate-none"
+              >
+                <IoLogOutOutline
+                  className="-ml-0.5 h-5 w-5"
+                  aria-hidden="true"
+                />
+                <span>Logout</span>
+              </Button>
             </div>
           </Disclosure.Panel>
         </>

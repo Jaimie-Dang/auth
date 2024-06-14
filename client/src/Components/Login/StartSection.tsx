@@ -44,7 +44,7 @@ const StartSection = () => {
   const sections = courseData?.sections;
   console.log(sections);
   return (
-    <div className="p-20 container mx-auto bg-gray-50 rounded-lg shadow">
+    <div className="p-20 container mx-auto bg-red-100 rounded-lg shadow">
       <h2 className="text-3xl font-bold text-gray-800 mb-6">
         Start Course Section
       </h2>
@@ -66,7 +66,7 @@ const StartSection = () => {
         return (
           <div
             key={section?._id}
-            className="flex flex-col sm:flex-row items-center justify-between bg-white p-4 rounded-lg mb-4 shadow"
+            className="flex flex-col sm:flex-row items-center justify-between bg-gray-50 p-4 rounded-lg mb-4 shadow"
           >
             <span className="flex items-center font-medium text-gray-800 mb-3 sm:mb-0">
               <FaBookReader className="text-indigo-500 mr-3 text-xl" />
@@ -77,7 +77,7 @@ const StartSection = () => {
                 onClick={() => handleStartSectionHandler(section._id)}
                 className="flex items-center justify-center bg-indigo-500 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded transition duration-200"
               >
-                <FaPlayCircle className="mr-2" /> Done
+                <FaPlayCircle className="mr-2" /> Start
               </button>
               <Link
                 to={`/progress-update/${courseId}`}

@@ -50,7 +50,7 @@ const UpdateCourseSection = () => {
   // Get the auth from store
   //   const { isAuthenticated, isLoading } = useSelector((state) => state.auth);
   return (
-    <div className="flex flex-wrap pb-24 bg-gray-50 p-20">
+    <div className="flex flex-wrap pb-24 bg-red-100 p-20">
       <div className="w-full p-4">
         <div className="flex flex-col justify-center py-24 max-w-lg mx-auto bg-white rounded-lg shadow-xl">
           <h1 className="text-3xl font-bold text-gray-800 text-center mb-6">
