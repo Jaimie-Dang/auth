@@ -72,7 +72,7 @@ const Courses = () => {
                       <span>{course?.students?.length} Students</span>
                     </span>
                     <span className="text-blue-500 font-medium">
-                      {new Date(course?.createAt).toLocaleDateString()}
+                      {new Date(course?.createdAt).toLocaleDateString()}
                     </span>
                   </div>
                   {/* Total sections */}

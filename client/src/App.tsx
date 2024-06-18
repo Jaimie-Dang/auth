@@ -72,9 +72,9 @@ const App = () => {
         <Route
           path="/instructor-add-course"
           element={
-            <AuthRoute>
-              <AddCourse />
-            </AuthRoute>
+            // <AuthRoute>
+            <AddCourse />
+            // </AuthRoute>
           }
         ></Route>
         {/* <Route element={<Auth />}> */}
@@ -92,45 +92,45 @@ const App = () => {
         <Route
           path="/instructor-courses"
           element={
-            <AuthRoute>
-              <InstructorPrivateProfile />
-            </AuthRoute>
+            // <AuthRoute>
+            <InstructorPrivateProfile />
+            // </AuthRoute>
           }
         ></Route>
         {/* Detail instructor Courses */}
         <Route
           path="/instructor-courses/:courseId"
           element={
-            <AuthRoute>
-              <InstructorCourseDetail />
-            </AuthRoute>
+            // <AuthRoute>
+            <InstructorCourseDetail />
+            // </AuthRoute>
           }
         ></Route>
         {/* Add Section  */}
         <Route
           path="/instructor-add-course-sections/:courseId"
           element={
-            <AuthRoute>
-              <AddCourseSection />
-            </AuthRoute>
+            // <AuthRoute>
+            <AddCourseSection />
+            // </AuthRoute>
           }
         ></Route>
         {/* View Sections */}
         <Route
           path="/instructor-course-sections"
           element={
-            <AuthRoute>
-              <InstructorAllCourseSection />
-            </AuthRoute>
+            // <AuthRoute>
+            <InstructorAllCourseSection />
+            // </AuthRoute>
           }
         ></Route>
         {/* Update Section Course */}
         <Route
           path="/update-course-section/:sectionId"
           element={
-            <AuthRoute>
-              <UpdateCourseSection />
-            </AuthRoute>
+            // <AuthRoute>
+            <UpdateCourseSection />
+            // </AuthRoute>
           }
         ></Route>
         {/*  Users/students */}
@@ -142,40 +142,48 @@ const App = () => {
         <Route
           path="/start-section/:courseId"
           element={
-            <AuthRoute>
-              <StartSection />
-            </AuthRoute>
+            // <AuthRoute>
+            //   <StartSection />
+            // </AuthRoute>
+
+            <StartSection />
           }
         ></Route>
         {/*  Users/students/Update progress */}
         <Route
           path="/progress-update/:courseId"
           element={
-            <AuthRoute>
-              <ProgressUpdate />
-            </AuthRoute>
+            // <AuthRoute>
+            //   <ProgressUpdate />
+            // </AuthRoute>
+            <ProgressUpdate />
           }
         ></Route>
         {/*  Users/student-dashboard */}
         <Route
           path="/student-dashboard"
           element={
-            <AuthRoute>
-              <StudentDashboard />
-            </AuthRoute>
+            // <AuthRoute>
+            //   <StudentDashboard />
+            // </AuthRoute>
+
+            <StudentDashboard />
           }
         ></Route>
         {/* </Route> */}
 
-        {/* ------------------------------------------------------------ */}
-        <Route path="/user" element={<User />}></Route>
-        <Route path="/courses-course-detail" element={<Course />}></Route>
-        <Route element={<Auth />}>
-          <Route path="/courses/detail" element={<CourseDetail />}></Route>
-        </Route>
-
         {/* All route not found */}
         <Route path="*" element="404 PAGE NOT FOUND"></Route>
+
+        {/* ------------------------------------------------------------ */}
+        <Route path="/user" element={<User />}></Route>
+        <Route
+          path="/courses-course-detail/:courseId"
+          element={<Course />}
+        ></Route>
+        {/* <Route element={<Auth />}>
+          <Route path="/courses/detail" element={<CourseDetail />}></Route>
+        </Route> */}
       </Routes>
     </Router>
   );

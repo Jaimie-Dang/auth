@@ -35,7 +35,11 @@ export const startSectionAPI = async (section) => {
   console.log(section);
   const response = await axios.put(
     `${VITE_BASE_URL}/progress/start-section`,
-    { sectionId: section?.sectionId, courseId: section?.courseId },
+    {
+      sectionId: section?.sectionId,
+      courseId: section?.courseId,
+      enrolled: true,
+    },
     {
       headers: {
         Authorization: `Bearer ${section?.token}`,

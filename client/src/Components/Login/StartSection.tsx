@@ -7,6 +7,7 @@ import { startSectionAPI } from "../../services/courseSections/courseSectionServ
 import AddCourseSection from "../Instructors/AddCourseSection";
 import { FaBookReader, FaPencilAlt, FaPlayCircle } from "react-icons/fa";
 import AlertMessage from "../Alert/AlertMessage";
+import { GoGoal } from "react-icons/go";
 
 const StartSection = () => {
   // Use Selector
@@ -14,6 +15,8 @@ const StartSection = () => {
   const token = userData?.token;
   // ! Get the course id
   const { courseId } = useParams();
+  console.log("Test course ID:");
+  console.log(courseId);
   // ! react query
   const {
     data: courseData,
@@ -73,12 +76,22 @@ const StartSection = () => {
               {section?.sectionName}
             </span>
             <div className="flex items-center space-x-3">
-              <button
-                onClick={() => handleStartSectionHandler(section._id)}
-                className="flex items-center justify-center bg-indigo-500 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded transition duration-200"
-              >
-                <FaPlayCircle className="mr-2" /> Start
-              </button>
+              {section?.enrolled ? (
+                <Link
+                  to={`/courses-course-detail/${courseId}`}
+                  className="flex items-center justify-center bg-green-500 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded transition duration-200"
+                >
+                  <GoGoal className="mr-2" /> Go
+                </Link>
+              ) : (
+                <button
+                  onClick={() => handleStartSectionHandler(section._id)}
+                  className="flex items-center justify-center bg-indigo-500 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded transition duration-200"
+                >
+                  <FaPlayCircle className="mr-2" /> Start
+                </button>
+              )}
+
               <Link
                 to={`/progress-update/${courseId}`}
                 className="flex items-center justify-center bg-orange-500 hover:bg-orange-700 text-white font-semibold py-2 px-4 rounded transition duration-200"

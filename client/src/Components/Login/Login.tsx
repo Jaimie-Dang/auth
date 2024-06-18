@@ -114,13 +114,28 @@ const Login = () => {
           `${import.meta.env.VITE_BASE_URL}/user/login`,
           newUser
         );
-        console.log(response);
+        console.log("Test res: ");
+        console.log(response.data);
         // lấy dữ liệu từ json - message từ server
         toast.success(response.data.message);
 
-        // local storage - save token
-        localStorage.setItem("token", response.data.token);
-        navigate("/");
+        // Save user info in localStorage
+        // localStorage.setItem("userInfo", newUser);
+        // ! Save the user into localstorage
+        localStorage.setItem("userInfo", JSON.stringify(response.data));
+        // ! Dispatch login action
+        dispatch(loginAction(response.data));
+        // Redirect
+        // Set time loading
+        setTimeout(() => {
+          if (user?.role === "student") {
+            navigate("/student-dashboard");
+          } else if (user?.role === "instructor") {
+            navigate("/instructor-courses");
+          } else {
+            navigate("/");
+          }
+        }, 1000);
         setisLoading(false);
       } catch (error: any) {
         toast.error(error.response.data.message);
@@ -152,8 +167,21 @@ const Login = () => {
 
       toast.success(response.data.message);
 
-      localStorage.setItem("token", response.data.token);
-      navigate("/courses");
+      // ! Save the user into localstorage
+      localStorage.setItem("userInfo", JSON.stringify(response.data));
+      // ! Dispatch login action
+      dispatch(loginAction(response.data));
+      // Redirect
+      // Set time loading
+      setTimeout(() => {
+        if (user?.role === "student") {
+          navigate("/student-dashboard");
+        } else if (user?.role === "instructor") {
+          navigate("/instructor-courses");
+        } else {
+          navigate("/");
+        }
+      }, 1000);
       setisLoading(false);
     } catch (error: any) {
       toast.error(error.response.data.message);
@@ -185,11 +213,13 @@ const Login = () => {
         .mutateAsync(values)
         .then((data) => {
           console.log(data);
+          toast.success(data.message);
           // ! Save the user into localstorage
           localStorage.setItem("userInfo", JSON.stringify(data));
           // ! Dispatch login action
           dispatch(loginAction(data));
           // Redirect
+          // Set time loading
           setTimeout(() => {
             if (user?.role === "student") {
               navigate("/student-dashboard");
@@ -198,7 +228,7 @@ const Login = () => {
             } else {
               navigate("/");
             }
-          }, 2000);
+          }, 1000);
         })
         .catch((e) => console.log(e));
     },

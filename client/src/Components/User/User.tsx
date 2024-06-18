@@ -1,60 +1,62 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, ChangeEvent } from "react";
 import styles from "./User.module.css";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { emailRegex, passwordRegex } from "../../Utils/RegEx";
 import Loader from "../Loader/Loader";
+import { useSelector } from "react-redux";
 
 interface User {
   username: string;
   email: string;
 }
+
 const User = () => {
   const navigate = useNavigate();
 
   const [show, setShow] = useState(true);
-
-  const [user, setuser] = useState<User | null>(null); // user or null
-
-  const [newUserData, setnewUserData] = useState({
+  const [user, setUser] = useState<User | null>(null); // user or null
+  const [newUserData, setNewUserData] = useState({
     username: "",
     email: "",
     password: "",
   });
-
-  const [isLoading, setisLoading] = useState(false);
-
-  const [isEdit, setisEdit] = useState({
+  const [isLoading, setIsLoading] = useState(false);
+  const [isEdit, setIsEdit] = useState({
     username: false,
     email: false,
     password: false,
   });
 
-  // call API : get method
+  const authUser = useSelector((state) => state.auth.user); // Lấy user từ Redux store
+
   const getUser = async () => {
+    if (!authUser || !authUser.token) return;
+
     try {
       const response = await axios.get(
         `${import.meta.env.VITE_BASE_URL}/user/`,
         {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+          headers: { Authorization: `Bearer ${authUser.token}` },
         }
       );
       console.log(response);
 
       // take user from Network
-      setuser(response.data.user);
+      setUser(response.data.user);
     } catch (error) {
       console.log(error);
     }
   };
+
   useEffect(() => {
     getUser();
-  }, []);
+  }, [authUser]); // Chạy effect này khi authUser thay đổi
 
   function handleChange(event: ChangeEvent<HTMLInputElement>): void {
     const { name, value } = event.target;
-    setnewUserData((prev) => ({
+    setNewUserData((prev) => ({
       ...prev,
       [name]: value,
     }));
@@ -68,7 +70,7 @@ const User = () => {
     }
     if (!passwordRegex.test(newUserData.password) && type === "password") {
       toast.error(
-        "Password must be at least 8 characters and must include at lease one speacial character and one number"
+        "Password must be at least 8 characters and must include at least one special character and one number"
       );
       return;
     }
@@ -79,7 +81,7 @@ const User = () => {
     }
 
     try {
-      setisLoading(true);
+      setIsLoading(true);
       const response = await axios.put(
         `${import.meta.env.VITE_BASE_URL}/user/updateUser`,
         {
@@ -87,19 +89,19 @@ const User = () => {
           newUserData,
         },
         {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+          headers: { Authorization: `Bearer ${authUser.token}` },
         }
       );
 
       toast.success(response.data.message);
 
-      setisEdit({ email: false, password: false, username: false });
-      setnewUserData({ username: "", password: "", email: "" });
+      setIsEdit({ email: false, password: false, username: false });
+      setNewUserData({ username: "", password: "", email: "" });
       getUser();
-      setisLoading(false);
+      setIsLoading(false);
     } catch (error) {
       console.log(error);
-      setisLoading(false);
+      setIsLoading(false);
     }
   };
 
@@ -125,7 +127,7 @@ const User = () => {
               />
               <button
                 onClick={() => {
-                  setisEdit((prev) => ({
+                  setIsEdit((prev) => ({
                     ...prev,
                     username: true,
                   }));
@@ -149,11 +151,11 @@ const User = () => {
                       </button>
                       <button
                         onClick={() => {
-                          setisEdit((prev) => ({
+                          setIsEdit((prev) => ({
                             ...prev,
                             username: false,
                           }));
-                          setnewUserData((prev) => ({
+                          setNewUserData((prev) => ({
                             ...prev,
                             username: "",
                           }));
@@ -177,7 +179,7 @@ const User = () => {
               />
               <button
                 onClick={() => {
-                  setisEdit((prev) => ({
+                  setIsEdit((prev) => ({
                     ...prev,
                     email: true,
                   }));
@@ -192,7 +194,6 @@ const User = () => {
                     <Loader />
                   ) : (
                     <>
-                      {" "}
                       <button
                         onClick={() => {
                           updateUserData("email");
@@ -202,11 +203,11 @@ const User = () => {
                       </button>
                       <button
                         onClick={() => {
-                          setisEdit((prev) => ({
+                          setIsEdit((prev) => ({
                             ...prev,
                             email: false,
                           }));
-                          setnewUserData((prev) => ({
+                          setNewUserData((prev) => ({
                             ...prev,
                             email: "",
                           }));
@@ -239,7 +240,7 @@ const User = () => {
               </div>
               <button
                 onClick={() => {
-                  setisEdit((prev) => ({
+                  setIsEdit((prev) => ({
                     ...prev,
                     password: true,
                   }));
@@ -264,11 +265,11 @@ const User = () => {
                     </button>
                     <button
                       onClick={() => {
-                        setisEdit((prev) => ({
+                        setIsEdit((prev) => ({
                           ...prev,
                           password: false,
                         }));
-                        setnewUserData((prev) => ({
+                        setNewUserData((prev) => ({
                           ...prev,
                           password: "",
                         }));

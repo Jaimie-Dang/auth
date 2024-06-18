@@ -26,6 +26,7 @@ courseSectionRoute.delete(
   isInstructor,
   courseSectionCtrl.delete
 );
+// courseSectionRoute.put("/start", courseSectionCtrl.startSection);
 
 //*************************** */
 module.exports = courseSectionRoute;

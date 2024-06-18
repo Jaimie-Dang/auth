@@ -7,13 +7,13 @@ const Course = () => {
   return (
     <div className="container mx-auto">
       <div className="p-20 bg-red-100">
-        <div className="text-center mb-1">
+        <div className="text-center">
           <h2 className="text-3xl font-extrabold mb-4 text-gray-800">
             Please watch the video below to learn several languages!
           </h2>
-          <div className="relative w-full aspect-w-16 aspect-h-9">
+          <div className={styles.video_container}>
             <iframe
-              className="absolute top-0 left-0 w-full h-full"
+              className={styles.video_iframe}
               src="https://www.youtube.com/embed/aYjGXzktatA"
               frameBorder="0"
               allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
@@ -22,70 +22,82 @@ const Course = () => {
             ></iframe>
           </div>
         </div>
-        <div>
-          <div>Answer these questions to go to the next section!</div>
-          <form>
-            <div className={styles.question}>
-              <label htmlFor="question1">What is the capital of France?</label>
-              <div className={styles.answer_options}>
-                <input type="radio" id="paris" name="question1" value="paris" />
-                <label htmlFor="paris">Paris</label>
+        <div className="flex flex-col justify-between w-full p-4 bg-red-50 rounded-lg mt-20">
+          <div className="text-xl font-semibold text-gray-800 pb-3">
+            Answer these questions to go to the next section!
+          </div>
+          <form className="">
+            <div className="">
+              <label className="block" htmlFor="question1">
+                1. Tiếng việt của từ: "object-oriented database" là gì
+              </label>
+              <div className="mt-2">
+                <input
+                  type="radio"
+                  id="paris"
+                  name="question1"
+                  value="paris"
+                  className="mr-2"
+                />
+                <label htmlFor="paris">Ngôn ngữ lập trình </label>
                 <br />
                 <input
                   type="radio"
                   id="london"
                   name="question1"
                   value="london"
+                  className="mr-2"
                 />
-                <label htmlFor="london">London</label>
+                <label htmlFor="london">Lập trình hướng đối tượng</label>
                 <br />
                 <input
                   type="radio"
                   id="berlin"
                   name="question1"
                   value="berlin"
+                  className="mr-2"
                 />
-                <label htmlFor="berlin">Berlin</label>
+                <label htmlFor="berlin">Cơ sở dữ liệu hướng đối tượng</label>
                 <br />
-                <input type="radio" id="rome" name="question1" value="rome" />
-                <label htmlFor="rome">Rome</label>
+                <input
+                  type="radio"
+                  id="rome"
+                  name="question1"
+                  value="rome"
+                  className="mr-2"
+                />
+                <label htmlFor="rome">Ngôn ngữ máy tính</label>
               </div>
             </div>
-            <div>
-              <label htmlFor="question2">Who wrote "Romeo and Juliet"?</label>
-              <div className={styles.answer_options}>
-                <input
-                  type="radio"
-                  id="shakespeare"
-                  name="question2"
-                  value="shakespeare"
-                />
-                <label htmlFor="shakespeare">William Shakespeare</label>
-                <br />
-                <input
-                  type="radio"
-                  id="dickens"
-                  name="question2"
-                  value="dickens"
-                />
-                <label htmlFor="dickens">Charles Dickens</label>
-                <br />
-                <input
-                  type="radio"
-                  id="austen"
-                  name="question2"
-                  value="austen"
-                />
-                <label htmlFor="austen">Jane Austen</label>
-                <br />
-                <input type="radio" id="twain" name="question2" value="twain" />
-                <label htmlFor="twain">Mark Twain</label>
-              </div>
+            <div className="mt-4">
+              <label className="block" htmlFor="question2">
+                2. Hãy dịch từ "assmbly language" sang tiếng việt:
+              </label>
+              <input
+                type="text"
+                id="question2"
+                name="question2"
+                className="mr-2"
+                placeholder="Type here"
+              />
             </div>
-            <div>
+            <div className="mt-4">
+              <label className="block" htmlFor="question2">
+                2. Hãy viết tiếng anh với từ "lập trình là sự tương tác của các
+                chức năng giữa các đối tượng":
+              </label>
+              <input
+                type="text"
+                id="question3"
+                name="question3"
+                className="mr-2"
+                placeholder="Type here"
+              />
+            </div>
+            <div className="mt-4">
               <button
                 type="submit"
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                className="relative inline-flex items-center gap-x-1.5 rounded-md bg-customRed px-3 py-2 text-sm font-semibold text-white shadow-sm hover:!bg-white hover:!text-customRed hover:!border hover:!border-customRed focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-customRed animate-none"
               >
                 Submit Answers
               </button>

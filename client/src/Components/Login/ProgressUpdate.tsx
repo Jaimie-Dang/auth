@@ -24,9 +24,9 @@ const ProgressUpdate = () => {
   console.log("test data");
   console.log(data);
   let ongoingSections = data?.courseProgress?.sections;
-  console.log(ongoingSections);
+  // console.log(ongoingSections);
   let ongoingCourse = data?.courseProgress?.courseId;
-  console.log(ongoingCourse);
+  // console.log(ongoingCourse);
 
   // Mutation
   const updateProgressMutation = useMutation({
@@ -51,12 +51,13 @@ const ProgressUpdate = () => {
           : section
       )
     );
-    console.log("Updated sections:", sections);
+    console.log("Updated sections 2:", sections);
     // Data for update
     const updateData = {
       sectionId: sectionId?._id,
       newStatus,
       courseId,
+      token,
     };
     console.log("Updated:", updateData);
 
@@ -67,6 +68,7 @@ const ProgressUpdate = () => {
         refetch();
       })
       .catch((e) => console.log(e));
+    console.log("Test Update progess:");
     console.log(updateProgressMutation);
   };
 

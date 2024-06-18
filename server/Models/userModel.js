@@ -53,7 +53,7 @@ const UserSchema = new mongoose.Schema(
               enum: [
                 "Not Started",
                 "In Progress",
-                "Completed",
+                "In Completed",
                 "Paused",
                 "Away",
               ],

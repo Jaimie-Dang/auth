@@ -1,6 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const UserModel = require("../Models/userModel");
 const CourseModel = require("../Models/course");
+const CourseSectionModel = require("../Models/CourseSection");
 
 const progressController = {
   // ! Apply to a course
@@ -40,44 +41,57 @@ const progressController = {
   }),
   // ! Start a section
   startSection: asyncHandler(async (req, res) => {
-    const { courseId, sectionId } = req.body;
-    // ! Find the user
-    const userFound = await UserModel.findById(req.decodedData.id);
+    const { courseId, sectionId, enrolled } = req.body;
 
-    if (!userFound) {
-      return res.status(404).json({ message: "User not found" });
+    try {
+      // Tìm user
+      const userFound = await UserModel.findById(req.decodedData.id);
+      if (!userFound) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      // Tìm course progress của user
+      const courseProgress = userFound.progress.find(
+        (p) => p.courseId.toString() === courseId
+      );
+      if (!courseProgress) {
+        return res
+          .status(404)
+          .json({ message: "Course not found in user's progress" });
+      }
+
+      // Kiểm tra nếu section đã được bắt đầu
+      const existingSection = courseProgress.sections.find(
+        (s) => s.sectionId.toString() === sectionId
+      );
+      if (existingSection) {
+        return res.status(400).json({ message: "Section already started" });
+      }
+
+      // Thêm section mới vào course progress của user
+      courseProgress.sections.push({
+        sectionId,
+        status: "Not Started",
+        enrolled,
+      });
+      await userFound.save();
+
+      // Gửi phản hồi thành công
+      res
+        .status(200)
+        .json({ message: "Section started successfully", sectionId });
+    } catch (error) {
+      console.error("Error starting section:", error);
+      res.status(500).json({ message: "Internal server error" });
     }
-    console.log("test4");
-    console.log(userFound);
-    // ! Find the course progress
-    const courseProgress = userFound.progress.find(
-      (p) => p.courseId.toString() === courseId
-    );
-    if (!courseProgress) {
-      return res
-        .status(404)
-        .json({ message: "Course not found in user's progress" });
-    }
-    // ! Check if section is already started
-    const existingSection = courseProgress.sections.find(
-      (s) => s.sectionId.toString() === sectionId
-    );
-    if (existingSection) {
-      return res.status(400).json({ message: "Section already started" });
-    }
-    // ! Add the new section to the course progress
-    courseProgress.sections.push({ sectionId, status: "Not Started" });
-    await courseProgress.save();
-    await userFound.save();
-    // ! Send the res
-    res.status(200).json({ message: "Section already started" });
   }),
+
   // ! Update progress
   update: asyncHandler(async (req, res) => {
     const { courseId, sectionId, newStatus } = req.body;
     // ! Find the user and the specific course progress
     const userId = req.decodedData.id;
-    console.log("Test6");
+    console.log("Test update server:");
     console.log(courseId);
     const user = await UserModel.findOne({
       _id: userId,

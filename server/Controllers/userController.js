@@ -427,7 +427,7 @@ const studentDashboard = asyncHandler(async (req, res) => {
     let ongoing = 0;
     let notStarted = 0;
     courseProgress.sections.forEach((section) => {
-      if (section.status === "Completed") completed++;
+      if (section.status === "In Completed") completed++;
       else if (section.status === "In Progress") ongoing++;
       else notStarted++;
     });

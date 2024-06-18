@@ -158,21 +158,15 @@ const CourseDetail = () => {
                 <p className="text-xl font-semibold text-gray-800">
                   {section.sectionName}
                 </p>
-                <div className="space-x-3">
+                {/* <div className="space-x-3">
                   <div className="flex items-center">
                     <Link to={`/update-course-section/${section._id}`}>
                       <button className="p-2 bg-blue-500 text-white rounded-full hover:bg-blue-700 transition duration-200 mr-4 w-12">
-                        <FiEdit2 className="m-2" />
+                        <FaPlay className="m-2" />
                       </button>
                     </Link>
-                    <button
-                      // onClick={() => handleDelete(section._id)}
-                      className="p-2 bg-red-500 text-white rounded-full hover:bg-red-700 transition duration-200  w-12"
-                    >
-                      <FiTrash2 className="m-2" />
-                    </button>
                   </div>
-                </div>
+                </div> */}
               </div>
             ))}
           </div>

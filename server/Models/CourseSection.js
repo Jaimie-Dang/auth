@@ -19,6 +19,7 @@ const courseSectionSchema = new mongoose.Schema(
 
     estimatedTime: Number,
     isCompleted: { type: Boolean, default: false },
+    enrolled: { type: Boolean, default: false },
     user: {
       type: Schema.Types.ObjectId,
       ref: "Users",

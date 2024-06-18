@@ -58,14 +58,15 @@ button {
 }
 
 .inputContainer > button {
-  background-color: rgb(130, 130, 230);
+  background-color: #fc5d5d;
   color: white;
   transition: 0.5s;
   cursor: pointer;
 }
 
 .inputContainer > button:hover {
-  background-color: rgb(95, 95, 230);
+  background: white;
+  color: #fc5d5d;
 }
 
 .passwordContainer {

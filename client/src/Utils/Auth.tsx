@@ -8,7 +8,8 @@ const Auth = () => {
 export default Auth;
 
 const isLoggedIn = () => {
-  const token = localStorage.getItem("token");
+  // const token = localStorage.getItem("token");
+  const userData = localStorage.getItem("userInfo");
 
   if (!token) {
     return false;

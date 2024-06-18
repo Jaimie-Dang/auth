@@ -151,6 +151,32 @@ const courseSectionController = {
     });
     res.json({ message: "Section delete successfully" });
   }),
+
+  // startSection: async (req, res) => {
+  //   const { sectionId } = req.body;
+
+  //   try {
+  //     // Kiểm tra xem sectionId có hợp lệ hay không
+  //     const section = await CourseSection.findById(sectionId);
+  //     if (!section) {
+  //       return res.status(404).json({ message: "Section not found" });
+  //     }
+
+  //     // Cập nhật trạng thái của section và thêm vào sectionsCompleted
+  //     section.isCompleted = true;
+  //     section.sectionsCompleted.push(sectionId);
+
+  //     // Lưu lại vào database
+  //     await section.save();
+
+  //     res
+  //       .status(200)
+  //       .json({ message: "Section started successfully", section });
+  //   } catch (error) {
+  //     console.error("Error starting section:", error);
+  //     res.status(500).json({ message: "Internal server error" });
+  //   }
+  // },
 };
 
 module.exports = courseSectionController;

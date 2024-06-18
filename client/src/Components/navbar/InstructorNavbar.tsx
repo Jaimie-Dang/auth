@@ -19,6 +19,8 @@ function classNames(...classes) {
 }
 
 export default function StudentsNavbar() {
+  const navigate = useNavigate();
+
   const dispatch = useDispatch();
   // Hangle Logout
   const logoutHandler = () => {
@@ -29,7 +31,8 @@ export default function StudentsNavbar() {
     // ? Dispatch action
     dispatch(logoutAction());
     // Reload the page
-    window.location.reload();
+    // window.location.reload();
+    navigate("/");
   };
   return (
     <Disclosure as="nav" className="bg-white shadow fixed z-10 w-full">
@@ -57,33 +60,42 @@ export default function StudentsNavbar() {
                 <div className="hidden md:ml-6 md:flex md:space-x-8">
                   <Link
                     to="/instructor-add-course"
-                    className="inline-flex items-center border-b-2 hover:border-customRed px-1 pt-1 text-sm font-medium text-gray-500 hover:text-customRed"
+                    className="inline-flex items-center border-b-2 hover:border-customRed px-1 pt-1 text-lg font-medium text-gray-500 hover:text-customRed"
                   >
                     Add Course
                   </Link>
                   <Link
                     to="/instructor-courses"
-                    className="inline-flex items-center border-b-2 hover:border-customRed px-1 pt-1 text-sm font-medium text-gray-500 hover:text-customRed"
+                    className="inline-flex items-center border-b-2 hover:border-customRed px-1 pt-1 text-lg font-medium text-gray-500 hover:text-customRed"
                   >
                     Instructor Courses
                   </Link>
                   <Link
                     to="/instructor-course-sections"
-                    className="inline-flex items-center border-b-2 hover:border-customRed px-1 pt-1 text-sm font-medium text-gray-500 hover:text-customRed"
+                    className="inline-flex items-center border-b-2 hover:border-customRed px-1 pt-1 text-lg font-medium text-gray-500 hover:text-customRed"
                   >
                     Instructor Course Sections
+                  </Link>
+                  <Link
+                    to="/user"
+                    className="inline-flex items-center border-b-2 hover:border-customRed px-1 pt-1 text-lg font-medium text-gray-500 hover:text-customRed"
+                  >
+                    User
                   </Link>
                 </div>
               </div>
               <div className="flex items-center">
                 <div className="flex-shrink-0">
-                  <Link
-                    to="/logout"
-                    className="relative inline-flex items-center gap-x-1.5 rounded-md bg-customRed px-3 py-2 text-sm font-semibold text-white shadow-sm hover:!bg-white hover:!text-customRed hover:!border hover:!border-customRed focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-customRed animate-none"
+                  <Button
+                    onClick={logoutHandler}
+                    className="relative inline-flex items-center gap-x-1.5 rounded-md bg-customRed px-3 py-2 text-lg font-semibold text-white shadow-sm hover:!bg-white hover:!text-customRed hover:!border hover:!border-customRed focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-customRed animate-none"
                   >
-                    <PlusIcon className="-ml-0.5 h-5 w-5" aria-hidden="true" />
-                    Logout
-                  </Link>
+                    <IoLogOutOutline
+                      className="-ml-0.5 h-5 w-5"
+                      aria-hidden="true"
+                    />
+                    <span>Logout</span>
+                  </Button>
                 </div>
               </div>
             </div>
@@ -115,16 +127,14 @@ export default function StudentsNavbar() {
                 </Disclosure.Button>
               </Link>
 
-              <Button
-                onClick={logoutHandler}
-                className="relative inline-flex items-center gap-x-1.5 rounded-md bg-customRed px-3 py-2 text-sm font-semibold text-white shadow-sm hover:!bg-white hover:!text-customRed hover:!border hover:!border-customRed focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-customRed animate-none"
-              >
-                <IoLogOutOutline
-                  className="-ml-0.5 h-5 w-5"
-                  aria-hidden="true"
-                />
-                <span>Logout</span>
-              </Button>
+              <Link to="/logout">
+                <Disclosure.Button
+                  as="button"
+                  className="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700 sm:pl-5 sm:pr-6"
+                >
+                  Logout
+                </Disclosure.Button>
+              </Link>
             </div>
           </Disclosure.Panel>
         </>
