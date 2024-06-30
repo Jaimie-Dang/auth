@@ -92,17 +92,17 @@ const InstructorCourseDetail = () => {
                 {/* Total students */}
                 <p className="flex items-center">
                   <FaUser className="text-blue-500 mr-2" />
-                  <span>{courseData?.students?.length}</span>
+                  <span>{courseData?.students?.length} students</span>
                 </p>
                 {/* Total sections */}
                 <p className="flex items-center">
                   <FaLayerGroup className="text-blue-500 mr-2" />
-                  <span>{courseData?.sections?.length}</span>
+                  <span>{courseData?.sections?.length} sections</span>
                 </p>
                 {/* Difficulty Level */}
                 <p className="flex items-center">
                   <span className="font-medium text-blue-500">
-                    {courseData?.difficulty}
+                    {courseData?.difficulty} Level
                   </span>
                 </p>
               </div>

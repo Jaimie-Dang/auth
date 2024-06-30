@@ -9,15 +9,15 @@ const AuthRoute = ({ children }) => {
 
 export default AuthRoute;
 
-const isLoggedIn = () => {
-  // const token = localStorage.getItem("token");
+export const isLoggedIn = () => {
   const userData = useSelector((state) => state?.auth?.user);
+  const token = userData?.token;
 
-  if (!userData) {
+  if (!token) {
     return false;
   }
 
-  const { exp } = jwtDecode(userData.token);
+  const { exp } = jwtDecode(token);
 
   console.log(exp * 1000, Date.now());
   if (exp! * 1000 > Date.now()) {

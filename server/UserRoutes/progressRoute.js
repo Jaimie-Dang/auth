@@ -19,7 +19,6 @@ progressRouter.put(
   progressController.startSection
 );
 progressRouter.put("/update", JWT_AUTH, isStudent, progressController.update);
-// progressRouter.put("/update", isStudent, progressController.update);
 
 //*************************** */
 module.exports = progressRouter;

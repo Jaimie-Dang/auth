@@ -51,8 +51,8 @@ const App = () => {
       ) : (
         <PublicNavbar />
       )}
-      {/* ------------------------------------------ */}
       <Routes>
+        {/* ------------------------------------------ */}
         {/* Homepage */}
         <Route path="/" element={<Home />}></Route>
 
@@ -60,168 +60,81 @@ const App = () => {
         <Route path="/login" element={<Login />}></Route>
         <Route path="/signup" element={<Signup />}></Route>
         <Route path="/forget-password" element={<ForgorPassword />}></Route>
-        {/*  */}
         {/*  Courses */}
         <Route path="/courses" element={<Courses />}></Route>
+
+        {/* ------------------------------------------------------------ */}
         {/*  Detail Courses */}
-        <Route path="/course/:courseId" element={<CourseDetail />}></Route>
-        {/*  */}
+        <Route element={<Auth />}>
+          <Route path="/course/:courseId" element={<CourseDetail />}></Route>
 
-        {/* ------------------------------------------------------------ */}
-        {/* Instructors Links */}
-        <Route
-          path="/instructor-add-course"
-          element={
-            // <AuthRoute>
-            <AddCourse />
-            // </AuthRoute>
-          }
-        ></Route>
-        {/* <Route element={<Auth />}> */}
+          {/* ------------------ Instructors Links -------------------- */}
+          <Route path="/instructor-add-course" element={<AddCourse />}></Route>
 
-        {/* Update Courses */}
-        <Route
-          path="/instructor-update-course/:courseId"
-          element={
-            <AuthRoute>
-              <UpdateCourse />
-            </AuthRoute>
-          }
-        ></Route>
-        {/* Private instructor Courses */}
-        <Route
-          path="/instructor-courses"
-          element={
-            // <AuthRoute>
-            <InstructorPrivateProfile />
-            // </AuthRoute>
-          }
-        ></Route>
-        {/* Detail instructor Courses */}
-        <Route
-          path="/instructor-courses/:courseId"
-          element={
-            // <AuthRoute>
-            <InstructorCourseDetail />
-            // </AuthRoute>
-          }
-        ></Route>
-        {/* Add Section  */}
-        <Route
-          path="/instructor-add-course-sections/:courseId"
-          element={
-            // <AuthRoute>
-            <AddCourseSection />
-            // </AuthRoute>
-          }
-        ></Route>
-        {/* View Sections */}
-        <Route
-          path="/instructor-course-sections"
-          element={
-            // <AuthRoute>
-            <InstructorAllCourseSection />
-            // </AuthRoute>
-          }
-        ></Route>
-        {/* Update Section Course */}
-        <Route
-          path="/update-course-section/:sectionId"
-          element={
-            // <AuthRoute>
-            <UpdateCourseSection />
-            // </AuthRoute>
-          }
-        ></Route>
-        {/*  Users/students */}
-        <Route
-          path="/students-position/:courseId"
-          element={<Ranking />}
-        ></Route>
-        {/*  Users/students/start */}
-        <Route
-          path="/start-section/:courseId"
-          element={
-            // <AuthRoute>
-            //   <StartSection />
-            // </AuthRoute>
+          <Route
+            path="/instructor-update-course/:courseId"
+            element={<UpdateCourse />}
+          ></Route>
 
-            <StartSection />
-          }
-        ></Route>
-        {/*  Users/students/Update progress */}
-        <Route
-          path="/progress-update/:courseId"
-          element={
-            // <AuthRoute>
-            //   <ProgressUpdate />
-            // </AuthRoute>
-            <ProgressUpdate />
-          }
-        ></Route>
-        {/*  Users/student-dashboard */}
-        <Route
-          path="/student-dashboard"
-          element={
-            // <AuthRoute>
-            //   <StudentDashboard />
-            // </AuthRoute>
+          <Route
+            path="/instructor-courses"
+            element={<InstructorPrivateProfile />}
+          ></Route>
 
-            <StudentDashboard />
-          }
-        ></Route>
-        {/* </Route> */}
+          <Route
+            path="/instructor-courses/:courseId"
+            element={<InstructorCourseDetail />}
+          ></Route>
 
-        {/* All route not found */}
+          <Route
+            path="/instructor-add-course-sections/:courseId"
+            element={<AddCourseSection />}
+          ></Route>
+
+          <Route
+            path="/instructor-course-sections"
+            element={<InstructorAllCourseSection />}
+          ></Route>
+
+          {/* Update Section Course */}
+          <Route
+            path="/update-course-section/:sectionId"
+            element={<UpdateCourseSection />}
+          ></Route>
+
+          {/* ------------------ Students Links -------------------- */}
+          <Route
+            path="/start-section/:courseId"
+            element={<StartSection />}
+          ></Route>
+
+          <Route
+            path="/progress-update/:courseId"
+            element={<ProgressUpdate />}
+          ></Route>
+          <Route
+            path="/student-dashboard"
+            element={<StudentDashboard />}
+          ></Route>
+
+          <Route
+            path="/students-position/:courseId"
+            element={<Ranking />}
+          ></Route>
+
+          <Route path="/user" element={<User />}></Route>
+
+          <Route
+            path="/courses-course-detail/:sectionId"
+            element={<Course />}
+          ></Route>
+        </Route>
+
+        {/* ------------------ NotFound Links -------------------- */}
         <Route path="*" element="404 PAGE NOT FOUND"></Route>
-
-        {/* ------------------------------------------------------------ */}
-        <Route path="/user" element={<User />}></Route>
-        <Route
-          path="/courses-course-detail/:courseId"
-          element={<Course />}
-        ></Route>
-        {/* <Route element={<Auth />}>
-          <Route path="/courses/detail" element={<CourseDetail />}></Route>
-        </Route> */}
       </Routes>
     </Router>
   );
 };
 
 export default App;
-
-// import Accordion from "react-bootstrap/Accordion";
-
-// function App() {
-//   return (
-//     <Accordion defaultActiveKey="0">
-//       <Accordion.Item eventKey="0">
-//         <Accordion.Header>Accordion Item #1</Accordion.Header>
-//         <Accordion.Body>
-//           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-//           eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-//           minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-//           aliquip ex ea commodo consequat. Duis aute irure dolor in
-//           reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-//           pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-//           culpa qui officia deserunt mollit anim id est laborum.
-//         </Accordion.Body>
-//       </Accordion.Item>
-//       <Accordion.Item eventKey="1">
-//         <Accordion.Header>Accordion Item #2</Accordion.Header>
-//         <Accordion.Body>
-//           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-//           eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-//           minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-//           aliquip ex ea commodo consequat. Duis aute irure dolor in
-//           reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-//           pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-//           culpa qui officia deserunt mollit anim id est laborum.
-//         </Accordion.Body>
-//       </Accordion.Item>
-//     </Accordion>
-//   );
-// }
-
-// export default App;

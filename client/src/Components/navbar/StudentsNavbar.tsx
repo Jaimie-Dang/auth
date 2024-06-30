@@ -68,7 +68,7 @@ export default function StudentsNavbar() {
                     to="/user"
                     className="inline-flex items-center border-b-2 hover:border-customRed px-1 pt-1 text-lg font-medium text-gray-500 hover:text-customRed"
                   >
-                    User
+                    Profile
                   </Link>
                 </div>
               </div>

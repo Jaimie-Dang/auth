@@ -41,7 +41,7 @@ const progressController = {
   }),
   // ! Start a section
   startSection: asyncHandler(async (req, res) => {
-    const { courseId, sectionId, enrolled } = req.body;
+    const { courseId, sectionId } = req.body;
 
     try {
       // Tìm user
@@ -72,7 +72,7 @@ const progressController = {
       courseProgress.sections.push({
         sectionId,
         status: "Not Started",
-        enrolled,
+        enrolled: true,
       });
       await userFound.save();
 

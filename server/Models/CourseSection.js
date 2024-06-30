@@ -8,6 +8,11 @@ const courseSectionSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    typeSection: {
+      type: String,
+      enum: ["Reading", "Listening", "Writing", "Speaking"],
+      default: "Listening",
+    },
 
     // !Catious
     sectionsCompleted: [

@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import { getSingleCoursesAPI } from "../../services/courses/courseServices";
@@ -45,6 +45,7 @@ const StartSection = () => {
   };
   // ! Get course sections
   const sections = courseData?.sections;
+  // const [sectionState, setSectionState] = useState(sections?.enrolled || false);
   console.log(sections);
   return (
     <div className="p-20 container mx-auto bg-red-100 rounded-lg shadow">
@@ -78,7 +79,7 @@ const StartSection = () => {
             <div className="flex items-center space-x-3">
               {section?.enrolled ? (
                 <Link
-                  to={`/courses-course-detail/${courseId}`}
+                  to={`/courses-course-detail/${section._id}`}
                   className="flex items-center justify-center bg-green-500 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded transition duration-200"
                 >
                   <GoGoal className="mr-2" /> Go

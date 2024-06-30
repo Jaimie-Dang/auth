@@ -64,13 +64,13 @@
 }
 
 .editContainer > button {
-  background-color: rgb(130, 130, 230);
+  background-color: #f66962;
   color: white;
   transition: 0.5s;
   cursor: pointer;
 }
 .editContainer > button:hover {
-  background-color: rgb(106, 106, 232);
+  background-color: #f66962;
 }
 
 .passwordContainer {
