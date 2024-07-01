@@ -14,6 +14,15 @@ export const loginAPI = async (userData) => {
   return response.data;
 };
 
+// ! User
+export const getAllUsers = async () => {
+  // const navigate = useNavigate();
+  const response = await axios.get(`${VITE_BASE_URL}/user/listUser`);
+  // navigate("/");
+  // Return a promist
+  return response.data;
+};
+
 // ! Ranking
 export const getAllUsersAPI = async (courseId) => {
   // const navigate = useNavigate();

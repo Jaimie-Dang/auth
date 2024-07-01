@@ -2,14 +2,14 @@ import axios from "axios";
 import { VITE_BASE_URL } from "../../Utils/utils";
 
 // ! Add course Section
-export const addCourseSectionAPI = async (sectionData) => {
-  console.log(sectionData);
+export const addCourseSectionAPI = async (data) => {
+  console.log(data);
   const response = await axios.post(
-    `${VITE_BASE_URL}/course-sections/create/${sectionData.courseId}`,
-    { sectionName: sectionData.sectionName },
+    `${VITE_BASE_URL}/course-sections/create/${data.courseId}`,
+    data,
     {
       headers: {
-        Authorization: `Bearer ${sectionData.token}`,
+        Authorization: `Bearer ${data.token}`,
       },
     }
   );
@@ -52,15 +52,15 @@ export const startSectionAPI = async (section) => {
 };
 
 // ! Update course Section
-export const updateCourseSectionAPI = async (section) => {
+export const updateCourseSectionAPI = async (data) => {
   console.log("Test 2");
-  console.log(section);
+  console.log(data);
   const response = await axios.put(
-    `${VITE_BASE_URL}/course-sections/${section?.sectionId}`,
-    { sectionName: section?.sectionName },
+    `${VITE_BASE_URL}/course-sections/${data?.sectionId}`,
+    data,
     {
       headers: {
-        Authorization: `Bearer ${section?.token}`,
+        Authorization: `Bearer ${data?.token}`,
       },
     }
   );

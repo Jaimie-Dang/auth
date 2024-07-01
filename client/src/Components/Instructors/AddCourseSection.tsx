@@ -10,6 +10,7 @@ import { useParams } from "react-router-dom";
 // Validation schema
 const validationSchema = Yup.object({
   sectionName: Yup.string().required("Section name is required"),
+  typeSection: Yup.string().required("Type section is required"),
 });
 
 const AddCourseSection = () => {
@@ -24,6 +25,7 @@ const AddCourseSection = () => {
   const formik = useFormik({
     initialValues: {
       sectionName: "",
+      typeSection: "",
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
@@ -31,6 +33,7 @@ const AddCourseSection = () => {
         token,
         courseId,
         sectionName: values.sectionName,
+        typeSection: values.typeSection,
       };
       // Make http request
       mutation
@@ -54,7 +57,7 @@ const AddCourseSection = () => {
           <form onSubmit={formik.handleSubmit}>
             {/* Alert Message */}
             {mutation.isSuccess && (
-              <AlertMessage type="success" message="Login sucess..." />
+              <AlertMessage type="success" message="Add section success..." />
             )}
 
             {mutation.isPending && (
@@ -83,6 +86,27 @@ const AddCourseSection = () => {
             {/* Error */}
             {formik.touched.sectionName && formik.errors.sectionName && (
               <div className={styles.error}>{formik.errors.sectionName}</div>
+            )}
+
+            <label
+              className="block test-sm font-semibold text-gray-700 mb-2 mt-3"
+              htmlFor="textInput1"
+            >
+              Type section
+            </label>
+            <select
+              placeholder="Enter Type Section"
+              {...formik.getFieldProps("typeSection")}
+              className="mb-3 h-10 "
+            >
+              <option value="Reading" label="Reading" />
+              <option value="Listening" label="Listening" />
+              <option value="Writing" label="Writing" />
+              <option value="Speaking" label="Speaking" />
+            </select>
+            {/* Error */}
+            {formik.touched.typeSection && formik.errors.typeSection && (
+              <div className={styles.error}>{formik.errors.typeSection}</div>
             )}
 
             <button

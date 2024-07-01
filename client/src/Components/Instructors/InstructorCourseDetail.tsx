@@ -17,6 +17,7 @@ import AlertMessage from "../Alert/AlertMessage";
 import { FiEdit2, FiTrash2 } from "react-icons/fi";
 import { useSelector } from "react-redux";
 import { deleteSectionAPI } from "../../services/courseSections/courseSectionServices";
+import { deleteCourseAPI } from "../../services/courses/courseServices";
 
 const InstructorCourseDetail = () => {
   // Use Selector
@@ -42,6 +43,10 @@ const InstructorCourseDetail = () => {
     mutationFn: deleteSectionAPI,
     mutationKey: ["delete-section"],
   });
+  const courseMutation = useMutation({
+    mutationFn: deleteCourseAPI,
+    mutationKey: ["delete-course"],
+  });
   // handle delete
   const handleDelete = (sectionId) => {
     const data = {
@@ -59,8 +64,27 @@ const InstructorCourseDetail = () => {
       });
   };
 
-  console.log("Test");
-  console.log(courseData);
+  const handleDeleteCourse = () => {
+    const courseData = {
+      courseId,
+      token,
+    };
+    courseMutation
+      .mutateAsync(courseData)
+      .then((courseData) => {
+        console.log("data", courseData);
+        navigate("/instructor-course");
+      })
+      .catch((error) => {
+        console.error("Error deleting course:", error);
+        // Handle error here, e.g., show an alert to the user
+        alert("Failed to delete course. Please try again later.");
+      });
+  };
+  console.log("Test courseID, token");
+  console.log(courseId);
+  console.log(token);
+
   return (
     <>
       <div className="container mx-auto p-20 bg-red-100 rounded-xl shadow-lg">
@@ -147,8 +171,8 @@ const InstructorCourseDetail = () => {
             Update Course
           </Link>
           <button
-            onClick={handleDelete}
-            className="bg-red-500  hover:!bg-white hover:!text-red-500 hover:!border hover:!border-red-500 text-white font-bold py-2 px-4 rounded flex items-center justify-center "
+            onClick={() => handleDeleteCourse()}
+            className="bg-red-500 hover:!bg-white hover:!text-red-500 hover:!border hover:!border-red-500 text-white font-bold py-2 px-4 rounded flex items-center justify-center shadow"
           >
             <FaTrash className="mr-2" />
             Delete

@@ -10,6 +10,7 @@ import { updateCourseSectionAPI } from "../../services/courseSections/courseSect
 // Validation schema
 const validationSchema = Yup.object({
   sectionName: Yup.string().required("Section name is required"),
+  typeSection: Yup.string().required("Type section is required"),
 });
 
 const UpdateCourseSection = () => {
@@ -29,6 +30,7 @@ const UpdateCourseSection = () => {
   const formik = useFormik({
     initialValues: {
       sectionName: "",
+      typeSection: "",
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
@@ -36,6 +38,7 @@ const UpdateCourseSection = () => {
         token,
         sectionId,
         sectionName: values.sectionName,
+        typeSection: values.typeSection,
       };
       // Make http request
       mutation
@@ -75,25 +78,44 @@ const UpdateCourseSection = () => {
               />
             )}
             {/* Section Name Input */}
-            <div>
-              <label
-                htmlFor="textInput1"
-                className="block text-gray-700 text-sm font-medium mb-2"
-              >
-                Section Name
-              </label>
-              <input
-                type="text"
-                placeholder="Enter Section Name"
-                {...formik.getFieldProps("sectionName")}
-                className="w-full rounded-lg p-4 border border-gray-300 focus:border-orange-500 focus:ring-orange-200 transition duration-200 mb-4"
-              />
-              {formik.touched.sectionName && formik.errors.sectionName && (
-                <div className="text-red-500 mt-1">
-                  {formik.errors.sectionName}
-                </div>
-              )}
-            </div>
+            <label
+              htmlFor="textInput1"
+              className="block text-gray-700 text-sm font-medium mb-2"
+            >
+              Section Name
+            </label>
+            <input
+              type="text"
+              placeholder="Enter Section Name"
+              {...formik.getFieldProps("sectionName")}
+              className="w-full rounded-lg p-4 border border-gray-300 focus:border-orange-500 focus:ring-orange-200 transition duration-200 mb-4"
+            />
+            {formik.touched.sectionName && formik.errors.sectionName && (
+              <div className="text-red-500 mt-1">
+                {formik.errors.sectionName}
+              </div>
+            )}
+            <label
+              className="block test-sm font-semibold text-gray-700 mb-2 mt-3"
+              htmlFor="textInput1"
+            >
+              Type section
+            </label>
+            <select
+              placeholder="Enter Type Section"
+              {...formik.getFieldProps("typeSection")}
+              className="mb-3 h-10 "
+            >
+              <option value="Reading" label="Reading" />
+              <option value="Listening" label="Listening" />
+              <option value="Writing" label="Writing" />
+              <option value="Speaking" label="Speaking" />
+            </select>
+            {formik.touched.typeSection && formik.errors.typeSection && (
+              <div className="text-red-500 mt-1">
+                {formik.errors.typeSection}
+              </div>
+            )}
             <button
               type="submit"
               className="hover:!bg-white hover:!text-customRed hover:!border hover:!border-customRed bg-customRed text-white"

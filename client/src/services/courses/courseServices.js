@@ -74,3 +74,16 @@ export const startCoursesAPI = async (courseData) => {
   // Return a promist
   return response.data;
 };
+
+// ! Delete Course
+export const deleteCourseAPI = async (courseData) => {
+  const response = await axios.delete(
+    `${VITE_BASE_URL}/course/${courseData.courseId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${courseData.token}`,
+      },
+    }
+  );
+  return response.data;
+};

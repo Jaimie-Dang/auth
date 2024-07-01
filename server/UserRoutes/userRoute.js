@@ -10,6 +10,7 @@ const {
   lists,
   studentDashboard,
   privateProfile,
+  listUser,
 } = require("../Controllers/userController");
 const JWT_AUTH = require("../middleware/JWT_AUTH");
 const { isAdmin, isInstructor } = require("../middleware/roleAccessMiddleware");
@@ -35,6 +36,7 @@ router.get("/student-dashboard", JWT_AUTH, studentDashboard);
 router.get("/private-profile", JWT_AUTH, privateProfile);
 // ! Related to Course
 router.get("/position/:courseId", lists);
+router.get("/listUser", listUser);
 
 //*************************** */
 module.exports = router;

@@ -6,6 +6,7 @@ const CourseSectionModel = require("../Models/CourseSection");
 
 const courseSectionController = {
   create: asyncHandler(async (req, res) => {
+    const { typeSection } = req.body;
     // Check user: be existed or not!
     // !Find the user
     const userFound = await UserModel.findById(req.decodedData.id);
@@ -35,13 +36,14 @@ const courseSectionController = {
     }
 
     // Validate the section name
-    if (!sectionName) {
-      return res.status(400).json({ message: "Section name is required" });
+    if (!sectionName || !typeSection) {
+      return res.status(400).json({ message: "Please provide all fields" });
     }
 
     // Create the section
     const sectionCreated = await CourseSectionModel.create({
       sectionName,
+      typeSection,
       user: req.decodedData.id,
     });
 

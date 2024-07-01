@@ -17,6 +17,8 @@ const ProgressUpdate = () => {
     token,
     courseId,
   };
+  console.log("test courseData");
+  console.log(courseData);
   const { data, refetch } = useQuery({
     queryKey: ["profile"],
     queryFn: () => getUserProfileAPI(courseData),

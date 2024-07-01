@@ -241,22 +241,28 @@ const resend_Verification = async (req, res) => {
 //*********************************** */
 const updateUser = async (req, res) => {
   try {
-    const { id } = req.decodedData;
-    const { type } = req.body;
+    const userId = req.decodedData.id;
+    const { type, newUserData } = req.body;
 
-    console.log(id);
-    console.log(req.body);
+    if (!newUserData) {
+      return res.status(400).json({ message: "Invalid data format" });
+    }
 
-    const user = await UserModel.findById(id);
+    const user = await UserModel.findById(userId);
 
-    console.log(user);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
 
     switch (type) {
       case "username": {
-        user.username = req.body.newUserData.username;
+        if (!newUserData.username) {
+          return res.status(400).json({ message: "Username is required" });
+        }
+        user.username = newUserData.username;
         await user.save();
 
-        // send mail to user with register
+        // send mail to user with username update
         const emailBody = `<p>Username updated.</p>`;
         const subject = `User Updated Successfully`;
         await sendEmail(user.email, subject, emailBody);
@@ -265,10 +271,13 @@ const updateUser = async (req, res) => {
       }
 
       case "email": {
-        user.email = req.body.newUserData.email;
+        if (!newUserData.email) {
+          return res.status(400).json({ message: "Email is required" });
+        }
+        user.email = newUserData.email;
         await user.save();
 
-        // send mail to user with register
+        // send mail to user with email update
         const emailBody = `<p>Email updated.</p>`;
         const subject = `Email Updated Successfully`;
         await sendEmail(user.email, subject, emailBody);
@@ -277,26 +286,30 @@ const updateUser = async (req, res) => {
       }
 
       case "password": {
-        const hashPassword = await bcrypt.hash(
-          req.body.newUserData.password,
-          10
-        );
+        if (!newUserData.password) {
+          return res.status(400).json({ message: "Password is required" });
+        }
+        const hashPassword = await bcrypt.hash(newUserData.password, 10);
         user.password = hashPassword;
         await user.save();
 
-        // send mail to user with register
+        // send mail to user with password update
         const emailBody = `<p>Password updated.</p>`;
         const subject = `Password Updated Successfully`;
         await sendEmail(user.email, subject, emailBody);
 
         break;
       }
+
+      default: {
+        return res.status(400).json({ message: "Invalid update type" });
+      }
     }
-    console.log(user);
 
     res.json({ message: "User Updated Successfully" });
   } catch (error) {
-    res.error({ message: `Something went wrong` });
+    console.error(error);
+    res.status(500).json({ message: "Something went wrong" });
   }
 };
 
@@ -446,70 +459,6 @@ const studentDashboard = asyncHandler(async (req, res) => {
     courseProgress,
   };
   res.json(response);
-
-  //-----------------------------------------------------------------
-  // Ensure req.decodedData exists
-  // if (!req.decodedData || !req.decodedData.id) {
-  //   return res.status(400).json({ message: "Invalid request data" });
-  // }
-  // // Find the user
-  // console.log("test 7");
-  // // console.log(req.query); // Changed from req.params to req.query
-  // const courseIdParam = req.query.courseId; // Changed from req.params to req.query
-  // const user = await UserModel.findById(req.decodedData.id).populate({
-  //   path: "progress",
-  //   populate: [
-  //     {
-  //       path: "courseId",
-  //       model: "Course",
-  //       populate: {
-  //         path: "sections",
-  //         model: "CourseSection",
-  //       },
-  //     },
-  //     {
-  //       path: "sections.sectionId",
-  //       model: "CourseSection",
-  //     },
-  //   ],
-  // });
-  // console.log(user);
-  // if (!user) {
-  //   return res.status(404).json({ message: "User not found" });
-  // }
-  // // Filter progress for a specific course if courseIdParam is provided
-  // const courseProgress = courseIdParam
-  //   ? user.progress.find((p) => p.courseId._id.toString() === courseIdParam)
-  //   : null;
-  // console.log("Test 8");
-  // console.log(courseProgress);
-  // // ! If a specific course progress is found, calculate its summary
-  // let progressSummary = null;
-  // if (courseProgress) {
-  //   const totalSections = courseProgress.courseId.sections.length;
-  //   let completed = 0,
-  //     ongoing = 0,
-  //     notStarted = 0;
-  //   courseProgress.sections.forEach((section) => {
-  //     if (section.status === "Completed") completed++;
-  //     else if (section.status === "In Progress") ongoing++;
-  //     else notStarted++;
-  //     // Prepare the data
-  //     console.log(courseProgress.courseId.title);
-  //     progressSummary = {
-  //       courseId: courseProgress.courseId._id,
-  //       courseTitle: courseProgress.courseId.title,
-  //       totalSections,
-  //       completed,
-  //       ongoing,
-  //       notStarted,
-  //     };
-  //     res.json({
-  //       message: "Welcome to your profile",
-  //       progressSummary,
-  //     });
-  //   });
-  // }
 });
 
 //*********************************** */
@@ -575,6 +524,11 @@ const privateProfile = asyncHandler(async (req, res) => {
   }
 });
 
+//*********************************** */
+const listUser = asyncHandler(async (req, res) => {
+  const users = await UserModel.find();
+  res.json(users);
+});
 //*********************************** */
 // ! Lists
 const lists = asyncHandler(async (req, res) => {
@@ -668,4 +622,5 @@ module.exports = {
   studentDashboard,
   privateProfile,
   lists,
+  listUser,
 };

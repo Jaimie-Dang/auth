@@ -94,12 +94,15 @@ const AddCourse = () => {
               {formik.touched.description && formik.errors.description && (
                 <div className={styles.error}>{formik.errors.description}</div>
               )}
-              <input
-                type="text"
-                placeholder="Enter Difficulty"
+              <select
+                placeholder="Select Difficulty"
                 {...formik.getFieldProps("difficulty")}
                 className="mb-3 h-10 "
-              />
+              >
+                <option value="easy" label="Easy" />
+                <option value="basic" label="Basic" />
+                <option value="difficult" label="Difficult" />
+              </select>
               {/* Error */}
               {formik.touched.difficulty && formik.errors.difficulty && (
                 <div className={styles.error}>{formik.errors.difficulty}</div>
