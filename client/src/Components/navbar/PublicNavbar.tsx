@@ -48,12 +48,6 @@ export default function PublicNavbar() {
                   >
                     Courses
                   </Link>
-                  <Link
-                    to="/"
-                    className="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-lg font-medium text-gray-500 hover:border-customRed hover:text-customRed"
-                  >
-                    Track Your Progress
-                  </Link>
                 </div>
               </div>
               <div className="flex items-center">
@@ -63,7 +57,7 @@ export default function PublicNavbar() {
                     className="relative inline-flex items-center gap-x-1.5 rounded-md bg-customRed px-3 py-2 text-lg font-semibold text-white shadow-sm hover:!bg-white hover:!text-customRed hover:!border hover:!border-customRed focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-customRed animate-none"
                   >
                     <PlusIcon className="-ml-0.5 h-5 w-5" aria-hidden="true" />
-                    Login/Register
+                    Login/Singup
                   </Link>
                 </div>
               </div>
